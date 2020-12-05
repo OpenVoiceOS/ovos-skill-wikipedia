@@ -1,1 +1,0 @@
-.*(wiki|para|sobre|wikipedia)(?! (para|sobre)) (?P<ArticleTitle>.+)

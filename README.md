@@ -4,7 +4,7 @@ Wikipedia
 ## About 
 Query [Wikipedia](https://www.wikipedia.org) for answers to all your questions.  Get just a summary, or ask for more to get in-depth information.
  
- This Skill uses the [Wikimedia API](https://en.wikipedia.org/w/api.php). 
+ This Skill uses the [Wikipedia for humans](https://github.com/HelloChatterbox/wikipedia_for_humans). 
 
 
 ## Examples 
@@ -17,8 +17,6 @@ Query [Wikipedia](https://www.wikipedia.org) for answers to all your questions. 
 * "More information" (followup after an initial summary)
 * "Tell me More" (followup after an initial summary)
 
-## Credits 
-Mycroft AI (@MycroftAI)
 
 ## Category
 **Information**
