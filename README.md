@@ -6,6 +6,7 @@ Query [Wikipedia](https://www.wikipedia.org) for answers to all your questions. 
  
  This Skill uses the [Wikipedia for humans](https://github.com/HelloChatterbox/wikipedia_for_humans). 
 
+NOTE: this will blacklist the official mycroft skill
 
 ## Examples 
 * "Tell me about Elon Musk"

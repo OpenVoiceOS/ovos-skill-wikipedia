@@ -14,6 +14,8 @@ from requests.exceptions import ConnectionError
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import (MycroftSkill, intent_handler,
                                  intent_file_handler)
+from mycroft.messagebus.message import Message
+from mycroft.configuration import LocalConf, USER_CONFIG,Configuration
 
 
 class WikipediaSkill(MycroftSkill):
@@ -21,6 +23,24 @@ class WikipediaSkill(MycroftSkill):
         super(WikipediaSkill, self).__init__(name="WikipediaSkill")
         self.idx = 0
         self.results = []
+
+    def initialize(self):
+        self.blacklist_default_skill()
+
+    def blacklist_default_skill(self):
+        core_conf = Configuration.load_config_stack()
+        blacklist = core_conf["skills"]["blacklisted_skills"]
+        if "mycroft-wiki.mycroftai" not in blacklist:
+            self.log.debug("Blacklisting official mycroft wikipedia skill")
+            blacklist.append("mycroft-wiki.mycroftai")
+            conf = LocalConf(USER_CONFIG)
+            if "skills" not in conf:
+                conf["skills"] = {}
+            conf["skills"]["blacklisted_skills"] = blacklist
+            conf.store()
+
+        self.bus.emit(Message("detach_skill",
+                              {"skill_id": "mycroft-wiki.mycroftai"}))
 
     def speak_result(self):
         if self.idx + 1 > len(self.results):
