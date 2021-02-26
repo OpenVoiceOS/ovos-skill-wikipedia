@@ -1,0 +1,10 @@
+[Desktop Entry]
+Terminal=false
+Type=Application
+Name=DuckDuckGo Skill
+Exec=mycroft-gui-app --hideTextInput --skill=skill-wikipedia-for-humans.jarbasskills.home
+Icon=wikipedia.png
+Categories=VoiceApp
+StartupNotify=false
+X-DBUS-StartupType=None
+X-KDE-StartupNotify=false

@@ -15,7 +15,7 @@ from adapt.intent import IntentBuilder
 from mycroft.skills.core import (MycroftSkill, intent_handler,
                                  intent_file_handler)
 from mycroft.messagebus.message import Message
-from mycroft.configuration import LocalConf, USER_CONFIG,Configuration
+from ovos_utils.skills import blacklist_skill
 
 
 class WikipediaSkill(MycroftSkill):
@@ -23,24 +23,17 @@ class WikipediaSkill(MycroftSkill):
         super(WikipediaSkill, self).__init__(name="WikipediaSkill")
         self.idx = 0
         self.results = []
+        self.current_picture = None
+        self.current_title = None
 
     def initialize(self):
-        self.blacklist_default_skill()
+        blacklist_skill("mycroft-wiki.mycroftai")
 
-    def blacklist_default_skill(self):
-        core_conf = Configuration.load_config_stack()
-        blacklist = core_conf["skills"]["blacklisted_skills"]
-        if "mycroft-wiki.mycroftai" not in blacklist:
-            self.log.debug("Blacklisting official mycroft wikipedia skill")
-            blacklist.append("mycroft-wiki.mycroftai")
-            conf = LocalConf(USER_CONFIG)
-            if "skills" not in conf:
-                conf["skills"] = {}
-            conf["skills"]["blacklisted_skills"] = blacklist
-            conf.store()
-
-        self.bus.emit(Message("detach_skill",
-                              {"skill_id": "mycroft-wiki.mycroftai"}))
+    def display_wiki_entry(self):
+        if self.current_picture and len(self.current_picture):
+            self.gui.show_image(self.current_picture[0],
+                                title=self.current_title, fill=None,
+                                override_idle=20, override_animations=True)
 
     def speak_result(self):
         if self.idx + 1 > len(self.results):
@@ -51,22 +44,27 @@ class WikipediaSkill(MycroftSkill):
             self.speak(self.results[self.idx])
             self.idx += 1
         self.set_context("Wikipedia", "wikipedia")
+        self.display_wiki_entry()
 
-    @intent_handler(IntentBuilder("WikiSearch").require("Wikipedia").
-                    require("ArticleTitle"))
+    @intent_handler("wiki.intent")
     def handle_wiki_query(self, message):
         """ Extract what the user asked about and reply with info
             from wikipedia.
         """
+        search = message.data.get("query")
+        self.current_picture = None
+        self.current_title = search
         # Talk to the user, as this can take a little time...
-        search = message.data.get("ArticleTitle")
         self.speak_dialog("searching", {"query": search})
         if "lang" in self.settings:
             lang = self.settings["lang"]
         else:
             lang = self.lang.split("-")[0]
         try:
-            answer = wikipedia_for_humans.summary(search, lang=lang)
+            data = wikipedia_for_humans.page_data(search, lang=lang)
+            self.current_picture = data["images"]
+            self.current_title = data["title"]
+            answer = data["summary"]
             if not answer.strip():
                 self.speak_dialog("no entry found")
                 return
@@ -78,10 +76,10 @@ class WikipediaSkill(MycroftSkill):
         except ConnectionError as e:
             self.log.error("It seems like lang is invalid!!!")
             self.log.error(lang + ".wikipedia.org does not seem to exist")
-            self.log.info("Override this in skill settings")
+            self.log.info("Override 'lang' in skill settings")
             # TODO dialog
             # TODO Settings meta
-            raise e  # just speak regular error
+            raise e  # just speak regular skill error
 
     @intent_handler(IntentBuilder("WikiMore").require("More").
                     require("wiki_article"))
@@ -93,6 +91,11 @@ class WikipediaSkill(MycroftSkill):
         """
         self.speak_result()
 
+    def stop(self):
+        self.gui.release()
+
 
 def create_skill():
     return WikipediaSkill()
+
+
