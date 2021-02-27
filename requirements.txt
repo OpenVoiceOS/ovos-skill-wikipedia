@@ -1,2 +1,2 @@
-wikipedia_for_humans>=0.2.2
+wikipedia_for_humans>=0.2.3
 ovos_utils

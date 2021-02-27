@@ -15,7 +15,7 @@ NOTE: this will blacklist the official mycroft skill
 ## Examples 
 * "Tell me about Elon Musk"
 * "Tell me about beans"
-* "Tell me something random"
+* "Random wikipedia"
 * "Check Wikipedia for beans"
 * "Tell me about the Pembroke Welsh Corgi"
 * "Search for chocolate"

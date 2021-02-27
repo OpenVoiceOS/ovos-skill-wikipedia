@@ -54,7 +54,6 @@ class WikipediaSkill(MycroftSkill):
         search = message.data.get("query")
         self.current_picture = None
         self.current_title = search
-        # Talk to the user, as this can take a little time...
         self.speak_dialog("searching", {"query": search})
         if "lang" in self.settings:
             lang = self.settings["lang"]
@@ -62,17 +61,7 @@ class WikipediaSkill(MycroftSkill):
             lang = self.lang.split("-")[0]
         try:
             data = wikipedia_for_humans.page_data(search, lang=lang)
-            self.current_picture = data["images"]
-            self.current_title = data["title"]
-            answer = data["summary"]
-            if not answer.strip():
-                self.speak_dialog("no entry found")
-                return
-            self.log.debug("Wiki summary: " + answer)
-            self.idx = 0
-            self.results = answer.split(". ")
-            self.speak_result()
-            self.set_context("wiki_article", search)
+            self._speak_wiki(data)
         except ConnectionError as e:
             self.log.error("It seems like lang is invalid!!!")
             self.log.error(lang + ".wikipedia.org does not seem to exist")
@@ -80,6 +69,41 @@ class WikipediaSkill(MycroftSkill):
             # TODO dialog
             # TODO Settings meta
             raise e  # just speak regular skill error
+
+    @intent_handler("wikiroulette.intent")
+    def handle_wiki_roulette_query(self, message):
+        """ Random wikipedia page """
+        self.current_picture = None
+        self.current_title = "Wiki Roulette"
+        # TODO GUI animation
+        self.speak_dialog("wikiroulette")
+        if "lang" in self.settings:
+            lang = self.settings["lang"]
+        else:
+            lang = self.lang.split("-")[0]
+        try:
+            data = wikipedia_for_humans.wikiroulette(lang=lang)
+            self._speak_wiki(data)
+        except ConnectionError as e:
+            self.log.error("It seems like lang is invalid!!!")
+            self.log.error(lang + ".wikipedia.org does not seem to exist")
+            self.log.info("Override 'lang' in skill settings")
+            # TODO dialog
+            # TODO Settings meta
+            raise e  # just speak regular skill error
+
+    def _speak_wiki(self, data):
+        self.current_picture = data["images"]
+        self.current_title = data["title"]
+        answer = data["summary"]
+        if not answer.strip():
+            self.speak_dialog("no entry found")
+            return
+        self.log.debug("Wiki summary: " + answer)
+        self.idx = 0
+        self.results = answer.split(". ")
+        self.speak_result()
+        self.set_context("wiki_article", search)
 
     @intent_handler(IntentBuilder("WikiMore").require("More").
                     require("wiki_article"))
