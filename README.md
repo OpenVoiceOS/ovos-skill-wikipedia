@@ -11,6 +11,7 @@ Query [Wikipedia](https://www.wikipedia.org) for answers to all your questions. 
 NOTE: this will blacklist the official mycroft skill
 
 ![](./gui.gif)
+![](./gui2.gif)
 
 ## Examples 
 * "Tell me about Elon Musk"

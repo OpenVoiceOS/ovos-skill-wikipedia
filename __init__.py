@@ -16,6 +16,7 @@ from mycroft.skills.core import (MycroftSkill, intent_handler,
                                  intent_file_handler)
 from mycroft.messagebus.message import Message
 from ovos_utils.skills import blacklist_skill
+from os.path import join, dirname
 
 
 class WikipediaSkill(MycroftSkill):
@@ -51,6 +52,8 @@ class WikipediaSkill(MycroftSkill):
         """ Extract what the user asked about and reply with info
             from wikipedia.
         """
+        self.gui.show_animated_image(join(dirname(__file__), "ui",
+                                          "jumping.gif"))
         search = message.data.get("query")
         self.current_picture = None
         self.current_title = search
@@ -73,9 +76,10 @@ class WikipediaSkill(MycroftSkill):
     @intent_handler("wikiroulette.intent")
     def handle_wiki_roulette_query(self, message):
         """ Random wikipedia page """
+        self.gui.show_animated_image(join(dirname(__file__), "ui",
+                                          "jumping.gif"))
         self.current_picture = None
         self.current_title = "Wiki Roulette"
-        # TODO GUI animation
         self.speak_dialog("wikiroulette")
         if "lang" in self.settings:
             lang = self.settings["lang"]
@@ -96,6 +100,7 @@ class WikipediaSkill(MycroftSkill):
         self.current_picture = data["images"]
         self.current_title = data["title"]
         answer = data["summary"]
+        self.gui.clear()
         if not answer.strip():
             self.speak_dialog("no entry found")
             return
@@ -103,7 +108,7 @@ class WikipediaSkill(MycroftSkill):
         self.idx = 0
         self.results = answer.split(". ")
         self.speak_result()
-        self.set_context("wiki_article", search)
+        self.set_context("wiki_article", data["title"])
 
     @intent_handler(IntentBuilder("WikiMore").require("More").
                     require("wiki_article"))
