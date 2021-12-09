@@ -9,44 +9,27 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import wikipedia_for_humans
-from requests.exceptions import ConnectionError
-from adapt.intent import IntentBuilder
-from mycroft.skills.core import (MycroftSkill, intent_handler,
-                                 intent_file_handler)
-from mycroft.messagebus.message import Message
-from ovos_utils.skills import blacklist_skill
 from os.path import join, dirname
 
+import wikipedia_for_humans
+from adapt.intent import IntentBuilder
+from mycroft.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
+from mycroft.skills.core import intent_handler
+from neon_solver_wikipedia_plugin import WikipediaSolver
+from quebra_frases import sentence_tokenize
+from requests.exceptions import ConnectionError
 
-class WikipediaSkill(MycroftSkill):
+
+class WikipediaSkill(CommonQuerySkill):
     def __init__(self):
         super(WikipediaSkill, self).__init__(name="WikipediaSkill")
+        self.wiki = WikipediaSolver()
         self.idx = 0
         self.results = []
         self.current_picture = None
         self.current_title = None
 
-    def initialize(self):
-        blacklist_skill("mycroft-wiki.mycroftai")
-
-    def display_wiki_entry(self):
-        if self.current_picture and len(self.current_picture):
-            self.gui.show_image(self.current_picture[0],
-                                title=self.current_title, fill=None,
-                                override_idle=20, override_animations=True)
-
-    def speak_result(self):
-        if self.idx + 1 > len(self.results):
-            self.speak_dialog("thats all")
-            self.remove_context("wiki_article")
-            self.idx = 0
-        else:
-            self.speak(self.results[self.idx])
-            self.idx += 1
-        self.set_context("Wikipedia", "wikipedia")
-        self.display_wiki_entry()
-
+    # intents
     @intent_handler("wiki.intent")
     def handle_wiki_query(self, message):
         """ Extract what the user asked about and reply with info
@@ -58,20 +41,7 @@ class WikipediaSkill(MycroftSkill):
         self.current_picture = None
         self.current_title = search
         self.speak_dialog("searching", {"query": search})
-        if "lang" in self.settings:
-            lang = self.settings["lang"]
-        else:
-            lang = self.lang.split("-")[0]
-        try:
-            data = wikipedia_for_humans.page_data(search, lang=lang)
-            self._speak_wiki(data)
-        except ConnectionError as e:
-            self.log.error("It seems like lang is invalid!!!")
-            self.log.error(lang + ".wikipedia.org does not seem to exist")
-            self.log.info("Override 'lang' in skill settings")
-            # TODO dialog
-            # TODO Settings meta
-            raise e  # just speak regular skill error
+        self.search_and_speak(search)
 
     @intent_handler("wikiroulette.intent")
     def handle_wiki_roulette_query(self, message):
@@ -81,34 +51,7 @@ class WikipediaSkill(MycroftSkill):
         self.current_picture = None
         self.current_title = "Wiki Roulette"
         self.speak_dialog("wikiroulette")
-        if "lang" in self.settings:
-            lang = self.settings["lang"]
-        else:
-            lang = self.lang.split("-")[0]
-        try:
-            data = wikipedia_for_humans.wikiroulette(lang=lang)
-            self._speak_wiki(data)
-        except ConnectionError as e:
-            self.log.error("It seems like lang is invalid!!!")
-            self.log.error(lang + ".wikipedia.org does not seem to exist")
-            self.log.info("Override 'lang' in skill settings")
-            # TODO dialog
-            # TODO Settings meta
-            raise e  # just speak regular skill error
-
-    def _speak_wiki(self, data):
-        self.current_picture = data["images"]
-        self.current_title = data["title"]
-        answer = data["summary"]
-        self.gui.clear()
-        if not answer.strip():
-            self.speak_dialog("no entry found")
-            return
-        self.log.debug("Wiki summary: " + answer)
-        self.idx = 0
-        self.results = answer.split(". ")
-        self.speak_result()
-        self.set_context("wiki_article", data["title"])
+        self.search_and_speak()
 
     @intent_handler(IntentBuilder("WikiMore").require("More").
                     require("wiki_article"))
@@ -118,7 +61,74 @@ class WikipediaSkill(MycroftSkill):
             If a "spoken_lines" entry exists in the active contexts
             this can be triggered.
         """
-        self.speak_result()
+        self.speak_next_result()
+
+    # common query
+    def CQS_match_query_phrase(self, utt):
+        summary = self.wiki.get_spoken_answer(utt, {"lang": self.lang})
+        if summary:
+            self.idx += 1
+            img = self.wiki.get_image(utt)
+            self.current_picture = [img] if img else None
+            self.current_title = utt
+            return (utt, CQSMatchLevel.GENERAL, self.results[0],
+                    {'query': utt,
+                     'answer': self.results[0]})
+
+    def CQS_action(self, phrase, data):
+        """ If selected show gui """
+        self.display_wiki_entry()
+
+    # wikipedia
+    def search_and_speak(self, search=None):
+        if "lang" in self.settings:
+            lang = self.settings["lang"]
+        else:
+            lang = self.lang.split("-")[0]
+        try:
+            if search:
+                data = self.wiki.get_data(search, context={"lang": lang})
+            else:
+                data = wikipedia_for_humans.wikiroulette(lang=lang)
+            self._speak_wiki(data)
+        except ConnectionError as e:
+            self.log.error("It seems like lang is invalid!!!")
+            self.log.error(lang + ".wikipedia.org does not seem to exist")
+            self.log.info("Override 'lang' in skill settings")
+            # TODO dialog
+            # TODO Settings meta
+            raise e  # just speak regular skill error
+
+    def speak_next_result(self):
+        if self.idx + 1 > len(self.results):
+            self.speak_dialog("thats all")
+            self.remove_context("wiki_article")
+            self.idx = 0
+        else:
+            self.speak(self.results[self.idx])
+            self.idx += 1
+        self.set_context("Wikipedia", "wikipedia")
+        self.display_wiki_entry()
+
+    def _speak_wiki(self, data):
+        self.current_picture = data["images"]
+        self.current_title = data["title"]
+        answer = data["summary"]
+        if not answer.strip():
+            self.gui.clear()
+            self.speak_dialog("no entry found")
+            return
+        self.log.debug("Wiki summary: " + answer)
+        self.idx = 0
+        self.results = sentence_tokenize(answer)
+        self.speak_next_result()
+        self.set_context("wiki_article", data["title"])
+
+    def display_wiki_entry(self):
+        if self.current_picture and len(self.current_picture):
+            self.gui.show_image(self.current_picture[0],
+                                title=self.current_title, fill=None,
+                                override_idle=20, override_animations=True)
 
     def stop(self):
         self.gui.release()
@@ -126,5 +136,3 @@ class WikipediaSkill(MycroftSkill):
 
 def create_skill():
     return WikipediaSkill()
-
-
