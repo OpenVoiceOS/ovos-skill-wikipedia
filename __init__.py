@@ -65,12 +65,12 @@ class WikipediaSkill(CommonQuerySkill):
 
     # common query
     def CQS_match_query_phrase(self, utt):
-        summary = self.wiki.get_spoken_answer(utt, {"lang": self.lang})
+        data = self.extract_and_search(utt)
+        summary = data["summary"]
         if summary:
-            self.idx += 1
-            img = self.wiki.get_image(utt)
-            self.current_picture = [img] if img else None
-            self.current_title = utt
+            self.current_picture = data.get("images") or []
+            self.current_title = data.get("title") or utt
+            self.results = sentence_tokenize(summary)
             return (utt, CQSMatchLevel.GENERAL, self.results[0],
                     {'query': utt,
                      'answer': self.results[0]})
@@ -78,19 +78,19 @@ class WikipediaSkill(CommonQuerySkill):
     def CQS_action(self, phrase, data):
         """ If selected show gui """
         self.display_wiki_entry()
+        self.set_context("wiki_article", data["title"])
 
     # wikipedia
-    def search_and_speak(self, search=None):
+    def extract_and_search(self, search=None):
         if "lang" in self.settings:
             lang = self.settings["lang"]
         else:
             lang = self.lang.split("-")[0]
         try:
             if search:
-                data = self.wiki.get_data(search, context={"lang": lang})
+                return self.wiki.extract_and_search(search, context={"lang": lang})
             else:
-                data = wikipedia_for_humans.wikiroulette(lang=lang)
-            self._speak_wiki(data)
+                return wikipedia_for_humans.wikiroulette(lang=lang)
         except ConnectionError as e:
             self.log.error("It seems like lang is invalid!!!")
             self.log.error(lang + ".wikipedia.org does not seem to exist")
@@ -98,6 +98,10 @@ class WikipediaSkill(CommonQuerySkill):
             # TODO dialog
             # TODO Settings meta
             raise e  # just speak regular skill error
+
+    def search_and_speak(self, search=None):
+        data = self.extract_and_search(search)
+        self._speak_wiki(data)
 
     def speak_next_result(self):
         if self.idx + 1 > len(self.results):
@@ -118,7 +122,6 @@ class WikipediaSkill(CommonQuerySkill):
             self.gui.clear()
             self.speak_dialog("no entry found")
             return
-        self.log.debug("Wiki summary: " + answer)
         self.idx = 0
         self.results = sentence_tokenize(answer)
         self.speak_next_result()
