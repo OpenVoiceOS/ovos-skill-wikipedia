@@ -11,6 +11,7 @@
 # limitations under the License.
 from os.path import join, dirname
 
+from ovos_utils.gui import can_use_gui
 import wikipedia_for_humans
 from adapt.intent import IntentBuilder
 from mycroft.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
@@ -23,35 +24,45 @@ from requests.exceptions import ConnectionError
 class WikipediaSkill(CommonQuerySkill):
     def __init__(self):
         super(WikipediaSkill, self).__init__(name="WikipediaSkill")
-        self.wiki = WikipediaSolver()
+
+    def initialize(self):
+        if "lang" in self.settings:
+            lang = self.settings["lang"]
+        else:
+            lang = self.lang.split("-")[0]
+
+        self.wiki = WikipediaSolver(config={"lang": lang})
+        # for usage in tell me more / follow up questions
         self.idx = 0
         self.results = []
-        self.current_picture = None
-        self.current_title = None
+        self.image = None
 
     # intents
     @intent_handler("wiki.intent")
-    def handle_wiki_query(self, message):
+    def handle_search(self, message):
         """ Extract what the user asked about and reply with info
             from wikipedia.
         """
         self.gui.show_animated_image(join(dirname(__file__), "ui",
                                           "jumping.gif"))
-        search = message.data.get("query")
-        self.current_picture = None
-        self.current_title = search
-        self.speak_dialog("searching", {"query": search})
-        self.search_and_speak(search)
+        self.current_title = query = message.data["query"]
+        self.speak_dialog("searching", {"query": query})
+        self.image = None
+        summary = self.ask_the_wiki(query)
+        if summary:
+            self.speak_result()
+        else:
+            self.speak_dialog("no_answer")
 
     @intent_handler("wikiroulette.intent")
     def handle_wiki_roulette_query(self, message):
         """ Random wikipedia page """
         self.gui.show_animated_image(join(dirname(__file__), "ui",
                                           "jumping.gif"))
-        self.current_picture = None
+        self.image = None
         self.current_title = "Wiki Roulette"
         self.speak_dialog("wikiroulette")
-        self.search_and_speak()
+        # TODO
 
     @intent_handler(IntentBuilder("WikiMore").require("More").
                     require("wiki_article"))
@@ -61,77 +72,52 @@ class WikipediaSkill(CommonQuerySkill):
             If a "spoken_lines" entry exists in the active contexts
             this can be triggered.
         """
-        self.speak_next_result()
+        self.speak_result()
 
     # common query
     def CQS_match_query_phrase(self, utt):
-        data = self.extract_and_search(utt)
-        summary = data["summary"]
+        summary = self.ask_the_wiki(utt)
         if summary:
-            self.current_picture = data.get("images") or []
-            self.current_title = data.get("title") or utt
-            self.results = sentence_tokenize(summary)
-            return (utt, CQSMatchLevel.GENERAL, self.results[0],
+            self.idx += 1  # spoken by common query
+            return (utt, CQSMatchLevel.GENERAL, summary,
                     {'query': utt,
-                     'answer': self.results[0]})
+                     'image': self.image,
+                     'answer': summary})
 
     def CQS_action(self, phrase, data):
         """ If selected show gui """
         self.display_wiki_entry()
-        self.set_context("wiki_article", data["title"])
+        self.set_context("WikiKnows", data["title"])
 
     # wikipedia
-    def extract_and_search(self, search=None):
-        if "lang" in self.settings:
-            lang = self.settings["lang"]
-        else:
-            lang = self.lang.split("-")[0]
-        try:
-            if search:
-                return self.wiki.extract_and_search(search, context={"lang": lang})
-            else:
-                return wikipedia_for_humans.wikiroulette(lang=lang)
-        except ConnectionError as e:
-            self.log.error("It seems like lang is invalid!!!")
-            self.log.error(lang + ".wikipedia.org does not seem to exist")
-            self.log.info("Override 'lang' in skill settings")
-            # TODO dialog
-            # TODO Settings meta
-            raise e  # just speak regular skill error
+    def ask_the_wiki(self, query):
+        # context for follow up questions
+        self.set_context("WikiKnows", query)
+        self.idx = 0
+        self.results = self.wiki.long_answer(query, lang=self.lang)
+        self.image = self.wiki.get_image(query)
+        if self.results:
+            return self.results[0]["summary"]
 
-    def search_and_speak(self, search=None):
-        data = self.extract_and_search(search)
-        self._speak_wiki(data)
+    def display_wiki_entry(self, title="Wikipedia", image=None):
+        if not can_use_gui(self.bus):
+            return
+        image = image or self.image
+        if image:
+            self.gui.show_image(image,
+                                title=title, fill=None,
+                                override_idle=20, override_animations=True)
 
-    def speak_next_result(self):
+    def speak_result(self):
         if self.idx + 1 > len(self.results):
             self.speak_dialog("thats all")
-            self.remove_context("wiki_article")
+            self.remove_context("WikiKnows")
             self.idx = 0
         else:
-            self.speak(self.results[self.idx])
+            self.speak(self.results[self.idx]["summary"])
+            self.set_context("WikiKnows", "wikipedia")
+            self.display_wiki_entry(self.results[self.idx].get("title", "Wikipedia"))
             self.idx += 1
-        self.set_context("Wikipedia", "wikipedia")
-        self.display_wiki_entry()
-
-    def _speak_wiki(self, data):
-        self.current_picture = data["images"]
-        self.current_title = data["title"]
-        answer = data["summary"]
-        if not answer.strip():
-            self.gui.clear()
-            self.speak_dialog("no entry found")
-            return
-        self.idx = 0
-        self.results = sentence_tokenize(answer)
-        self.speak_next_result()
-        self.set_context("wiki_article", data["title"])
-
-    def display_wiki_entry(self):
-        if self.current_picture and len(self.current_picture):
-            self.gui.show_image(self.current_picture[0],
-                                title=self.current_title, fill=None,
-                                override_idle=20, override_animations=True)
 
     def stop(self):
         self.gui.release()

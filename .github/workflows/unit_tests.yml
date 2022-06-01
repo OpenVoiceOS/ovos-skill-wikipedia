@@ -1,0 +1,38 @@
+name: Run UnitTests
+on:
+  pull_request:
+  push:
+
+jobs:
+  unit_tests:
+    strategy:
+      max-parallel: 2
+      matrix:
+        python-version: [ 3.7, 3.8, 3.9, "3.10" ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt install python3-dev
+          python -m pip install build wheel
+      - name: Install ovos components
+        run: |
+          pip install ovos-core[skills]
+          pip install git+https://github.com/NeonGeckoCom/neon-solver-plugin-wikipedia
+          pip install git+https://github.com/OpenVoiceOS/skill-ovos-common-query
+          pip install git+https://github.com/MycroftAI/mycroft-messagebus-client
+      - name: Install core repo
+        run: |
+          pip install .
+      - name: Install test dependencies
+        run: |
+          pip install pytest pytest-timeout pytest-cov
+      - name: Run unittests
+        run: |
+          pytest tests/unittests
