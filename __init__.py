@@ -55,7 +55,7 @@ class WikipediaSkill(CommonQuerySkill):
         else:
             self.speak_dialog("no_answer")
 
-    @intent_handler("wikiroulette.intent")
+    # @intent_handler("wikiroulette.intent")
     def handle_wiki_roulette_query(self, message):
         """ Random wikipedia page """
         self.gui.show_animated_image(join(dirname(__file__), "ui",

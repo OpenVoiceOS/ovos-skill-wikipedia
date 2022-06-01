@@ -29,7 +29,8 @@ class TestSkill(unittest.TestCase):
         adapt_ents = ["wikipedia_for_humans_testMore"]  # why are you different :(
         adapt_intents = ["wikipedia_for_humans.test:WikiMore"]
         padatious_intents = ["wikipedia_for_humans.test:wiki.intent",
-                             "wikipedia_for_humans.test:wikiroulette.intent"]
+                             # "wikipedia_for_humans.test:wikiroulette.intent"
+                             ]
         for msg in self.bus.emitted_msgs:
             if msg["type"] == "register_vocab":
                 self.assertTrue(msg["data"]["entity_type"] in adapt_ents)
@@ -51,7 +52,8 @@ class TestSkill(unittest.TestCase):
         # intent events
         intent_triggers = [f"{self.skill.skill_id}:WikiMore",
                            f"{self.skill.skill_id}:wiki.intent",
-                           f"{self.skill.skill_id}:wikiroulette.intent"]
+                          # f"{self.skill.skill_id}:wikiroulette.intent"
+                           ]
         for event in intent_triggers:
             print(event)
             self.assertTrue(event in registered_events)
