@@ -6,10 +6,9 @@ Wikipedia
 ## About 
 Query [Wikipedia](https://www.wikipedia.org) for answers to all your questions.  Get just a summary, or ask for more to get in-depth information.
  
- This Skill uses the [Wikipedia for humans](https://github.com/HelloChatterbox/wikipedia_for_humans). 
+ This Skill uses the [Wikipedia for humans](https://github.com/OpenJarbas/wikipedia_for_humans) library. 
 
 ![](./gui.gif)
-![](./gui2.gif)
 
 ## Examples 
 * "Tell me about Elon Musk"
