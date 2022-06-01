@@ -31,7 +31,8 @@ class WikipediaSkill(CommonQuerySkill):
         else:
             lang = self.lang.split("-")[0]
 
-        self.wiki = WikipediaSolver(config={"lang": lang})
+        #self.wiki = WikipediaSolver(config={"lang": lang})
+        self.wiki = WikipediaSolver()
         # for usage in tell me more / follow up questions
         self.idx = 0
         self.results = []

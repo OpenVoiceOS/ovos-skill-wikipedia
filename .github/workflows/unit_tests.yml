@@ -26,6 +26,7 @@ jobs:
           pip install ovos-core[skills]
           pip install git+https://github.com/NeonGeckoCom/neon-solver-plugin-wikipedia
           pip install git+https://github.com/OpenVoiceOS/skill-ovos-common-query
+          pip install git+https://github.com/NeonGeckoCom/neon_solvers
           pip install git+https://github.com/MycroftAI/mycroft-messagebus-client
       - name: Install core repo
         run: |
