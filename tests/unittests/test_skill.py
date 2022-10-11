@@ -2,7 +2,7 @@ import json
 import unittest
 
 from ovos_utils.messagebus import FakeBus
-from skill_wikipedia_for_humans import WikipediaSkill
+from skill_ovos_wikipedia import WikipediaSkill
 from mycroft.skills import CommonQuerySkill
 
 
