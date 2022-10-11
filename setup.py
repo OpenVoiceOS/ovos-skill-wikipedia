@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-from os import path, walk
 from setuptools import setup
+import os
+from os import walk, path
+
 
 URL = "https://github.com/OpenVoiceOS/skill-ovos-wikipedia"
 SKILL_CLAZZ = "WikipediaSkill"  # needs to match __init__.py class name
