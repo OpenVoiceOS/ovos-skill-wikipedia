@@ -7,8 +7,9 @@ SKILL_CLAZZ = "WikipediaSkill"  # needs to match __init__.py class name
 PYPI_NAME = "skill-wikipedia-for-humans"  # pip install PYPI_NAME
 
 # below derived from github url to ensure standard skill_id
-SKILL_NAME, SKILL_AUTHOR = URL.split(".com/")[-1].split("/")
+SKILL_AUTHOR, SKILL_NAME = URL.split(".com/")[-1].split("/")
 SKILL_PKG = SKILL_NAME.lower().replace('-', '_')
+print(SKILL_PKG)
 PLUGIN_ENTRY_POINT = f'{SKILL_NAME.lower()}.{SKILL_AUTHOR.lower()}={SKILL_PKG}:{SKILL_CLAZZ}'
 
 
