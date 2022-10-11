@@ -3,3 +3,4 @@ recursive-include vocab *
 recursive-include locale *
 recursive-include res *
 recursive-include ui *
+recursive-include skill *
