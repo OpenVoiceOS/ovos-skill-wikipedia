@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-from setuptools import setup
 from os import path, walk
-
+from setuptools import setup
 
 URL = "https://github.com/OpenVoiceOS/skill-ovos-wikipedia"
 SKILL_CLAZZ = "WikipediaSkill"  # needs to match __init__.py class name
 PYPI_NAME = "skill-wikipedia-for-humans"  # pip install PYPI_NAME
 
-
 # below derived from github url to ensure standard skill_id
 SKILL_NAME, SKILL_AUTHOR = URL.split(".com/")[-1].split("/")
 SKILL_PKG = SKILL_NAME.lower().replace('-', '_')
 PLUGIN_ENTRY_POINT = f'{SKILL_NAME.lower()}.{SKILL_AUTHOR.lower()}={SKILL_PKG}:{SKILL_CLAZZ}'
+
+
 # skill_id=package_name:SkillClass
 
 
@@ -50,11 +50,10 @@ with open("./version.py", "r", encoding="utf-8") as v:
             else:
                 version = line.split("'")[1]
 
-
 setup(
     name=PYPI_NAME,
     version=version,
-    description='mycroft/ovos wikipedia skill plugin',    long_description=long_description,
+    description='mycroft/ovos wikipedia skill plugin', long_description=long_description,
     url=URL,
     author='JarbasAi',
     author_email='jarbasai@mailfence.com',
