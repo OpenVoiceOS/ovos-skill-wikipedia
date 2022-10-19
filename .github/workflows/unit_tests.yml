@@ -1,7 +1,34 @@
 name: Run UnitTests
 on:
   pull_request:
+    branches:
+      - dev
+    paths-ignore:
+      - 'version.py'
+      - 'requirements.txt'
+      - 'examples/**'
+      - '.github/**'
+      - '.gitignore'
+      - 'LICENSE'
+      - 'CHANGELOG.md'
+      - 'MANIFEST.in'
+      - 'readme.md'
+      - 'scripts/**'
   push:
+    branches:
+      - master
+    paths-ignore:
+      - 'version.py'
+      - 'requirements.txt'
+      - 'examples/**'
+      - '.github/**'
+      - '.gitignore'
+      - 'LICENSE'
+      - 'CHANGELOG.md'
+      - 'MANIFEST.in'
+      - 'readme.md'
+      - 'scripts/**'
+  workflow_dispatch:
 
 jobs:
   unit_tests:
@@ -19,11 +46,11 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt install python3-dev
+          sudo apt install python3-dev libfann-dev
           python -m pip install build wheel
       - name: Install ovos components
         run: |
-          pip install ovos-core[skills]
+          pip install ovos-plugin-manager ovos-core[skills_lgpl]>=0.0.5a28
           pip install git+https://github.com/NeonGeckoCom/neon-solver-plugin-wikipedia
           pip install git+https://github.com/OpenVoiceOS/skill-ovos-common-query
           pip install git+https://github.com/NeonGeckoCom/neon_solvers
@@ -36,4 +63,11 @@ jobs:
           pip install pytest pytest-timeout pytest-cov
       - name: Run unittests
         run: |
-          pytest tests/unittests
+          pytest --cov=skill_ovos_wikipedia --cov-report xml test/unittests
+          # NOTE: additional pytest invocations should also add the --cov-append flag
+          #       or they will overwrite previous invocations' coverage reports
+          #       (for an example, see OVOS Skill Manager's workflow)
+      - name: Upload coverage
+        env:
+          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+        uses: codecov/codecov-action@v2

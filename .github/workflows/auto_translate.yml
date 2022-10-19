@@ -1,0 +1,52 @@
+name: Auto translate
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: dev
+          fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install Translate Tools
+        run: |
+          pip install git+https://github.com/NeonGeckoCom/neon-lang-plugin-libretranslate
+      - name: Auto Translate
+        run: |
+          python scripts/translate.py
+      - name: Commit to dev
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Auto Translate
+          branch: dev
+  prepare_skillstore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: dev
+          fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install OSM
+        run: |
+          pip install ovos-skills-manager~=0.0.10
+      - name: Update Skill Store metadata
+        run: |
+          python scripts/prepare_skillstore.py
+      - name: Commit to dev
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update skill store metadata
+          branch: dev
