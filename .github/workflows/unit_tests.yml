@@ -46,8 +46,8 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt install python3-dev
-          python -m pip install build wheel libfann-dev
+          sudo apt install python3-dev libfann-dev
+          python -m pip install build wheel
       - name: Install ovos components
         run: |
           pip install ovos-plugin-manager ovos-core[skills_lgpl]>=0.0.5a28
