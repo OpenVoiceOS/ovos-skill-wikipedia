@@ -1,0 +1,66 @@
+{
+    "authorname": "OpenVoiceOS",
+    "foldername": "skill-ovos-wikipedia",
+    "url": "https://github.com/OpenVoiceOS/skill-ovos-wikipedia",
+    "branch": "dev",
+    "license": "apache-2.0",
+    "tags": [
+        "encyclopedia",
+        "question",
+        "general-knowledge",
+        "query",
+        "wiki",
+        "wikipedia",
+        "Information",
+        "permissive-license"
+    ],
+    "short_description": "Wikipedia",
+    "last_updated": "2022-10-11T14:30:36Z",
+    "icon": "https://raw.githack.com/FortAwesome/Font-Awesome/master/svgs/brands/wikipedia-w.svg",
+    "skillname": "Wikipedia",
+    "description": "Query [Wikipedia](https://www.wikipedia.org) for answers to all your questions.  Get just a summary, or ask for more to get in-depth information.\n \n This Skill uses the [Wikipedia for humans](https://github.com/OpenJarbas/wikipedia_for_humans) library. \n\n![](./gui.gif)",
+    "examples": [
+        "tell me about {query}",
+        "wiki {query}",
+        "random wiki page",
+        "play the wiki roulette",
+        "what does wiki say about {query}",
+        "display random wikipedia",
+        "check wikipedia for {query}",
+        "show random wiki",
+        "play the wikipedia roulette",
+        "tell us about {query}",
+        "random wiki",
+        "wiki roulette",
+        "wikipedia roulette",
+        "play wikipedia roulette",
+        "random wikipedia page",
+        "play wiki roulette",
+        "display random wiki",
+        "check wiki for {query}",
+        "wikipedia {query}",
+        "search wiki for {query}",
+        "open random wikipedia",
+        "random wikipedia",
+        "what does wikipedia say about {query}",
+        "search wikipedia for {query}",
+        "show random wikipedia",
+        "open random wiki"
+    ],
+    "category": "Information",
+    "categories": [
+        "Information"
+    ],
+    "logo": "https://raw.githubusercontent.com/OpenVoiceOS/skill-ovos-wikipedia/dev/logo.png",
+    "requirements": {
+        "python": [
+            "neon_solver_wikipedia_plugin",
+            "neon-solvers",
+            "ovos_utils",
+            "wikipedia_for_humans>=0.2.3"
+        ],
+        "skill": [],
+        "system": {}
+    },
+    "desktopFile": false
+}
