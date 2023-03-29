@@ -97,12 +97,13 @@ class WikipediaSkill(CommonQuerySkill):
             return (utt, CQSMatchLevel.GENERAL, summary,
                     {'query': utt,
                      'image': self.image,
+                     'title':data.get("title") or phrase,
                      'answer': summary})
 
     def CQS_action(self, phrase, data):
         """ If selected show gui """
         self.display_wiki_entry()
-        self.set_context("WikiKnows", data["title"])
+        self.set_context("WikiKnows", data.get("title") or phrase)
 
     # wikipedia
     def ask_the_wiki(self, query):
