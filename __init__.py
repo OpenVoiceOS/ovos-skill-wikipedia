@@ -91,13 +91,13 @@ class WikipediaSkill(CommonQuerySkill):
 
     # common query
     def CQS_match_query_phrase(self, utt):
-        summary = self.ask_the_wiki(utt)
+        title, summary = self.ask_the_wiki(utt)
         if summary:
             self.idx += 1  # spoken by common query
             return (utt, CQSMatchLevel.GENERAL, summary,
                     {'query': utt,
                      'image': self.image,
-                     'title':data.get("title") or phrase,
+                     'title': title,
                      'answer': summary})
 
     def CQS_action(self, phrase, data):
@@ -113,7 +113,8 @@ class WikipediaSkill(CommonQuerySkill):
         self.results = self.wiki.long_answer(query, lang=self.lang)
         self.image = self.wiki.get_image(query)
         if self.results:
-            return self.results[0]["summary"]
+            title = self.results[0].get("title") or query
+            return title, self.results[0]["summary"]
 
     def display_wiki_entry(self, title="Wikipedia", image=None):
         if not can_use_gui(self.bus):
