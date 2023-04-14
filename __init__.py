@@ -11,16 +11,13 @@
 # limitations under the License.
 from os.path import join, dirname
 
-from ovos_utils.gui import can_use_gui
-import wikipedia_for_humans
 from adapt.intent import IntentBuilder
-from mycroft.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
 from mycroft.skills.core import intent_handler
 from neon_solver_wikipedia_plugin import WikipediaSolver
-from quebra_frases import sentence_tokenize
-from requests.exceptions import ConnectionError
-from ovos_utils.process_utils import RuntimeRequirements
 from ovos_utils import classproperty
+from ovos_utils.gui import can_use_gui
+from ovos_utils.process_utils import RuntimeRequirements
+from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
 
 
 class WikipediaSkill(CommonQuerySkill):
