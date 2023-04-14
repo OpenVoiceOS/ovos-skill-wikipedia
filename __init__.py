@@ -106,7 +106,11 @@ class WikipediaSkill(CommonQuerySkill):
         # context for follow up questions
         self.set_context("WikiKnows", query)
         self.idx = 0
-        self.results = self.wiki.long_answer(query, lang=self.lang)
+        try:
+            self.results = self.wiki.long_answer(query, lang=self.lang)
+        except:  # handle solver plugin failures, happens in some queries
+            self.results = None
+
         self.image = self.wiki.get_image(query)
         if self.results:
             return self.results[0]["summary"]
