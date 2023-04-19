@@ -63,7 +63,7 @@ class WikipediaSkill(CommonQuerySkill):
         self.current_title = query = message.data["query"]
         self.speak_dialog("searching", {"query": query})
         self.image = None
-        summary = self.ask_the_wiki(query)
+        title, summary = self.ask_the_wiki(query)
         if summary:
             self.speak_result()
         else:
@@ -115,6 +115,7 @@ class WikipediaSkill(CommonQuerySkill):
         if self.results:
             title = self.results[0].get("title") or query
             return title, self.results[0]["summary"]
+        return None, None
 
     def display_wiki_entry(self, title="Wikipedia", image=None):
         if not can_use_gui(self.bus):
