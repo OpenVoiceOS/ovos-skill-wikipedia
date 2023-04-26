@@ -60,7 +60,7 @@ class WikipediaSkill(CommonQuerySkill):
         self.current_title = query = message.data["query"]
         self.speak_dialog("searching", {"query": query})
         self.image = None
-        summary = self.ask_the_wiki(query)
+        title, summary = self.ask_the_wiki(query)
         if summary:
             self.speak_result()
         else:
@@ -88,18 +88,19 @@ class WikipediaSkill(CommonQuerySkill):
 
     # common query
     def CQS_match_query_phrase(self, utt):
-        summary = self.ask_the_wiki(utt)
+        title, summary = self.ask_the_wiki(utt)
         if summary:
             self.idx += 1  # spoken by common query
             return (utt, CQSMatchLevel.GENERAL, summary,
                     {'query': utt,
                      'image': self.image,
+                     'title': title,
                      'answer': summary})
 
     def CQS_action(self, phrase, data):
         """ If selected show gui """
         self.display_wiki_entry()
-        self.set_context("WikiKnows", data["title"])
+        self.set_context("WikiKnows", data.get("title") or phrase)
 
     # wikipedia
     def ask_the_wiki(self, query):
@@ -113,7 +114,9 @@ class WikipediaSkill(CommonQuerySkill):
 
         self.image = self.wiki.get_image(query)
         if self.results:
-            return self.results[0]["summary"]
+            title = self.results[0].get("title") or query
+            return title, self.results[0]["summary"]
+        return None, None
 
     def display_wiki_entry(self, title="Wikipedia", image=None):
         if not can_use_gui(self.bus):
