@@ -11,9 +11,9 @@
 # limitations under the License.
 from os.path import dirname, join
 
-from adapt.intent import IntentBuilder
 from neon_solver_wikipedia_plugin import WikipediaSolver
 from ovos_utils import classproperty
+from ovos_utils.intents import IntentBuilder
 from ovos_utils.gui import can_use_gui
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler
@@ -21,8 +21,8 @@ from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLe
 
 
 class WikipediaSkill(CommonQuerySkill):
-    def __init__(self):
-        super(WikipediaSkill, self).__init__(name="WikipediaSkill")
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         if "lang" in self.settings:
             lang = self.settings["lang"]
