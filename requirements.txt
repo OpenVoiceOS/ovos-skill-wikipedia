@@ -1,4 +1,5 @@
 wikipedia_for_humans>=0.3.2
-ovos-utils~=0.0, >=0.0.28a4
-ovos_workshop~=0.0, >=0.0.12a4
-neon_solver_wikipedia_plugin
+ovos-utils~=0.0, >=0.0.28
+ovos_workshop~=0.0, >=0.0.12
+ovos-classifiers
+ovos-translate-server-plugin
