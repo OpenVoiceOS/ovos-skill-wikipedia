@@ -1,5 +1,5 @@
 wikipedia_for_humans>=0.3.2
-ovos-utils~=0.0, >=0.0.28
-ovos_workshop~=0.0, >=0.0.12
+ovos-utils~=0.0, >=0.0.38
+ovos_workshop~=0.0, >=0.0.15
 ovos-classifiers
 ovos-translate-server-plugin
