@@ -16,10 +16,10 @@ import wikipedia_for_humans
 from ovos_classifiers.heuristics.keyword_extraction import HeuristicExtractor
 from ovos_plugin_manager.templates.solvers import QuestionSolver
 from ovos_utils import classproperty
-from ovos_utils.intents import IntentBuilder
 from ovos_utils.gui import can_use_gui
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler
+from ovos_workshop.intents import IntentBuilder
 from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
 
 
