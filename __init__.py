@@ -11,16 +11,18 @@
 # limitations under the License.
 from os.path import dirname, join
 
-import simplematch
-import wikipedia_for_humans
+import requests
+from ovos_bus_client.session import SessionManager, Session
 from ovos_classifiers.heuristics.keyword_extraction import HeuristicExtractor
 from ovos_plugin_manager.templates.solvers import QuestionSolver
 from ovos_utils import classproperty
+from ovos_utils import flatten_list
 from ovos_utils.gui import can_use_gui
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler
 from ovos_workshop.intents import IntentBuilder
 from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
+from quebra_frases import sentence_tokenize
 
 
 class WikipediaSolver(QuestionSolver):
@@ -35,16 +37,8 @@ class WikipediaSolver(QuestionSolver):
 
     def extract_keyword(self, query, lang="en"):
         # TODO - from mycroft.conf
-        keyword_extractor = HeuristicExtractor()
+        keyword_extractor = HeuristicExtractor()  # TODO - better non english support
         return keyword_extractor.extract_subject(query, lang)
-
-    def get_secondary_search(self, query, lang="en"):
-        if lang == "en":
-            match = simplematch.match("what is the {subquery} of {query}", query)
-            if match:
-                return match["query"], match["subquery"]
-        query = self.extract_keyword(query, lang)
-        return query, None
 
     def extract_and_search(self, query, context=None):
         context = context or {}
@@ -66,42 +60,26 @@ class WikipediaSolver(QuestionSolver):
         context = context or {}
         lang = context.get("lang") or self.default_lang
         lang = lang.split("-")[0]
+        url = f"https://{lang}.wikipedia.org/w/api.php?action=query&list=search&srsearch={query}&format=json"
+        res = requests.get(url).json()["query"]["search"]
+        for r in res:
+            title = r["title"]
+            pid = str(r["pageid"])
+            results_url = f"https://{lang}.wikipedia.org/w/api.php?format=json&action=query&prop=extracts|pageimages&exintro&explaintext&redirects=1&pageids=" + pid
+            r = requests.get(results_url).json()
 
-        page_data = wikipedia_for_humans.page_data(query, lang=lang) or {}
-        data = {
-            "short_answer": wikipedia_for_humans.tldr(query, lang=lang),
-            "summary": wikipedia_for_humans.summary(query, lang=lang)
-        }
-        if not page_data:
-            query, subquery = self.get_secondary_search(query, lang)
-            if subquery:
-                data = {
-                    "short_answer": wikipedia_for_humans.tldr_about(subquery, query, lang=lang),
-                    "summary": wikipedia_for_humans.ask_about(subquery, query, lang=lang)
-                }
-            else:
-                data = {
-                    "short_answer": wikipedia_for_humans.tldr(query, lang=lang),
-                    "summary": wikipedia_for_humans.summary(query, lang=lang)
-                }
-        page_data.update(data)
-        page_data["title"] = page_data.get("title") or query
-        return page_data
+            summary = r['query']['pages'][pid]['extract']
+            img = None
+            if "pageimage" in r['query']['pages'][pid]:
+                i = f"https://{lang}.wikipedia.org/wiki/File:" + r['query']['pages'][pid]['pageimage']
+                # TODO - final image url
+
+            ans = flatten_list([sentence_tokenize(s) for s in summary.split("\n")])
+            return {"title": title, "short_answer": ans[0], "summary": summary, "img": img}
 
     def get_spoken_answer(self, query, context=None):
         data = self.extract_and_search(query, context)
-        return data.get("summary", "")
-
-    def get_image(self, query, context=None):
-        """
-        query assured to be in self.default_lang
-        return path/url to a single image to acompany spoken_answer
-        """
-        data = self.extract_and_search(query, context)
-        try:
-            return data["images"][0]
-        except:
-            return None
+        return data.get("short_answer", "")
 
     def get_expanded_answer(self, query, context=None):
         """
@@ -116,37 +94,20 @@ class WikipediaSolver(QuestionSolver):
 
         """
         data = self.get_data(query, context)
-        img = self.get_image(query, context)
+        ans = flatten_list([sentence_tokenize(s) for s in data["summary"].split("\n")])
         steps = [{
             "title": data.get("title", query).title(),
             "summary": s,
-            "img": img
-        }
-            for s in self.sentence_split(data["summary"], -1)]
-        for sec in data.get("sections", []):
-            steps += [{
-                "title": sec.get("title", query).title(),
-                "summary": s,
-                "img": img
-            }
-                for s in self.sentence_split(sec["text"], -1)]
+            "img": data.get("img")
+        } for s in ans]
         return steps
 
 
 class WikipediaSkill(CommonQuerySkill):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        if "lang" in self.settings:
-            lang = self.settings["lang"]
-        else:
-            lang = self.lang.split("-")[0]
-        self.wiki = WikipediaSolver(config={"lang": lang})
-
-        # for usage in tell me more / follow up questions
-        self.idx = 0
-        self.results = []
-        self.image = None
+        self.session_results = {}
+        self.wiki = WikipediaSolver()
 
     @classproperty
     def runtime_requirements(self):
@@ -168,24 +129,33 @@ class WikipediaSkill(CommonQuerySkill):
         """Extract what the user asked about and reply with info
         from wikipedia.
         """
+        query = message.data["query"]
+
+        sess = SessionManager.get(message)
+        self.session_results[sess.session_id] = {
+            "query": query,
+            "results": [],
+            "idx": 0,
+            "lang": sess.lang,
+            "image": None,
+        }
+
         self.gui.show_animated_image(join(dirname(__file__), "ui", "jumping.gif"))
-        self.current_title = query = message.data["query"]
+
         self.speak_dialog("searching", {"query": query})
-        self.image = None
-        title, summary = self.ask_the_wiki(query)
+
+        title, summary = self.ask_the_wiki(sess)
         if summary:
-            self.speak_result()
+            self.speak_result(sess)
         else:
             self.speak_dialog("no_answer")
 
     # @intent_handler("wikiroulette.intent")
-    def handle_wiki_roulette_query(self, message):
-        """Random wikipedia page"""
-        self.gui.show_animated_image(join(dirname(__file__), "ui", "jumping.gif"))
-        self.image = None
-        self.current_title = "Wiki Roulette"
-        self.speak_dialog("wikiroulette")
-        # TODO
+    # def handle_wiki_roulette_query(self, message):
+    #    """Random wikipedia page"""
+    #    self.gui.show_animated_image(join(dirname(__file__), "ui", "jumping.gif"))
+    #    self.speak_dialog("wikiroulette")
+    # TODO
 
     @intent_handler(IntentBuilder("WikiMore").require("More").require("wiki_article"))
     def handle_tell_more(self, message):
@@ -194,65 +164,112 @@ class WikipediaSkill(CommonQuerySkill):
         If a "spoken_lines" entry exists in the active contexts
         this can be triggered.
         """
-        self.speak_result()
+        sess = SessionManager.get(message)
+        self.speak_result(sess)
 
     # common query
     def CQS_match_query_phrase(self, phrase):
-        title, summary = self.ask_the_wiki(phrase)
+        sess = SessionManager.get()
+        self.session_results[sess.session_id] = {
+            "query": phrase,
+            "results": [],
+            "idx": 0,
+            "lang": sess.lang,
+            "title": phrase,
+            "image": None
+        }
+        title, summary = self.ask_the_wiki(sess)
         if summary:
-            self.idx += 1  # spoken by common query
+            self.log.info(f"Wikipedia answer: {summary}")
+            self.session_results[sess.session_id]["idx"] += 1  # spoken by common query
+            self.session_results[sess.session_id]["title"] = title or phrase
             return (
                 phrase,
                 CQSMatchLevel.GENERAL,
-                summary,
-                {"query": phrase, "image": self.image, "title": title, "answer": summary},
+                summary, {"query": phrase,
+                          "image": self.session_results[sess.session_id].get("image"),
+                          "title": title,
+                          "answer": summary},
             )
 
     def CQS_action(self, phrase, data):
         """If selected show gui"""
-        self.display_wiki_entry()
+
+        sess = SessionManager.get()
+        if sess in self.session_results:
+            self.display_wiki_entry()
+
         self.set_context("WikiKnows", data.get("title") or phrase)
 
     # wikipedia
-    def ask_the_wiki(self, query):
-        # context for follow up questions
-        self.set_context("WikiKnows", query)
-        self.idx = 0
+    def ask_the_wiki(self, sess: Session):
+
+        l = self.settings.get("lang", self.lang).split("-")[0]  # wikipedia internal lang
+        if sess.lang.startswith(l):
+            self.log.debug(f"skipping auto translation for wikipedia, "
+                           f"{sess.lang} is supported")
+            WikipediaSolver.enable_tx = False
+        else:
+            self.log.info(f"enabling auto translation for wikipedia, "
+                          f"{sess.lang} is not supported internally")
+            WikipediaSolver.enable_tx = True
+
+        query = self.session_results[sess.session_id]["query"]
+
         try:
-            self.results = self.wiki.long_answer(query, lang=self.lang)
+            results = self.wiki.long_answer(query, lang=sess.lang)
         except Exception as err:  # handle solver plugin failures, happens in some queries
             self.log.error(err)
-            self.results = None
+            results = None
 
-        self.image = self.wiki.get_image(query)
-        if self.results:
-            title = self.results[0].get("title") or query
-            return title, self.results[0]["summary"]
+        self.session_results[sess.session_id]["results"] = results
+
+        if results:
+            title = results[0].get("title") or \
+                    self.session_results[sess.session_id]["query"]
+            return title, results[0]["summary"]
         return None, None
 
-    def display_wiki_entry(self, title="Wikipedia", image=None):
+    def display_wiki_entry(self):
         if not can_use_gui(self.bus):
             return
-        image = image or self.image
+        sess = SessionManager.get()
+        image = self.session_results[sess.session_id].get("image") or self.wiki.get_image(query)
+        title = self.session_results[sess.session_id].get("title") or "Wikipedia"
         if image:
+            self.session_results[sess.session_id]["image"] = image
             self.gui.show_image(image, title=title, fill=None, override_idle=20, override_animations=True)
 
-    def speak_result(self):
-        if self.idx + 1 > len(self.results):
-            self.speak_dialog("thats all")
-            self.remove_context("WikiKnows")
-            self.idx = 0
+    def speak_result(self, sess: Session):
+
+        if sess in self.session_results:
+            results = self.session_results[sess.session_id]["results"]
+            idx = self.session_results[sess.session_id]["idx"]
+            title = self.session_results[sess.session_id].get("title") or \
+                    "Wikipedia"
+
+            if idx + 1 > len(self.results):
+                self.speak_dialog("thats all")
+                self.remove_context("WikiKnows")
+                self.session_results[sess.session_id]["idx"] = 0
+            else:
+                self.speak(results[idx]["summary"])
+                self.set_context("WikiKnows", "wikipedia")
+                self.display_wiki_entry(title)
+                self.session_results[sess.session_id]["idx"] += 1
         else:
-            self.speak(self.results[self.idx]["summary"])
-            self.set_context("WikiKnows", "wikipedia")
-            self.display_wiki_entry(self.results[self.idx].get("title", "Wikipedia"))
-            self.idx += 1
+            self.speak_dialog("thats all")
 
     def stop(self):
         self.gui.release()
 
+    def stop_session(self, sess):
+        if sess.session_id in self.session_results:
+            self.session_results.pop(sess.session_id)
+
 
 if __name__ == "__main__":
+
     d = WikipediaSolver()
 
     query = "who is Isaac Newton"
@@ -265,6 +282,7 @@ if __name__ == "__main__":
     # Newton built the first practical reflecting telescope and developed a sophisticated theory of colour based on the observation that a prism separates white light into the colours of the visible spectrum. His work on light was collected in his highly influential book Opticks, published in 1704. He also formulated an empirical law of cooling, made the first theoretical calculation of the speed of sound, and introduced the notion of a Newtonian fluid. In addition to his work on calculus, as a mathematician Newton contributed to the study of power series, generalised the binomial theorem to non-integer exponents, developed a method for approximating the roots of a function, and classified most of the cubic plane curves.
     # Newton was a fellow of Trinity College and the second Lucasian Professor of Mathematics at the University of Cambridge. He was a devout but unorthodox Christian who privately rejected the doctrine of the Trinity. He refused to take holy orders in the Church of England unlike most members of the Cambridge faculty of the day. Beyond his work on the mathematical sciences, Newton dedicated much of his time to the study of alchemy and biblical chronology, but most of his work in those areas remained unpublished until long after his death. Politically and personally tied to the Whig party, Newton served two brief terms as Member of Parliament for the University of Cambridge, in 1689–1690 and 1701–1702. He was knighted by Queen Anne in 1705 and spent the last three decades of his life in London, serving as Warden (1696–1699) and Master (1699–1727) of the Royal Mint, as well as president of the Royal Society (1703–1727).
 
+    query = "venus"
     # chunked answer, "tell me more"
     for sentence in d.long_answer(query):
         print(sentence["title"])
