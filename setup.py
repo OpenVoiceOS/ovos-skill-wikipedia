@@ -6,7 +6,7 @@ from os import walk, path
 
 URL = "https://github.com/OpenVoiceOS/skill-ovos-wikipedia"
 SKILL_CLAZZ = "WikipediaSkill"  # needs to match __init__.py class name
-PYPI_NAME = "skill-wikipedia-for-humans"  # pip install PYPI_NAME
+PYPI_NAME = "ovos-skill-wikipedia"  # pip install PYPI_NAME
 
 # below derived from github url to ensure standard skill_id
 SKILL_AUTHOR, SKILL_NAME = URL.split(".com/")[-1].split("/")
@@ -58,7 +58,7 @@ with open("./version.py", "r", encoding="utf-8") as v:
 setup(
     name=PYPI_NAME,
     version=version,
-    description='mycroft/ovos wikipedia skill plugin', long_description=long_description,
+    description='ovos wikipedia skill plugin', long_description=long_description,
     url=URL,
     author='JarbasAi',
     author_email='jarbasai@mailfence.com',
