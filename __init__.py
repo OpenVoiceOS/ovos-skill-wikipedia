@@ -238,17 +238,6 @@ class WikipediaSkill(CommonQuerySkill):
 
     # wikipedia
     def ask_the_wiki(self, sess: Session):
-
-        l = self.settings.get("lang", self.lang).split("-")[0]  # wikipedia internal lang
-        if sess.lang.startswith(l):
-            self.log.debug(f"skipping auto translation for wikipedia, "
-                           f"{sess.lang} is supported")
-            WikipediaSolver.enable_tx = False
-        else:
-            self.log.info(f"enabling auto translation for wikipedia, "
-                          f"{sess.lang} is not supported internally")
-            WikipediaSolver.enable_tx = True
-
         query = self.session_results[sess.session_id]["query"]
 
         try:
