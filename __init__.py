@@ -9,49 +9,60 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import re
 from os.path import dirname, join
 
 import requests
 from ovos_bus_client.session import SessionManager, Session
-from ovos_classifiers.heuristics.keyword_extraction import HeuristicExtractor
 from ovos_plugin_manager.templates.solvers import QuestionSolver
 from ovos_utils import classproperty
 from ovos_utils import flatten_list
+from ovos_utils.bracket_expansion import expand_parentheses
 from ovos_utils.gui import can_use_gui
+from ovos_utils.log import LOG
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler
 from ovos_workshop.intents import IntentBuilder
+from ovos_workshop.resource_files import ResourceFile
 from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
+from padacioso import IntentContainer
 from quebra_frases import sentence_tokenize
+
+
+def rm_parentheses(text: str):
+    """helper to remove the text between paranthesis in a wikipedia summary,
+     makes the text more natural and speakable"""
+    return re.sub(r"\((.*?)\)", "", text).replace("  ", " ")
 
 
 class WikipediaSolver(QuestionSolver):
     priority = 40
-    enable_tx = True
+    enable_tx = False
+    kw_matchers = {}
 
-    def __init__(self, config=None):
-        config = config or {}
-        config["lang"] = "en"  # only supports english
-        super().__init__(config)
-        self.cache.clear()
-
-    def extract_keyword(self, query, lang="en"):
-        # TODO - from mycroft.conf
-        keyword_extractor = HeuristicExtractor()  # TODO - better non english support
-        return keyword_extractor.extract_subject(query, lang)
-
-    def extract_and_search(self, query, context=None):
-        context = context or {}
-        lang = context.get("lang") or self.default_lang
+    # utils to extract keyword from text
+    @classmethod
+    def register_kw_extractors(cls, samples: list, lang: str):
         lang = lang.split("-")[0]
+        if lang not in cls.kw_matchers:
+            cls.kw_matchers[lang] = IntentContainer()
+        cls.kw_matchers[lang].add_intent("question", samples)
 
-        # extract the best keyword
-        query = self.extract_keyword(query, lang)
-        if not query:
-            return {}
-        return self.search(query, context)
+    @classmethod
+    def extract_keyword(cls, utterance: str, lang: str):
+        lang = lang.split("-")[0]
+        if lang not in cls.kw_matchers:
+            return None
+        matcher: IntentContainer = cls.kw_matchers[lang]
+        match = matcher.calc_intent(utterance)
+        kw = match.get("entities", {}).get("keyword")
+        if kw:
+            LOG.debug(f"Wikipedia Keyword: {kw} - Confidence: {match['conf']}")
+        else:
+            LOG.debug(f"Could not extract search keyword for {lang} from {utterance}")
+        return kw
 
-    # officially exported Solver methods
+    # abstract Solver methods to implement
     def get_data(self, query, context=None):
         """
        query assured to be in self.default_lang
@@ -74,24 +85,23 @@ class WikipediaSolver(QuestionSolver):
                 i = f"https://{lang}.wikipedia.org/wiki/File:" + r['query']['pages'][pid]['pageimage']
                 # TODO - final image url
 
+            summary = rm_parentheses(summary)  # normalize to make more speakable
+
             ans = flatten_list([sentence_tokenize(s) for s in summary.split("\n")])
             return {"title": title, "short_answer": ans[0], "summary": summary, "img": img}
 
     def get_spoken_answer(self, query, context=None):
-        data = self.extract_and_search(query, context)
+        data = self.get_data(query, context)
         return data.get("short_answer", "")
 
     def get_expanded_answer(self, query, context=None):
         """
-        query assured to be in self.default_lang
         return a list of ordered steps to expand the answer, eg, "tell me more"
-
         {
             "title": "optional",
             "summary": "speak this",
             "img": "optional/path/or/url
         }
-
         """
         data = self.get_data(query, context)
         ans = flatten_list([sentence_tokenize(s) for s in data["summary"].split("\n")])
@@ -108,9 +118,30 @@ class WikipediaSkill(CommonQuerySkill):
         super().__init__(*args, **kwargs)
         self.session_results = {}
         self.wiki = WikipediaSolver()
+        self.register_kw_xtract()
+
+    def register_kw_xtract(self):
+        """internal padacioso intents for kw extraction"""
+        intent_file = "query.intent"
+        for lang in self.native_langs:
+            resources = self.load_lang(self.res_dir, lang)
+            resource_file = ResourceFile(resources.types.intent, intent_file)
+            if resource_file.file_path is None:
+                self.log.error(f'Unable to find "{intent_file}"')
+                continue
+            filename = str(resource_file.file_path)
+
+            with open(filename) as f:
+                samples = [expand_parentheses(l) for l in f.read().split("\n")
+                           if l.strip() and not l.startswith("#")]
+                samples = flatten_list(samples)
+
+            self.wiki.register_kw_extractors(samples)
 
     @classproperty
     def runtime_requirements(self):
+        """ indicate to OVOS this skill should ONLY
+         be loaded if we have internet connection"""
         return RuntimeRequirements(
             internet_before_load=True,
             network_before_load=True,
@@ -170,6 +201,10 @@ class WikipediaSkill(CommonQuerySkill):
     # common query
     def CQS_match_query_phrase(self, phrase):
         sess = SessionManager.get()
+        if not self.wiki.extract_keyword(phrase, sess.lang):
+            # doesnt look like a question we can answer at all
+            return None
+
         self.session_results[sess.session_id] = {
             "query": phrase,
             "results": [],
@@ -271,8 +306,11 @@ class WikipediaSkill(CommonQuerySkill):
 if __name__ == "__main__":
 
     d = WikipediaSolver()
+    d.register_kw_extractors(["who is {keyword}"], "en-us")
+    d.register_kw_extractors(["Quem é {keyword}"], "pt-pt")
 
     query = "who is Isaac Newton"
+    assert d.extract_keyword(query, "en-us") == "Isaac Newton"
 
     # full answer
     ans = d.spoken_answer(query)
@@ -348,9 +386,10 @@ if __name__ == "__main__":
         # Politically and personally tied to the Whig party, Newton served two brief terms as Member of Parliament for the University of Cambridge, in 1689–1690 and 1701–1702.
         # https://upload.wikimedia.org/wikipedia/commons/3/3b/Portrait_of_Sir_Isaac_Newton%2C_1689.jpg
 
-    # bidirectional auto translate by passing lang context
-    sentence = d.spoken_answer("Quem é Isaac Newton",
-                               context={"lang": "pt"})
+    # lang support
+    query = "Quem é Isaac Newton"
+    sentence = d.spoken_answer(query, context={"lang": "pt"})
+    assert d.extract_keyword(query, "pt") == "Isaac Newton"
     print(sentence)
     # Sir Isaac Newton (25 de dezembro de 1642 - 20 de março de 1726/27) foi um matemático, físico, astrônomo, alquimista, teólogo e autor (descrito em seu tempo como um "filósofo natural") amplamente reconhecido como um dos maiores matemáticos e físicos de todos os tempos e entre os cientistas mais influentes. Ele era uma figura chave na revolução filosófica conhecida como Iluminismo. Seu livro Philosophiæ Naturalis Principia Mathematica (Princípios matemáticos da Filosofia Natural), publicado pela primeira vez em 1687, estabeleceu a mecânica clássica. Newton também fez contribuições seminais para a óptica, e compartilha crédito com o matemático alemão Gottfried Wilhelm Leibniz para desenvolver cálculo infinitesimal.
     # No Principia, Newton formulou as leis do movimento e da gravitação universal que formaram o ponto de vista científico dominante até ser superado pela teoria da relatividade. Newton usou sua descrição matemática da gravidade para derivar as leis de Kepler do movimento planetário, conta para as marés, as trajetórias dos cometas, a precessão dos equinócios e outros fenômenos, erradicando dúvidas sobre a heliocentricidade do Sistema Solar. Ele demonstrou que o movimento de objetos na Terra e corpos celestes poderia ser contabilizado pelos mesmos princípios. A inferência de Newton de que a Terra é um esferóide oblate foi mais tarde confirmada pelas medidas geodésicas de Maupertuis, La Condamine, e outros, convencendo a maioria dos cientistas europeus da superioridade da mecânica newtoniana sobre sistemas anteriores.
