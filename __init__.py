@@ -209,12 +209,13 @@ class WikipediaSkill(CommonQuerySkill):
     # common query
     def CQS_match_query_phrase(self, phrase):
         sess = SessionManager.get()
-        if not self.wiki.extract_keyword(phrase, sess.lang):
+        query = self.wiki.extract_keyword(phrase, sess.lang)
+        if not query:
             # doesnt look like a question we can answer at all
             return None
 
         self.session_results[sess.session_id] = {
-            "query": phrase,
+            "query": query,
             "results": [],
             "idx": 0,
             "lang": sess.lang,
