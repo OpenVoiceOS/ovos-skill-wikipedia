@@ -9,6 +9,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import os.path
 import re
 from os.path import dirname, join
 
@@ -17,15 +18,14 @@ from ovos_bus_client.session import SessionManager, Session
 from ovos_plugin_manager.templates.solvers import QuestionSolver
 from ovos_utils import classproperty
 from ovos_utils import flatten_list
-from ovos_utils.bracket_expansion import expand_parentheses
 from ovos_utils.gui import can_use_gui
 from ovos_utils.log import LOG
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler
 from ovos_workshop.intents import IntentBuilder
-from ovos_workshop.resource_files import ResourceFile
 from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
 from padacioso import IntentContainer
+from padacioso.bracket_expansion import expand_parentheses
 from quebra_frases import sentence_tokenize
 
 
@@ -59,7 +59,7 @@ class WikipediaSolver(QuestionSolver):
         if kw:
             LOG.debug(f"Wikipedia Keyword: {kw} - Confidence: {match['conf']}")
         else:
-            LOG.debug(f"Could not extract search keyword for {lang} from {utterance}")
+            LOG.debug(f"Could not extract search keyword for '{lang}' from '{utterance}'")
         return kw
 
     # abstract Solver methods to implement
@@ -130,20 +130,20 @@ class WikipediaSkill(CommonQuerySkill):
 
     def register_kw_xtract(self):
         """internal padacioso intents for kw extraction"""
-        intent_file = "query.intent"
         for lang in self.native_langs:
-            resources = self.load_lang(self.res_dir, lang)
-            resource_file = ResourceFile(resources.types.intent, intent_file)
-            if resource_file.file_path is None:
-                self.log.error(f'Unable to find "{intent_file}"')
+            filename = f"{self.root_dir}/locale/{lang}/query.intent"
+            if not os.path.isfile(filename):
+                LOG.warning(f"{filename} not found! wikipedia common QA will be disabled for '{lang}'")
                 continue
-            filename = str(resource_file.file_path)
-
+            samples = []
             with open(filename) as f:
-                samples = [expand_parentheses(l) for l in f.read().split("\n")
-                           if l.strip() and not l.startswith("#")]
-                samples = flatten_list(samples)
-
+                for l in f.read().split("\n"):
+                    if not l.strip() or l.startswith("#"):
+                        continue
+                    if "(" in l:
+                        samples += expand_parentheses(l)
+                    else:
+                        samples.append(l)
             self.wiki.register_kw_extractors(samples, lang)
 
     @classproperty
@@ -301,6 +301,13 @@ class WikipediaSkill(CommonQuerySkill):
 
 
 if __name__ == "__main__":
+    from ovos_utils.fakebus import FakeBus
+
+    s = WikipediaSkill(bus=FakeBus(), skill_id="wiki.skill")
+    print(s.CQS_match_query_phrase("who is Elon Musk"))
+    # ('who is Elon Musk', <CQSMatchLevel.GENERAL: 3>, 'The Musk family is a wealthy family of South African origin that is largely active in the United States and Canada.',
+    # {'query': 'who is Elon Musk', 'image': None, 'title': 'Musk Family',
+    # 'answer': 'The Musk family is a wealthy family of South African origin that is largely active in the United States and Canada.'})
 
     d = WikipediaSolver()
     d.register_kw_extractors(["who is {keyword}"], "en-us")

@@ -1,7 +1,6 @@
 tell me about {keyword}
 what is {keyword}
-who is {keyword}
-who was {keyword}
+who (is|was) {keyword}
 What do you know about {keyword}
 Give me information about {keyword}
 I'm curious about {keyword}
