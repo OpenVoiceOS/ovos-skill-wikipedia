@@ -68,11 +68,18 @@ class WikipediaSolver(QuestionSolver):
        query assured to be in self.default_lang
        return a dict response
        """
+        LOG.debug(f"WikiSolver query: {query}")
         context = context or {}
         lang = context.get("lang") or self.default_lang
         lang = lang.split("-")[0]
         url = f"https://{lang}.wikipedia.org/w/api.php?action=query&list=search&srsearch={query}&format=json"
         res = requests.get(url).json()["query"]["search"]
+        if not res:
+            q2 = self.extract_keyword(query, lang)
+            if q2 and q2 != query:
+                LOG.debug(f"WikiSolver Fallback, new query: {q2}")
+                return self.get_data(q2, context)
+
         for r in res:
             title = r["title"]
             pid = str(r["pageid"])
@@ -89,6 +96,7 @@ class WikipediaSolver(QuestionSolver):
 
             ans = flatten_list([sentence_tokenize(s) for s in summary.split("\n")])
             return {"title": title, "short_answer": ans[0], "summary": summary, "img": img}
+        return {}
 
     def get_spoken_answer(self, query, context=None):
         data = self.get_data(query, context)
