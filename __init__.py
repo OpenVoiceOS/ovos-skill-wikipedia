@@ -144,7 +144,7 @@ class WikipediaSkill(CommonQuerySkill):
                            if l.strip() and not l.startswith("#")]
                 samples = flatten_list(samples)
 
-            self.wiki.register_kw_extractors(samples)
+            self.wiki.register_kw_extractors(samples, lang)
 
     @classproperty
     def runtime_requirements(self):
