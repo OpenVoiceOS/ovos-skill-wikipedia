@@ -250,7 +250,7 @@ class WikipediaSkill(CommonQuerySkill):
         query = self.session_results[sess.session_id]["query"]
 
         try:
-            results = self.wiki.long_answer(query, lang=sess.lang)
+            results = self.wiki.long_answer(query, context={"lang": sess.lang})
         except Exception as err:  # handle solver plugin failures, happens in some queries
             self.log.error(err)
             results = None
@@ -305,14 +305,12 @@ if __name__ == "__main__":
     from ovos_utils.fakebus import FakeBus
 
     s = WikipediaSkill(bus=FakeBus(), skill_id="wiki.skill")
-    print(s.CQS_match_query_phrase("who is Elon Musk"))
+    print(s.CQS_match_query_phrase("quem é Elon Musk"))
     # ('who is Elon Musk', <CQSMatchLevel.GENERAL: 3>, 'The Musk family is a wealthy family of South African origin that is largely active in the United States and Canada.',
     # {'query': 'who is Elon Musk', 'image': None, 'title': 'Musk Family',
     # 'answer': 'The Musk family is a wealthy family of South African origin that is largely active in the United States and Canada.'})
 
     d = WikipediaSolver()
-    d.register_kw_extractors(["who is {keyword}"], "en-us")
-    d.register_kw_extractors(["Quem é {keyword}"], "pt-pt")
 
     query = "who is Isaac Newton"
     assert d.extract_keyword(query, "en-us") == "Isaac Newton"
