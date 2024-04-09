@@ -19,7 +19,7 @@ skill_folder = f"{tmp_skills}/{skill.uuid}"
 
 base_dir = dirname(dirname(__file__))
 desktop_dir = join(base_dir, "res", "desktop")
-android_ui = join(base_dir, "ui", "+android")
+android_ui = join(base_dir, "qt5", "+android")
 makedirs(desktop_dir, exist_ok=True)
 
 readme = join(base_dir, "README.md")

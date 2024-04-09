@@ -179,7 +179,7 @@ class WikipediaSkill(CommonQuerySkill):
             "image": None,
         }
 
-        self.gui.show_animated_image(join(dirname(__file__), "ui", "jumping.gif"))
+        self.gui.show_animated_image(join(dirname(__file__), "res", "jumping.gif"))
 
         self.speak_dialog("searching", {"query": query})
 
@@ -192,7 +192,7 @@ class WikipediaSkill(CommonQuerySkill):
     # @intent_handler("wikiroulette.intent")
     # def handle_wiki_roulette_query(self, message):
     #    """Random wikipedia page"""
-    #    self.gui.show_animated_image(join(dirname(__file__), "ui", "jumping.gif"))
+    #    self.gui.show_animated_image(join(dirname(__file__), "res", "jumping.gif"))
     #    self.speak_dialog("wikiroulette")
     # TODO
 
