@@ -1,0 +1,25 @@
+{
+    "wikiroulette.intent": [
+        "(Attiva|Inizia) (wiki|wikipedia) roulette",
+        "Apri una pagina a caso da (wiki|wikipedia)"
+    ],
+    "query.intent": [
+        "Cosa sai di {keyword}",
+        "Vorrei saperne di pi\u00f9 su {keyword}",
+        "Sono curioso di {keyword}",
+        "Puoi illuminarmi su {keyword}",
+        "Puoi fornire i dettagli su {keyword}",
+        "Dammi informazioni su {keyword}",
+        "Vorrei sapere di {keyword}",
+        "Sto cercando dettagli su {keyword}",
+        "che cosa \u00e8 {keyword}",
+        "dimmi di {keyword}",
+        "chi era {keyword}",
+        "Pu\u00f2 spiegare che cosa {keyword} \u00e8",
+        "che \u00e8 {keyword}"
+    ],
+    "wiki.intent": [
+        "Cerca su (wikipedia|wiki) {query}",
+        "(wikipedia|wiki) {query}"
+    ]
+}

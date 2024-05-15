@@ -1,0 +1,20 @@
+{
+    "wikiroulette.dialog": [
+        "connaissance roulette activ\u00e9e",
+        "jouer le wikip\u00e9dia roulette"
+    ],
+    "thats all.dialog": [
+        "C'est tout ce que j'ai trouv\u00e9",
+        "C'est tout ce que je sais",
+        "Je n'ai trouv\u00e9 rien d'autre"
+    ],
+    "searching.dialog": [
+        "Laissez-moi regarder sur Wikip\u00e9dia",
+        "Je recherche sur Wikip\u00e9dia pour {query}"
+    ],
+    "no entry found.dialog": [
+        "Je n'ai rien trouv\u00e9 sur Wikip\u00e9dia",
+        "Je ne peux trouver un article Wikip\u00e9dia connexe",
+        "J'ai peur qu'il n'y ait aucun article \u00e0 ce sujet"
+    ]
+}
