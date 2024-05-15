@@ -1,0 +1,18 @@
+{
+    "wikiroulette.dialog": [
+        "s'ha activat la ruleta del coneixement",
+        "esteu jugant a la ruleta del coneixement"
+    ],
+    "thats all.dialog": [
+        "Aix\u00f2 \u00e9s tot el que en s\u00e9",
+        "Aix\u00f2 \u00e9s tot el que puc trobar-ne"
+    ],
+    "searching.dialog": [
+        "Deixeu-me cercar {query} a la Viquip\u00e8dia",
+        "Estic cercant a la Viquip\u00e8dia sobre {query}"
+    ],
+    "no entry found.dialog": [
+        "No puc trobar cap article relacionat en la Viquip\u00e8dia ",
+        "Em sembla que no hi ha cap article sobre aix\u00f2"
+    ]
+}

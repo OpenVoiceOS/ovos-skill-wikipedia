@@ -1,0 +1,18 @@
+{
+    "wikiroulette.dialog": [
+        "jogar a roleta wikipedia",
+        "encaminhamento de conhecimento ativado"
+    ],
+    "thats all.dialog": [
+        "\u00c9 tudo o que consigo encontrar",
+        "\u00c9 tudo o que sei"
+    ],
+    "searching.dialog": [
+        "Deixe-me olhar para cima {query} na Wikip\u00e9dia",
+        "Estou a verificar a Wikip\u00e9dia para {query}"
+    ],
+    "no entry found.dialog": [
+        "N\u00e3o consigo encontrar um artigo relacionado da Wikip\u00e9dia",
+        "Receio que n\u00e3o haja nenhum artigo sobre isso"
+    ]
+}

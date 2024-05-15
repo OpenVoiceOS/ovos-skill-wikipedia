@@ -1,0 +1,18 @@
+{
+    "wikiroulette.dialog": [
+        "jugando la ruleta wikipedia",
+        "ruleta de conocimiento activada"
+    ],
+    "thats all.dialog": [
+        "Es todo lo que s\u00e9",
+        "Eso es todo lo que puedo encontrar"
+    ],
+    "searching.dialog": [
+        "Perm\u00edtanme buscar {query} en Wikipedia",
+        "Estoy revisando Wikipedia para {query}"
+    ],
+    "no entry found.dialog": [
+        "Me temo que no hay ning\u00fan art\u00edculo sobre eso",
+        "No puedo encontrar un art\u00edculo relacionado con Wikipedia"
+    ]
+}

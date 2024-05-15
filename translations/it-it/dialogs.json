@@ -1,0 +1,18 @@
+{
+    "wikiroulette.dialog": [
+        "Modo wiki roulette attivato",
+        "Roulette wikipedia iniziata"
+    ],
+    "thats all.dialog": [
+        "\u00c8 tutto quello che so",
+        "Questo \u00e8 tutto quello che ho trovato"
+    ],
+    "searching.dialog": [
+        "Fammi cercare {query} in Wikipedia",
+        "Sto cercando in Wikipedia a proposito di {query}"
+    ],
+    "no entry found.dialog": [
+        "Non ho trovato nessun articolo su Wikipedia",
+        "Non riesco a trovare niente su Wikipedia"
+    ]
+}

@@ -1,0 +1,46 @@
+{
+    "wikiroulette.intent": [
+        "wikipedia al azar",
+        "mostrar wiki aleatorio",
+        "wiki aleatorio",
+        "wiki roulette",
+        "wikipedia roulette",
+        "juego wikipedia roulette",
+        "Mostrar wiki aleatorio",
+        "mostrar wikipedia al azar",
+        "wikipedia aleatoria",
+        "p\u00e1gina wikipedia al azar",
+        "jugar wiki ruleta",
+        "Mostrar wikipedia al azar",
+        "p\u00e1gina de wiki aleatorio",
+        "jugar la ruleta wikipedia",
+        "jugar la ruleta wiki"
+    ],
+    "query.intent": [
+        "Puede proporcionar detalles en {keyword}",
+        "Me gustar\u00eda saber sobre {keyword}",
+        "Dame informaci\u00f3n sobre {keyword}",
+        "Tengo curiosidad sobre {keyword}",
+        "qui\u00e9n era {keyword}",
+        "qui\u00e9n es {keyword}",
+        "Qu\u00e9 sabes acerca de {keyword}",
+        "qu\u00e9 es {keyword}",
+        "Puede explicar lo que es {keyword}",
+        "Puedes iluminarme sobre {keyword}",
+        "Estoy buscando detalles sobre {keyword}",
+        "h\u00e1blame de {keyword}",
+        "Me gustar\u00eda saber m\u00e1s sobre {keyword}"
+    ],
+    "wiki.intent": [
+        "buscar wiki para {query}",
+        "wikipedia {query}",
+        "cheque wikipedia para {query}",
+        "Cu\u00e9ntame sobre {query}",
+        "cheque wiki para {query}",
+        "\u00bfQu\u00e9 dice wiki sobre {query}",
+        "wiki {query}",
+        "\u00bfQu\u00e9 dice wikipedia sobre {query}",
+        "Cu\u00e9ntanos sobre {query}",
+        "b\u00fasqueda wikipedia para {query}"
+    ]
+}
