@@ -246,10 +246,11 @@ class WikipediaSkill(CommonQuerySkill):
         """If selected show gui"""
 
         sess = SessionManager.get()
-        if sess in self.session_results:
+        if sess.session_id in self.session_results:
             self.display_wiki_entry()
         else:
-            LOG.error(f"Session not found in results: {sess}")
+            LOG.error(f"{sess.session_id} not in "
+                      f"{list(self.session_results.keys())}")
 
         self.set_context("WikiKnows", data.get("title") or phrase)
 
@@ -289,7 +290,7 @@ class WikipediaSkill(CommonQuerySkill):
 
     def speak_result(self, sess: Session):
 
-        if sess in self.session_results:
+        if sess.session_id in self.session_results:
             results = self.session_results[sess.session_id]["results"]
             idx = self.session_results[sess.session_id]["idx"]
             title = self.session_results[sess.session_id].get("title") or \
