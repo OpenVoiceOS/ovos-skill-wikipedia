@@ -104,6 +104,10 @@ class WikipediaSolver(QuestionSolver):
         data = self.get_data(query, context)
         return data.get("short_answer", "")
 
+    def get_image(self, query, context=None):
+        data = self.get_data(query, context)
+        return data.get("img", "")
+
     def get_expanded_answer(self, query, context=None):
         """
         return a list of ordered steps to expand the answer, eg, "tell me more"
@@ -262,6 +266,7 @@ class WikipediaSkill(CommonQuerySkill):
         if results:
             title = results[0].get("title") or \
                     self.session_results[sess.session_id]["query"]
+            self.session_results[sess.session_id]["image"] = results[0].get("img")
             return title, results[0]["summary"]
         return None, None
 
