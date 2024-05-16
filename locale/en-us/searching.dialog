@@ -1,2 +1,2 @@
-Let me look up {{query}} in Wikipedia
-I'm checking Wikipedia for {{query}}
+I'm checking Wikipedia for {query}
+Let me look up {query} in Wikipedia
