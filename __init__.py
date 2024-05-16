@@ -248,6 +248,8 @@ class WikipediaSkill(CommonQuerySkill):
         sess = SessionManager.get()
         if sess in self.session_results:
             self.display_wiki_entry()
+        else:
+            LOG.error(f"Session not found in results: {sess}")
 
         self.set_context("WikiKnows", data.get("title") or phrase)
 
@@ -272,13 +274,18 @@ class WikipediaSkill(CommonQuerySkill):
 
     def display_wiki_entry(self):
         if not can_use_gui(self.bus):
+            LOG.debug(f"GUI not enabled")
             return
         sess = SessionManager.get()
-        image = self.session_results[sess.session_id].get("image") or self.wiki.get_image(query)
+        image = self.session_results[sess.session_id].get("image") or \
+                self.wiki.get_image(self.session_results[sess.session_id]["query"])
         title = self.session_results[sess.session_id].get("title") or "Wikipedia"
         if image:
             self.session_results[sess.session_id]["image"] = image
-            self.gui.show_image(image, title=title, fill=None, override_idle=20, override_animations=True)
+            self.gui.show_image(image, title=title, fill=None,
+                                override_idle=20, override_animations=True)
+        else:
+            LOG.warning(f"No image in {self.session_results[sess.session_id]}")
 
     def speak_result(self, sess: Session):
 
