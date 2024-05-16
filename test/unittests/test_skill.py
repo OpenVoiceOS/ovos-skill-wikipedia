@@ -1,6 +1,7 @@
 import json
 import unittest
 
+import requests
 from ovos_utils.messagebus import FakeBus
 from skill_ovos_wikipedia import WikipediaSkill
 from ovos_workshop.skills.common_query_skill import CommonQuerySkill
@@ -78,3 +79,16 @@ class TestSkill(unittest.TestCase):
                         f"{self.skill.skill_id}.deactivate"]
         for event in default_ovos:
             self.assertTrue(event in registered_events)
+
+    def test_solver_get_data(self):
+        solver = self.skill.wiki
+        test_queries = ("rocks", "paper", "scissors", "computers")
+        for query in test_queries:
+            data = solver.get_data(query)
+            self.assertIsInstance(data["title"], str)
+            self.assertIsInstance(data["short_answer"], str)
+            self.assertIsInstance(data["summary"], str)
+            self.assertIsInstance(data["img"], str)
+            image = requests.get(data["img"],
+                                 headers={"User-Agent": "ovos-skill-unit-test"})
+            self.assertTrue(image.ok, image)

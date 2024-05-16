@@ -88,9 +88,11 @@ class WikipediaSolver(QuestionSolver):
 
             summary = r['query']['pages'][pid]['extract']
             img = None
-            if "pageimage" in r['query']['pages'][pid]:
-                i = f"https://{lang}.wikipedia.org/wiki/File:" + r['query']['pages'][pid]['pageimage']
-                # TODO - final image url
+            if "thumbnail" in r['query']['pages'][pid]:
+                thumbnail = r['query']['pages'][pid]['thumbnail']['source']
+                parts = thumbnail.split("/")[:-1]
+                img = '/'.join((part for part in parts if part != 'thumb'))
+                LOG.debug(f"Found image: {img}")
 
             summary = rm_parentheses(summary)  # normalize to make more speakable
 
