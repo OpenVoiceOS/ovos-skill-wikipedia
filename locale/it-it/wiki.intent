@@ -1,2 +1,1 @@
-(wikipedia|wiki) {query}
-Cerca su (wikipedia|wiki) {query}
+(Cerca su|) (wikipedia|wiki) {query}
