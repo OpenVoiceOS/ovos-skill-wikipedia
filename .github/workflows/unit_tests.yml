@@ -50,11 +50,8 @@ jobs:
           python -m pip install build wheel
       - name: Install ovos components
         run: |
-          pip install ovos-plugin-manager ovos-core[skills_lgpl]>=0.0.5a28
-          pip install git+https://github.com/NeonGeckoCom/neon-solver-plugin-wikipedia
+          pip install ovos-plugin-manager ovos-core[skills_lgpl]>=0.0.5a28 ovos-translate-plugin-server
           pip install git+https://github.com/OpenVoiceOS/skill-ovos-common-query
-          pip install git+https://github.com/NeonGeckoCom/neon_solvers
-          pip install git+https://github.com/MycroftAI/mycroft-messagebus-client
       - name: Install core repo
         run: |
           pip install .

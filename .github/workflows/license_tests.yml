@@ -37,7 +37,7 @@ jobs:
           requirements: 'requirements-all.txt'
           fail: 'Copyleft,Other,Error'
           fails-only: true
-          exclude: '^(tqdm|skill-wikipedia-for-humans).*'
+          exclude: '^(tqdm|skill-wikipedia-for-humans|ovos-skill-wikipedia).*'
           exclude-license: '^(Mozilla).*$'
       - name: Print report
         if: ${{ always() }}
