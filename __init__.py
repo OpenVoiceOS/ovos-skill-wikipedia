@@ -88,9 +88,11 @@ class WikipediaSolver(QuestionSolver):
 
             summary = r['query']['pages'][pid]['extract']
             img = None
-            if "pageimage" in r['query']['pages'][pid]:
-                i = f"https://{lang}.wikipedia.org/wiki/File:" + r['query']['pages'][pid]['pageimage']
-                # TODO - final image url
+            if "thumbnail" in r['query']['pages'][pid]:
+                thumbnail = r['query']['pages'][pid]['thumbnail']['source']
+                parts = thumbnail.split("/")[:-1]
+                img = '/'.join((part for part in parts if part != 'thumb'))
+                LOG.debug(f"Found image: {img}")
 
             summary = rm_parentheses(summary)  # normalize to make more speakable
 
@@ -101,6 +103,10 @@ class WikipediaSolver(QuestionSolver):
     def get_spoken_answer(self, query, context=None):
         data = self.get_data(query, context)
         return data.get("short_answer", "")
+
+    def get_image(self, query, context=None):
+        data = self.get_data(query, context)
+        return data.get("img", "")
 
     def get_expanded_answer(self, query, context=None):
         """
@@ -240,8 +246,11 @@ class WikipediaSkill(CommonQuerySkill):
         """If selected show gui"""
 
         sess = SessionManager.get()
-        if sess in self.session_results:
+        if sess.session_id in self.session_results:
             self.display_wiki_entry()
+        else:
+            LOG.error(f"{sess.session_id} not in "
+                      f"{list(self.session_results.keys())}")
 
         self.set_context("WikiKnows", data.get("title") or phrase)
 
@@ -260,22 +269,28 @@ class WikipediaSkill(CommonQuerySkill):
         if results:
             title = results[0].get("title") or \
                     self.session_results[sess.session_id]["query"]
+            self.session_results[sess.session_id]["image"] = results[0].get("img")
             return title, results[0]["summary"]
         return None, None
 
     def display_wiki_entry(self):
         if not can_use_gui(self.bus):
+            LOG.debug(f"GUI not enabled")
             return
         sess = SessionManager.get()
-        image = self.session_results[sess.session_id].get("image") or self.wiki.get_image(query)
+        image = self.session_results[sess.session_id].get("image") or \
+                self.wiki.get_image(self.session_results[sess.session_id]["query"])
         title = self.session_results[sess.session_id].get("title") or "Wikipedia"
         if image:
             self.session_results[sess.session_id]["image"] = image
-            self.gui.show_image(image, title=title, fill=None, override_idle=20, override_animations=True)
+            self.gui.show_image(image, title=title, fill='PreserveAspectFit',
+                                override_idle=20, override_animations=True)
+        else:
+            LOG.info(f"No image in {self.session_results[sess.session_id]}")
 
     def speak_result(self, sess: Session):
 
-        if sess in self.session_results:
+        if sess.session_id in self.session_results:
             results = self.session_results[sess.session_id]["results"]
             idx = self.session_results[sess.session_id]["idx"]
             title = self.session_results[sess.session_id].get("title") or \
