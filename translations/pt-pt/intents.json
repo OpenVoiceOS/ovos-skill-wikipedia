@@ -1,46 +1,28 @@
 {
-    "wikiroulette.intent": [
-        "abrir wiki aleat\u00f3ria",
-        "p\u00e1gina de wikipedia aleat\u00f3ria",
-        "mostrar wikipedia aleat\u00f3ria",
-        "jogar wiki roleta",
-        "abrir wikipedia aleat\u00f3ria",
-        "exibir wikipedia aleat\u00f3ria",
-        "exibir wiki aleat\u00f3ria",
-        "jogar a roleta wiki",
-        "jogar a roleta wikipedia",
-        "Roleta wikipedia",
-        "wikipedia aleat\u00f3ria",
-        "wiki aleat\u00f3ria",
-        "jogar wikipedia roleta",
-        "mostrar wiki aleat\u00f3ria",
-        "p\u00e1gina wiki aleat\u00f3ria",
-        "encaminhamento de wiki"
-    ],
-    "query.intent": [
-        "fala-me sobre {keyword}",
-        "quem \u00e9 {keyword}",
-        "quem foi {keyword}",
-        "Conta-me sobre {keyword}.",
-        "O que sabes acerca de {keyword}",
-        "D\u00e1-me informa\u00e7\u00f5es sobre {keyword}",
-        "Estou curioso acerca de {keyword}",
-        "Estou curiosa acerca de {keyword}",
-        "Gostaria de saber mais sobre {keyword}",
-        "Podes me explicar o que \u00e9 {keyword}",
-        "Podes elucidar-me sobre {keyword}",
-        "Estou \u00e0 procura de detalhes sobre {keyword}",
-        "Podes fornecer detalhes sobre {keyword}"
-    ],
-    "wiki.intent": [
-        "o que wikipedia diz sobre {query}",
-        "Procurar wikipedia por {query}",
-        "O que \u00e9 isso?",
-        "check wiki for {query}",
-        "conta-nos sobre o {query}",
-        "Procurar wiki por {query}",
-        "verificar wikipedia para {query}",
-        "o que a wiki diz sobre {query}",
-        "Diz-me sobre"
-    ]
+  "wikiroulette.intent": [
+    "(jogar|) (wikipedia|wiki) roleta",
+    "[UNUSED]",
+    "(página|) (wiki|wikipedia) aleatória",
+    "[UNUSED]",
+    "(abrir|mostrar|) (wiki|wikipedia) (roleta|aleatória)"
+  ],
+  "query.intent": [
+    "fala-me sobre {keyword}",
+    "o que é (que é|) {keyword}",
+    "quem (é|era|foi) {keyword}",
+    "(fala|fala-me|Conta-me) sobre {keyword}.",
+    "Dá-me (mais|) informações (acerca de|sobre) {keyword}",
+    "Estou (curioso|curiosa) (sobre|acerca de) {keyword}",
+    "(Gostaria|Gostava) de (saber|aprender|descobrir) (mais|) (sobre|acerca de) {keyword}",
+    "[UNUSED]",
+    "(podes explicar|explica) (quem é|o que é|quando é que) {keyword}",
+    "(podes elucidar-me|elucida-me) (sobre|acerca de) {keyword}",
+    "Procuro detalhes (acerca|sobre) {keyword}",
+    "[UNUSED]"
+  ],
+  "wiki.intent": [
+    "(wiki|wikipedia) {query}",
+    "o que diz (a|) (wiki|wikipedia) sobre {query}",
+    "(procura|procurar) (wiki|wikipedia) (sobre|por) {query}"
+  ]
 }
