@@ -2,7 +2,7 @@ import json
 import unittest
 from unittest.mock import Mock
 
-from ovos_workshop.skills import FallbackSkill
+from ovos_workshop.skills.fallback import FallbackSkill
 from ovos_skill_common_query import QuestionsAnswersSkill
 from ovos_utils.messagebus import FakeBus, Message
 from skill_ovos_wikipedia import WikipediaSkill
