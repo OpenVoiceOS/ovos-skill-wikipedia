@@ -50,11 +50,9 @@ jobs:
           python -m pip install build wheel
       - name: Install ovos components
         run: |
-          pip install ovos-plugin-manager ovos-core[skills_lgpl]>=0.0.5a28
-          pip install git+https://github.com/NeonGeckoCom/neon-solver-plugin-wikipedia
-          pip install git+https://github.com/OpenVoiceOS/skill-ovos-common-query
-          pip install git+https://github.com/NeonGeckoCom/neon_solvers
-          pip install git+https://github.com/MycroftAI/mycroft-messagebus-client
+          pip install wheel "cython<3.0.0"  # TODO: cython patching https://github.com/yaml/pyyaml/issues/724
+          pip install --no-build-isolation pyyaml~=5.4  # TODO: patching https://github.com/yaml/pyyaml/issues/724
+          pip install ovos-plugin-manager ovos-core[skills_lgpl]>=0.0.5a28 ovos-translate-server-plugin
       - name: Install core repo
         run: |
           pip install .
