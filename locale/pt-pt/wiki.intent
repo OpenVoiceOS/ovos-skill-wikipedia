@@ -1,9 +1,3 @@
-Diz-me sobre
-O que é isso?
-Procurar wiki por {query}
-Procurar wikipedia por {query}
-check wiki for {query}
-conta-nos sobre o {query}
-o que a wiki diz sobre {query}
-o que wikipedia diz sobre {query}
-verificar wikipedia para {query}
+(procura|procurar) (wiki|wikipedia) (sobre|por) {query}
+(wiki|wikipedia) {query}
+o que diz (a|) (wiki|wikipedia) sobre {query}
