@@ -33,22 +33,25 @@ class TestTranslation(unittest.TestCase):
         # no translation
         self.skill.handle_search(Message("search_wikipedia_for_humans.intent",
                                          {"query": "english question here"}))
-        self.assertIn({'context': {'skill_id': 'wikipedia_for_humans.test'},
-                       'data': {'expect_response': False,
+        test_messages = [{"type": msg['type'], "data": msg['data']}
+                         for msg in self.bus.emitted_msgs]
+        self.assertIn({'data': {'expect_response': False,
                                 'lang': 'en-us',
                                 'meta': {'skill': 'wikipedia_for_humans.test'},
                                 'utterance': 'this is the answer number 1'},
-                       'type': 'speak'}, self.bus.emitted_msgs)
+                       'type': 'speak'}, test_messages, test_messages)
 
     def test_unk_lang(self):
         # translation
         self.skill.handle_search(Message("search_wikipedia_for_humans.intent",
                                          {"query": "not english!",
                                           "lang": "pt-pt"}))
+        test_messages = [{"type": msg['type'], "data": msg['data']}
+                         for msg in self.bus.emitted_msgs]
         self.assertIn(
             {'context': {'skill_id': 'wikipedia_for_humans.test'},
              'data': {'expect_response': False,
                       'lang': 'pt-pt',
                       'meta': {'skill': 'wikipedia_for_humans.test'},
                       'utterance': "this text is in portuguese, trust me!"},
-             'type': 'speak'}, self.bus.emitted_msgs)
+             'type': 'speak'},  test_messages, test_messages)

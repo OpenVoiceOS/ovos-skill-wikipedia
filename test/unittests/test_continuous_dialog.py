@@ -39,15 +39,14 @@ class TestDialog(unittest.TestCase):
 
     def test_continuous_dialog(self):
         self.bus.emitted_msgs = []
-        test_messages = [{"type": msg['type'], "data": msg['data']}
-                         for msg in self.bus.emitted_msgs]
 
         # "ask the wiki X"
         self.assertFalse(self.skill.has_context)
         self.skill.handle_search(Message("search_wikipedia_for_humans.intent",
                                          {"query": "what is the speed of light"}))
+        test_messages = [{"type": msg['type'], "data": msg['data']}
+                         for msg in self.bus.emitted_msgs]
 
-        print(self.bus.emitted_msgs)
         self.assertIn({'data': {'context': 'wikipedia_for_humans_testWikiKnows',
                                 'origin': '',
                                 'word': 'what is the speed of light'},
