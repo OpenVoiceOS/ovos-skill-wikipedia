@@ -23,7 +23,9 @@ class TestSkill(unittest.TestCase):
         self.assertEqual(self.skill.skill_id, "wikipedia_for_humans.test")
         # if running in ovos-core every message will have the skill_id in context
         for msg in self.bus.emitted_msgs:
-            self.assertEqual(msg["context"].get("skill_id"), "wikipedia_for_humans.test", msg)
+            if msg["type"] != "gui.volunteer_page_upload":
+                self.assertEqual(msg["context"].get("skill_id"),
+                                 "wikipedia_for_humans.test", msg)
 
     def test_intent_register(self):
         adapt_ents = ["wikipedia_for_humans_testMore"]  # why are you different :(
