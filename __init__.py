@@ -286,7 +286,7 @@ class WikipediaSkill(CommonQuerySkill):
             self.gui.show_image(image, title=title, fill='PreserveAspectFit',
                                 override_idle=20, override_animations=True)
         else:
-            LOG.warning(f"No image in {self.session_results[sess.session_id]}")
+            LOG.info(f"No image in {self.session_results[sess.session_id]}")
 
     def speak_result(self, sess: Session):
 
