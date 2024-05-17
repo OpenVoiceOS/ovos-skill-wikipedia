@@ -283,7 +283,7 @@ class WikipediaSkill(CommonQuerySkill):
         title = self.session_results[sess.session_id].get("title") or "Wikipedia"
         if image:
             self.session_results[sess.session_id]["image"] = image
-            self.gui.show_image(image, title=title, fill=None,
+            self.gui.show_image(image, title=title, fill='PreserveAspectFit',
                                 override_idle=20, override_animations=True)
         else:
             LOG.warning(f"No image in {self.session_results[sess.session_id]}")
