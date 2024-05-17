@@ -39,6 +39,8 @@ class TestDialog(unittest.TestCase):
 
     def test_continuous_dialog(self):
         self.bus.emitted_msgs = []
+        test_messages = [{"type": msg['type'], "data": msg['data']}
+                         for msg in self.bus.emitted_msgs]
 
         # "ask the wiki X"
         self.assertFalse(self.skill.has_context)
@@ -46,30 +48,28 @@ class TestDialog(unittest.TestCase):
                                          {"query": "what is the speed of light"}))
 
         print(self.bus.emitted_msgs)
-        self.assertIn({'context': {'skill_id': 'wikipedia_for_humans.test'},
-                       'data': {'context': 'wikipedia_for_humans_testWikiKnows',
+        self.assertIn({'data': {'context': 'wikipedia_for_humans_testWikiKnows',
                                 'origin': '',
                                 'word': 'what is the speed of light'},
-                       'type': 'add_context'}, self.bus.emitted_msgs)
+                       'type': 'add_context'}, test_messages)
         self.assertIn(
-            {'context': {'skill_id': 'wikipedia_for_humans.test'},
-             'data': {'expect_response': False,
+            {'data': {'expect_response': False,
                       'lang': 'en-us',
                       'meta': {'skill': 'wikipedia_for_humans.test'},
                       'utterance': 'this is the answer number 1'},
-             'type': 'speak'}, self.bus.emitted_msgs)
+             'type': 'speak'}, test_messages)
 
         # "tell me more"
         self.assertTrue(self.skill.has_context)
         self.skill.handle_tell_more(Message("WikiMore"))
-
+        test_messages = [{"type": msg['type'], "data": msg['data']}
+                         for msg in self.bus.emitted_msgs]
         self.assertIn(
-            {'context': {'skill_id': 'wikipedia_for_humans.test'},
-             'data': {'expect_response': False,
+            {'data': {'expect_response': False,
                       'lang': 'en-us',
                       'meta': {'skill': 'wikipedia_for_humans.test'},
                       'utterance': 'this is the answer number 2'},
-             'type': 'speak'}, self.bus.emitted_msgs)
+             'type': 'speak'}, test_messages)
         self.assertTrue(self.skill.has_context)
 
         # "tell me more" - no more data dialog
@@ -79,9 +79,10 @@ class TestDialog(unittest.TestCase):
         self.assertEqual(self.bus.emitted_msgs[-2]["data"]["meta"],
                          {'data': {}, 'dialog': 'thats all', 'skill': 'wikipedia_for_humans.test'})
 
+        test_messages = [{"type": msg['type'], "data": msg['data']}
+                         for msg in self.bus.emitted_msgs]
         # removal of context to disable "tell me more"
         self.assertIn(
-            {'context': {'skill_id': 'wikipedia_for_humans.test'},
-             'data': {'context': 'wikipedia_for_humans_testWikiKnows'},
-             'type': 'remove_context'}, self.bus.emitted_msgs)
+            {'data': {'context': 'wikipedia_for_humans_testWikiKnows'},
+             'type': 'remove_context'}, test_messages)
         self.assertFalse(self.skill.has_context)

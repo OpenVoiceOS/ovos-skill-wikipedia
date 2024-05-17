@@ -51,7 +51,6 @@ jobs:
       - name: Install ovos components
         run: |
           pip install ovos-plugin-manager ovos-core[skills_lgpl]>=0.0.5a28 ovos-translate-server-plugin
-          pip install git+https://github.com/OpenVoiceOS/skill-ovos-common-query
       - name: Install core repo
         run: |
           pip install .
