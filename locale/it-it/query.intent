@@ -1,7 +1,6 @@
-Cosa mi sai dire su {keyword}
-Cosa sai di {keyword}
+(Dimmi|) chi (è|era|sono|erano) (i|il|la|le|gli|) {keyword}
+(Dimmi|) cos'è (il|la|l') {keyword}
+(Dimmi|) cosa sono (i|le) {keyword}
 Dammi informazioni su {keyword}
+Spiegami (il|la|l'|i) {keyword}
 Vorrei sapere di {keyword}
-Vorrei saperne di più su {keyword}
-che cosa è {keyword}
-chi era {keyword}
