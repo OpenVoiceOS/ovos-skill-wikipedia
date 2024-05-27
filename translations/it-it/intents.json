@@ -3,21 +3,21 @@
     "(Attiva|Inizia) (wiki|wikipedia) roulette",
     "Random (wiki|wikipedia)",
     "(wiki|wikipedia) a caso",
-    "[UNUSED]",
+    "(Dammi|) una pagina wikipedia a caso",
     "[UNUSED]"
   ],
   "query.intent": [
-    "Cosa sai di {keyword}",
-    "Vorrei saperne di più su {keyword}",
-    "Cosa mi sai dire su {keyword}",
-    "[UNUSED]",
+    "Spiegami (il|la|l'|i) {keyword}",
+    "(Dimmi|) cos'è (il|la|l') {keyword}",
+    "(Dimmi|) cosa sono (i|le) {keyword}",
+    "(Dimmi|) chi (è|era|sono|erano) (i|il|la|le|gli|) {keyword}",
     "[UNUSED]",
     "Dammi informazioni su {keyword}",
     "Vorrei sapere di {keyword}",
     "[UNUSED]",
-    "che cosa è {keyword}",
     "[UNUSED]",
-    "chi era {keyword}",
+    "[UNUSED]",
+    "[UNUSED]",
     "[UNUSED]"
   ],
   "wiki.intent": [
