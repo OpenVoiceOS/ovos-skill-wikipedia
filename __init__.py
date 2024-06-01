@@ -303,7 +303,7 @@ class WikipediaSkill(CommonQuerySkill):
             else:
                 self.speak(results[idx]["summary"])
                 self.set_context("WikiKnows", "wikipedia")
-                self.display_wiki_entry(title)
+                self.display_wiki_entry()
                 self.session_results[sess.session_id]["idx"] += 1
         else:
             self.speak_dialog("thats all")
