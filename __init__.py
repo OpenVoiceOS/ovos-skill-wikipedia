@@ -296,7 +296,7 @@ class WikipediaSkill(CommonQuerySkill):
             title = self.session_results[sess.session_id].get("title") or \
                     "Wikipedia"
 
-            if idx + 1 > len(self.results):
+            if idx + 1 > len(self.session_results):
                 self.speak_dialog("thats all")
                 self.remove_context("WikiKnows")
                 self.session_results[sess.session_id]["idx"] = 0
