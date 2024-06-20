@@ -1,16 +1,37 @@
 # Changelog
 
+## [0.0.2a4](https://github.com/OpenVoiceOS/skill-ovos-wikipedia/tree/0.0.2a4) (2024-06-20)
+
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-wikipedia/compare/0.0.2a3...0.0.2a4)
+
+**Fixed bugs:**
+
+- fix/tell\_me\_more [\#48](https://github.com/OpenVoiceOS/skill-ovos-wikipedia/pull/48) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.0.2a3](https://github.com/OpenVoiceOS/skill-ovos-wikipedia/tree/0.0.2a3) (2024-06-01)
+
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-wikipedia/compare/0.0.2a2...0.0.2a3)
+
+**Fixed bugs:**
+
+- fix \#44 [\#45](https://github.com/OpenVoiceOS/skill-ovos-wikipedia/pull/45) ([denics](https://github.com/denics))
+
+**Closed issues:**
+
+- wikipedia fails with no results [\#44](https://github.com/OpenVoiceOS/skill-ovos-wikipedia/issues/44)
+
+**Merged pull requests:**
+
+- fine tuned [\#43](https://github.com/OpenVoiceOS/skill-ovos-wikipedia/pull/43) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+
 ## [0.0.2a2](https://github.com/OpenVoiceOS/skill-ovos-wikipedia/tree/0.0.2a2) (2024-06-01)
 
 [Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-wikipedia/compare/0.0.2a1...0.0.2a2)
 
 **Fixed bugs:**
 
-- fix \#46 [\#47](https://github.com/OpenVoiceOS/skill-ovos-wikipedia/pull/47) ([denics](https://github.com/denics))
-
-**Closed issues:**
-
 - problem with image to display [\#46](https://github.com/OpenVoiceOS/skill-ovos-wikipedia/issues/46)
+- fix \#46 [\#47](https://github.com/OpenVoiceOS/skill-ovos-wikipedia/pull/47) ([denics](https://github.com/denics))
 
 **Merged pull requests:**
 
