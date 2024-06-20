@@ -202,11 +202,11 @@ class WikipediaSkill(CommonQuerySkill):
     #    self.speak_dialog("wikiroulette")
     # TODO
 
-    @intent_handler(IntentBuilder("WikiMore").require("More").require("wiki_article"))
+    @intent_handler(IntentBuilder("WikiMore").require("More").require("WikiKnows"))
     def handle_tell_more(self, message):
         """Follow up query handler, "tell me more".
 
-        If a "spoken_lines" entry exists in the active contexts
+        If a "WikiKnows" entry exists in the active contexts
         this can be triggered.
         """
         sess = SessionManager.get(message)
