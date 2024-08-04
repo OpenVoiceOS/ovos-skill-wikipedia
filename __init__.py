@@ -12,6 +12,7 @@
 import os.path
 import re
 from os.path import dirname, join
+from typing import Optional
 
 import requests
 from ovos_bus_client.session import SessionManager, Session
@@ -63,14 +64,15 @@ class WikipediaSolver(QuestionSolver):
         return kw
 
     # abstract Solver methods to implement
-    def get_data(self, query, context=None):
+    def get_data(self, query: str,
+                 lang: Optional[str] = None,
+                 units: Optional[str] = None):
         """
        query assured to be in self.default_lang
        return a dict response
        """
         LOG.debug(f"WikiSolver query: {query}")
-        context = context or {}
-        lang = context.get("lang") or self.default_lang
+        lang = lang or self.default_lang
         lang = lang.split("-")[0]
         url = f"https://{lang}.wikipedia.org/w/api.php?action=query&list=search&srsearch={query}&format=json"
         res = requests.get(url).json()["query"]["search"]
@@ -78,7 +80,7 @@ class WikipediaSolver(QuestionSolver):
             q2 = self.extract_keyword(query, lang)
             if q2 and q2 != query:
                 LOG.debug(f"WikiSolver Fallback, new query: {q2}")
-                return self.get_data(q2, context)
+                return self.get_data(q2, lang=lang, units=units)
 
         for r in res:
             title = r["title"]
@@ -100,15 +102,21 @@ class WikipediaSolver(QuestionSolver):
             return {"title": title, "short_answer": ans[0], "summary": summary, "img": img}
         return {}
 
-    def get_spoken_answer(self, query, context=None):
-        data = self.get_data(query, context)
+    def get_spoken_answer(self, query: str,
+                          lang: Optional[str] = None,
+                          units: Optional[str] = None):
+        data = self.get_data(query, lang=lang, units=units)
         return data.get("short_answer", "")
 
-    def get_image(self, query, context=None):
-        data = self.get_data(query, context)
+    def get_image(self, query: str,
+                  lang: Optional[str] = None,
+                  units: Optional[str] = None):
+        data = self.get_data(query, lang=lang, units=units)
         return data.get("img", "")
 
-    def get_expanded_answer(self, query, context=None):
+    def get_expanded_answer(self, query: str,
+                            lang: Optional[str] = None,
+                            units: Optional[str] = None):
         """
         return a list of ordered steps to expand the answer, eg, "tell me more"
         {
@@ -117,7 +125,7 @@ class WikipediaSolver(QuestionSolver):
             "img": "optional/path/or/url
         }
         """
-        data = self.get_data(query, context)
+        data = self.get_data(query, lang=lang, units=units)
         ans = flatten_list([sentence_tokenize(s) for s in data["summary"].split("\n")])
         steps = [{
             "title": data.get("title", query).title(),
@@ -150,7 +158,7 @@ class WikipediaSkill(CommonQuerySkill):
                         samples += expand_parentheses(l)
                     else:
                         samples.append(l)
-            self.wiki.register_kw_extractors(samples, lang)
+            self.wiki.register_kw_extractors(samples, lang=lang)
 
     @classproperty
     def runtime_requirements(self):
@@ -215,7 +223,7 @@ class WikipediaSkill(CommonQuerySkill):
     # common query
     def CQS_match_query_phrase(self, phrase):
         sess = SessionManager.get()
-        query = self.wiki.extract_keyword(phrase, sess.lang)
+        query = self.wiki.extract_keyword(phrase, lang=sess.lang)
         if not query:
             # doesnt look like a question we can answer at all
             return None
@@ -259,7 +267,7 @@ class WikipediaSkill(CommonQuerySkill):
         query = self.session_results[sess.session_id]["query"]
 
         try:
-            results = self.wiki.long_answer(query, context={"lang": sess.lang})
+            results = self.wiki.long_answer(query, lang=sess.lang, units=sess.system_unit)
         except Exception as err:  # handle solver plugin failures, happens in some queries
             self.log.error(err)
             results = None
@@ -279,7 +287,8 @@ class WikipediaSkill(CommonQuerySkill):
             return
         sess = SessionManager.get()
         image = self.session_results[sess.session_id].get("image") or \
-                self.wiki.get_image(self.session_results[sess.session_id]["query"])
+                self.wiki.get_image(self.session_results[sess.session_id]["query"],
+                                    lang=sess.lang, units=sess.system_unit)
         title = self.session_results[sess.session_id].get("title") or "Wikipedia"
         if image:
             self.session_results[sess.session_id]["image"] = image
