@@ -1,6 +1,9 @@
-(Dimmi|) chi (è|era|sono|erano) (i|il|la|le|gli|) {keyword}
-(Dimmi|) cos'è (il|la|l') {keyword}
-(Dimmi|) cosa sono (i|le) {keyword}
-Dammi informazioni su {keyword}
-Spiegami (il|la|l'|i) {keyword}
-Vorrei sapere di {keyword}
+(Dimmi|Puoi spiegarmi|Puoi dirmi|) chi (è|era|sono|erano) (il|lo|la|l'|i|gli|le|) {keyword}
+(Dimmi|Puoi spiegarmi|Puoi dirmi|) (cosa è|cos'è) (il|lo|la|l') {keyword}
+(Dimmi|Puoi spiegarmi|Puoi dirmi|) cosa sono (i|gli|le|) {keyword}
+(Dammi informazioni|Cosa sai|Sono curioso) su {keyword}
+Spiegami (il|lo|la|l'|i|gli|le|) {keyword}
+(Vorrei|Voglio) (sapere|saperne di più) (di|su) {keyword}
+Parlami (di|del|dello|della|dei|degli|delle) {keyword}
+Cerca su Wikipedia {keyword}
+Cerca {keyword} su Wikipedia
