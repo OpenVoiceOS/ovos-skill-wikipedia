@@ -1,0 +1,28 @@
+{
+  "wikiroulette.intent": [
+    "(jogar|) (wikipedia|wiki) roleta",
+    "[UNUSED]",
+    "(página|) (wiki|wikipedia) aleatória",
+    "[UNUSED]",
+    "(abrir|mostrar|) (wiki|wikipedia) (roleta|aleatória)"
+  ],
+  "query.intent": [
+    "fala-me sobre {keyword}",
+    "o que é (que é|) {keyword}",
+    "quem (é|era|foi) {keyword}",
+    "(fala|fala-me|Conta-me) sobre {keyword}.",
+    "Dá-me (mais|) informações (acerca de|sobre) {keyword}",
+    "Estou (curioso|curiosa) (sobre|acerca de) {keyword}",
+    "(Gostaria|Gostava) de (saber|aprender|descobrir) (mais|) (sobre|acerca de) {keyword}",
+    "[UNUSED]",
+    "(podes explicar|explica) (quem é|o que é|quando é que) {keyword}",
+    "(podes elucidar-me|elucida-me) (sobre|acerca de) {keyword}",
+    "Procuro detalhes (acerca|sobre) {keyword}",
+    "[UNUSED]"
+  ],
+  "wiki.intent": [
+    "(wiki|wikipedia) {query}",
+    "o que diz (a|) (wiki|wikipedia) sobre {query}",
+    "(procura|procurar) (wiki|wikipedia) (sobre|por) {query}"
+  ]
+}

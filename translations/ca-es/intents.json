@@ -1,0 +1,24 @@
+{
+    "wikiroulette.intent": [
+        "(wiki|wikipedia|viqui|viquip\u00e8dia) ruleta",
+        "ruleta (wiki|wikipedia|viqui|viquip\u00e8dia)",
+        "(jugar|juga|juguem) a la (wiki|wikipedia) ruleta",
+        "(p\u00e0gina|article) (wiki|wikipedia|viqui|viquip\u00e8dia) (aleat\u00f2ria|aleatori|a l'atzar)",
+        "(p\u00e0gina|article) (aleat\u00f2ria|aleatori|a l'atzar) de la (wiki|wikipedia|viqui|viquip\u00e8dia)",
+        "(p\u00e0gina|article) (aleat\u00f2ria|aleatori|a l'atzar) (wiki|wikipedia|viqui|viquip\u00e8dia) ",
+        "(wiki|wikipedia|viqui|viquip\u00e8dia) (aleat\u00f2ria|aleatori|a l'atzar)",
+        "(mostra|obre|veure|mostrar|obrir) (wiki|wikipedia) (aleat\u00f2ria|aleatori|a l'atzar)",
+        "(mostra|obre|veure|mostrar|obrir) (p\u00e0gina|article) (wiki|wikipedia) (aleat\u00f2ria|aleatori|a l'atzar)",
+        "(mostra|obre|veure|mostrar|obrir) (una|un) (p\u00e0gina|article) (wiki|wikipedia) (aleat\u00f2ria|aleatori|a l'atzar)"
+    ],
+    "wiki.intent": [
+        "(wiki|wikipedia|viqui|viquip\u00e8dia) {query}",
+        "explica(|'m|ns) sobre {query}",
+        "qu\u00e8 diu la (wiki|wikipedia|viqui|viquip\u00e8dia) sobre {query}",
+        "qu\u00e8 hi diu la (wiki|wikipedia|viqui|viquip\u00e8dia) sobre {query}",
+        "qu\u00e8 posa a la (wiki|wikipedia|viqui|viquip\u00e8dia) sobre {query}",
+        "qu\u00e8 hi ha a la (wiki|wikipedia|viqui|viquip\u00e8dia) sobre {query}",
+        "qu\u00e8 hi posa a la (wiki|wikipedia|viqui|viquip\u00e8dia) sobre {query}",
+        "(cerca|busca) a la (wiki|wikipedia|viqui|viquip\u00e8dia) (sobre|) {query}"
+    ]
+}

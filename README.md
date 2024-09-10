@@ -5,18 +5,12 @@ Wikipedia
 
 ## About 
 Query [Wikipedia](https://www.wikipedia.org) for answers to all your questions.  Get just a summary, or ask for more to get in-depth information.
- 
- This Skill uses the [Wikipedia for humans](https://github.com/HelloChatterbox/wikipedia_for_humans). 
-
-NOTE: this will blacklist the official mycroft skill
 
 ![](./gui.gif)
-![](./gui2.gif)
 
 ## Examples 
 * "Tell me about Elon Musk"
 * "Tell me about beans"
-* "Random wikipedia"
 * "Check Wikipedia for beans"
 * "Tell me about the Pembroke Welsh Corgi"
 * "Search for chocolate"
