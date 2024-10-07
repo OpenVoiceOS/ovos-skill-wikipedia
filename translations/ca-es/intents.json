@@ -1,24 +1,28 @@
 {
-    "wikiroulette.intent": [
-        "(wiki|wikipedia|viqui|viquip\u00e8dia) ruleta",
-        "ruleta (wiki|wikipedia|viqui|viquip\u00e8dia)",
-        "(jugar|juga|juguem) a la (wiki|wikipedia) ruleta",
-        "(p\u00e0gina|article) (wiki|wikipedia|viqui|viquip\u00e8dia) (aleat\u00f2ria|aleatori|a l'atzar)",
-        "(p\u00e0gina|article) (aleat\u00f2ria|aleatori|a l'atzar) de la (wiki|wikipedia|viqui|viquip\u00e8dia)",
-        "(p\u00e0gina|article) (aleat\u00f2ria|aleatori|a l'atzar) (wiki|wikipedia|viqui|viquip\u00e8dia) ",
-        "(wiki|wikipedia|viqui|viquip\u00e8dia) (aleat\u00f2ria|aleatori|a l'atzar)",
-        "(mostra|obre|veure|mostrar|obrir) (wiki|wikipedia) (aleat\u00f2ria|aleatori|a l'atzar)",
-        "(mostra|obre|veure|mostrar|obrir) (p\u00e0gina|article) (wiki|wikipedia) (aleat\u00f2ria|aleatori|a l'atzar)",
-        "(mostra|obre|veure|mostrar|obrir) (una|un) (p\u00e0gina|article) (wiki|wikipedia) (aleat\u00f2ria|aleatori|a l'atzar)"
-    ],
-    "wiki.intent": [
-        "(wiki|wikipedia|viqui|viquip\u00e8dia) {query}",
-        "explica(|'m|ns) sobre {query}",
-        "qu\u00e8 diu la (wiki|wikipedia|viqui|viquip\u00e8dia) sobre {query}",
-        "qu\u00e8 hi diu la (wiki|wikipedia|viqui|viquip\u00e8dia) sobre {query}",
-        "qu\u00e8 posa a la (wiki|wikipedia|viqui|viquip\u00e8dia) sobre {query}",
-        "qu\u00e8 hi ha a la (wiki|wikipedia|viqui|viquip\u00e8dia) sobre {query}",
-        "qu\u00e8 hi posa a la (wiki|wikipedia|viqui|viquip\u00e8dia) sobre {query}",
-        "(cerca|busca) a la (wiki|wikipedia|viqui|viquip\u00e8dia) (sobre|) {query}"
-    ]
+  "wikiroulette.intent": [
+    "(wiki|wikipedia|viqui|viquipèdia) (ruleta|roda)",
+    "(ruleta|roda) (wiki|wikipedia|viqui|viquipèdia)",
+    "(jugar|juga|juguem) a la (wiki|wikipedia) (ruleta|roda)",
+    "(pàgina|article) (wiki|wikipedia|viqui|viquipèdia) (aleatòria|aleatori|a l'atzar)",
+    "(pàgina|article) (aleatòria|aleatori|a l'atzar) de la (wiki|wikipedia|viqui|viquipèdia)"
+  ],
+  "query.intent": [
+    "(digues-me|diga'm|digue'm|diguem|digam) (coses sobre|) {keyword}",
+    "què és {keyword}",
+    "qui (és|era|fou|va ser) {keyword}",
+    "Què (en|) saps sobre {keyword}",
+    "(Dóna|Dona)'m informació sobre {keyword}",
+    "Tinc curiositat sobre (el |la |l'|es |sa |s'|els |les |ses ){keyword}",
+    "(Vull|M'agradaria) (saber|conèixer|descobrir|esbrinar) (coses|alguna cosa|quelcom|qualque) sobre {keyword}",
+    "(Vull|M'agradaria) (saber|conèixer|descobrir|esbrinar) més (coses|) sobre {keyword}",
+    "(Ens pots explicar|Em pots explicar|Explica'm|Explica'ns) què és (el |la |l'|es |sa |s'){keyword}",
+    "(Pots il·lustrar-me|Il·lustra'm) sobre {keyword}",
+    "(Vull|Cerco|Busco) (detalls|informació) sobre {keyword}",
+    "(Pots proporcionar-me|Pots proporcionar|Proporciona'm|Proporciona) detalls sobre {keyword}"
+  ],
+  "wiki.intent": [
+    "(wiki|wikipedia|viqui|viquipèdia) {query}",
+    "explica(|'m|ns) sobre {query}",
+    "què diu la (wiki|wikipedia|viqui|viquipèdia) sobre {query}"
+  ]
 }
