@@ -1,13 +1,8 @@
 {
-    "More.voc": [
-        "en vull saber m\u00e9s",
-        "vull saber-ne m\u00e9s",
-        "vull m\u00e9s informaci\u00f3",
-        "en vull m\u00e9s informaci\u00f3",
-        "m\u00e9s informaci\u00f3",
-        "continua",
-        "segueix",
-        "explica'm m\u00e9s",
-        "explica-me'n m\u00e9s"
-    ]
+  "More.voc": [
+    "en vull saber més",
+    "vull saber-ne més",
+    "vull més informació",
+    "en vull més informació"
+  ]
 }
