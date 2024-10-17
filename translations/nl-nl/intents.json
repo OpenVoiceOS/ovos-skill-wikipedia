@@ -1,0 +1,28 @@
+{
+  "wikiroulette.intent": [
+    "(wiki|wikipedia) roulette",
+    "verras me met een Wikipedia feitje",
+    "willekeurige (wiki|wikipedia) pagina",
+    "willekeurig (wiki|wikipedia)",
+    "(toon|open| geef) willekeurige (wiki|wikipedia)"
+  ],
+  "query.intent": [
+    "vertel me over {keyword}",
+    "wat is {keyword}",
+    "wie (is|was) {keyword}",
+    "Wat weet je over {keyword}",
+    "Geef (me|mij) informatie over {keyword}",
+    "Ik ben nieuwsgierig naar {keyword}",
+    "Ik wil graag meer weten over {keyword}",
+    "Ik wil meer weten over {keyword}",
+    "Kun je uitleggen wat {keyword} is?",
+    "Kun je mij informeren over {keyword}",
+    "Ik zoek informatie over {keyword}",
+    "Kun je informatie verstrekken over {keyword}"
+  ],
+  "wiki.intent": [
+    "(wiki|wikipedia) {query}",
+    "wat zegt (wiki|wikipedia) over {query}",
+    "(zoek op|check (wiki|wikipedia) (naar|voor){query}"
+  ]
+}

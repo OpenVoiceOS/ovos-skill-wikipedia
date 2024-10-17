@@ -1,0 +1,18 @@
+{
+  "wikiroulette.dialog": [
+    "kennis roulette geactiveerd",
+    "Wikipedia roulette spelen"
+  ],
+  "thats all.dialog": [
+    "Dat is alles wat ik weet",
+    "Dat is alles wat ik kan vinden"
+  ],
+  "searching.dialog": [
+    "ik ga {query} opzoeken op Wikipedia",
+    "Ik check Wikipedia voor {query}"
+  ],
+  "no entry found.dialog": [
+    "Ik kan hier helaas geen Wikipedia-artikel over vinden",
+    "Ik ben bang dat er geen artikel over is"
+  ]
+}
