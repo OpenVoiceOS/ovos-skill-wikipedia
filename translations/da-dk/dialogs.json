@@ -1,0 +1,18 @@
+{
+  "wikiroulette.dialog": [
+    "viden roulette aktiveret",
+    null
+  ],
+  "thats all.dialog": [
+    "Det er alt, hvad jeg ved",
+    "Det er alt, hvad jeg kan finde"
+  ],
+  "searching.dialog": [
+    "Lad mig slå {query} op i Wikipedia",
+    "Jeg tjekker Wikipedia for {query}"
+  ],
+  "no entry found.dialog": [
+    "Jeg kan ikke finde en relateret Wikipedia-artikel",
+    "Jeg er bange for, at der ikke er nogen artikel om det"
+  ]
+}
