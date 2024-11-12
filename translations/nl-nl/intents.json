@@ -23,6 +23,6 @@
   "wiki.intent": [
     "(wiki|wikipedia) {query}",
     "wat zegt (wiki|wikipedia) over {query}",
-    "(zoek op|check (wiki|wikipedia) (naar|voor){query}"
+    "(zoek op|check) (wiki|wikipedia) (naar|voor){query}"
   ]
 }
