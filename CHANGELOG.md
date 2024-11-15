@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.6a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.5.6a1) (2024-11-15)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.5.5a1...0.5.6a1)
+
+**Merged pull requests:**
+
+- fix: skill.json [\#68](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/68) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.5.5a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.5.5a1) (2024-11-12)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.5.4...0.5.5a1)
