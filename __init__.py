@@ -193,7 +193,7 @@ class WikipediaSkill(CommonQuerySkill):
             "image": None,
         }
 
-        self.gui.show_animated_image(join(dirname(__file__), "ui", "jumping.gif"))
+        self.gui.show_animated_image("jumping.gif")
 
         self.speak_dialog("searching", {"query": query})
 
