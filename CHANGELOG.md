@@ -1,12 +1,12 @@
 # Changelog
 
-## [0.5.7a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.5.7a1) (2024-11-19)
+## [0.5.8a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.5.8a1) (2024-11-23)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.5.6...0.5.7a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.5.7...0.5.8a1)
 
 **Merged pull requests:**
 
-- fix:allow workshop 3.0.0 [\#70](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/70) ([JarbasAl](https://github.com/JarbasAl))
+- Add Catalan translation [\#72](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/72) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
 
 
 
