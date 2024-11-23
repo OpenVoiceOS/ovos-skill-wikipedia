@@ -1,0 +1,23 @@
+{
+  "skill_id": "skill-ovos-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/skill-ovos-wikipedia",
+  "name": "Viquipèdia",
+  "description": "Consulteu la Viquipèdia per a obtenir respostes a totes les vostres preguntes. Obteniu només un resum o demaneu més informació per a obtenir informació detallada.",
+  "examples": [
+    "Parla'm d'Elon Musk",
+    "Parla'm dels fesols",
+    "Consulta la Viquipèdia sobre fesols",
+    "Parla'm del Pembroke Welsh Corgi",
+    "Cerca sobre xocolata",
+    "Més informació",
+    "Digues-me més"
+  ],
+  "tags": [
+    "viquipèdia",
+    "enciclopèdia",
+    "coneixement-general",
+    "wiki",
+    "preguntes",
+    "consulta"
+  ]
+}
