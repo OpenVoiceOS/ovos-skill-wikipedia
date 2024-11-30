@@ -1,0 +1,23 @@
+{
+  "skill_id": "skill-ovos-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/skill-ovos-wikipedia",
+  "name": "Wikipedia",
+  "description": "Suche in Wikipedia nach Antworten auf all Deine Fragen. Erhalte nur eine Zusammenfassung oder frage nach weiteren Informationen, um tiefer gehende Informationen zu erhalten.",
+  "examples": [
+    "Erzähl mir von Elon Musk",
+    "Erzähl mir von Bohnen",
+    "Checke Wikipedia zu Bohnen",
+    "Erzähle mir etwas über den Pembroke Welsh Corgi",
+    "Suche nach Schokolade",
+    "Weitere Informationen",
+    "Erzähl mir mehr"
+  ],
+  "tags": [
+    "Wikipedia",
+    "Enzyklopädie",
+    "Allgemeinwissen",
+    "wiki",
+    "Frage",
+    "Abfrage\nSuche"
+  ]
+}
