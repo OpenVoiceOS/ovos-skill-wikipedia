@@ -1,0 +1,28 @@
+{
+    "wikiroulette.intent": [
+        "erreproduzitu (wiki|wikipedia) erruleta",
+        "(erakutsi|bistaratu|ireki (wiki|wikipedia) ausaz",
+        "(wiki|wikipedia) erruleta",
+        "(wiki|wikipedia) ausaz",
+        "(wiki|wikipedia) ausazko orria"
+    ],
+    "query.intent": [
+        "Emango al didazu azalpenik honi buruz: {keyword}?",
+        "Azal al dezakezu zer den {keyword}?",
+        "Adieraz al ditzakezu honi buruzko xehetasunak: {keyword}?",
+        "Emadazu informazioa honi buruz: {keyword}",
+        "Honi buruzko informazioa nahiko nuke: {keyword}",
+        "Honi buruzko informazio gehiago nahiko nuke: {keyword}",
+        "Gai honi buruzko datuak jakin nahi ditut: {keyword}",
+        "Gai honi buruzko xehetasunak bilatzen ari naiz: {keyword}",
+        "Zer jakin nahi duzu gai honi buruz: {keyword}?",
+        "kontadazu honi buruz: {keyword}",
+        "zer da {keyword}?",
+        "nor (da|zen) {keyword}?"
+    ],
+    "wiki.intent": [
+        "(bilatu|egiaztatu) (wiki-n|wikipedian) {query}",
+        "(wiki|wikipedia) {query}",
+        "zer dio (wiki-k|wikipediak) honi buruz: {query}?"
+    ]
+}
