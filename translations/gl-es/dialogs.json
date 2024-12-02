@@ -1,0 +1,18 @@
+{
+    "wikiroulette.dialog": [
+        "ruleta do coñecemento activada",
+        "xogar á ruleta da Wikipedia"
+    ],
+    "thats all.dialog": [
+        "O que atopei é isto",
+        "O que sei é isto"
+    ],
+    "searching.dialog": [
+        "Estou a procurar {query} na Wikipedia",
+        "Espera, vou consultar {query} na Wikipedia"
+    ],
+    "no entry found.dialog": [
+        "Non atopo ningún artigo relacionado na Wikipedia",
+        "Coido que non hai ningún artigo sobre iso"
+    ]
+}
