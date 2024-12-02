@@ -1,0 +1,18 @@
+{
+    "wikiroulette.dialog": [
+        "ezagutzaren erruleta aktibatuta",
+        "wikipedia erruleta erreproduzitzen"
+    ],
+    "thats all.dialog": [
+        "Hau izan da aurkitu ahal izan dudan guztia",
+        "Hau da dakidan guztia"
+    ],
+    "searching.dialog": [
+        "Wikipedian {query} egiaztatzen ari naiz",
+        "Utzidazu {query} bilatzen Wikipedian"
+    ],
+    "no entry found.dialog": [
+        "Ez dut aurkitu Wikipedian lotutako artikulurik",
+        "Tamalez ez dago horri buruzko artikulurik"
+    ]
+}
