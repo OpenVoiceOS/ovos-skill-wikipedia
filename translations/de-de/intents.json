@@ -1,45 +1,28 @@
 {
-    "wikiroulette.intent": [
-        "zuf\u00e4llige wikipedia-Seite",
-        "wiki roulette",
-        "wikipedia roulette",
-        "Das ist das erste",
-        "Anzeige zuf\u00e4lliger Wikipedia",
-        "spielen wikipedia roulette",
-        "zuf\u00e4llige wikipedia",
-        "Zeige zuf\u00e4lliges Wiki",
-        "Anzeige zuf\u00e4lliges Wiki",
-        "die wikipedia roulette spielen",
-        "Die Seite des Forums",
-        "spielen wiki roulette",
-        "wahlen in deutschland",
-        "offenes zuf\u00e4lliges Wiki",
-        "offene zuf\u00e4llige Wikipedia",
-        "das wiki roulette spielen"
-    ],
-    "query.intent": [
-        "Ich bin neugierig auf {keyword}",
-        "Ich m\u00f6chte mehr \u00fcber {keyword} wissen",
-        "Was wissen Sie \u00fcber {keyword}",
-        "wer ist {keyword}",
-        "erz\u00e4hl mir von {keyword}",
-        "Ich m\u00f6chte \u00fcber {keyword} wissen",
-        "K\u00f6nnen Sie erkl\u00e4ren, was {keyword} ist?",
-        "Kannst du mich \u00fcber {keyword} erleuchten?",
-        "Ich suche nach Details \u00fcber {keyword}",
-        "wer war {keyword}",
-        "was ist {keyword}",
-        "Geben Sie mir Informationen \u00fcber {keyword}",
-        "K\u00f6nnen Sie Details \u00fcber {keyword}"
-    ],
-    "wiki.intent": [
-        "w\u00f6rterbuch {query}",
-        "Suche wikipedia f\u00fcr {query}",
-        "wiki {query}",
-        "Erz\u00e4hl mir von {query}",
-        "Erz\u00e4hl uns von {query}",
-        "was wiki sagt \u00fcber {query}",
-        "Was sagt Wikipedia \u00fcber {query}",
-        "Suche wiki f\u00fcr {query}"
-    ]
+  "wikiroulette.intent": [
+    "(wiki|Wikipedia) Roulette",
+    "(spiele|spiele das) (wiki|wikipedia) Roulette",
+    "zufällige (Wiki|Wikipedia) Seite",
+    "zufälliges (wiki|wikipedia)",
+    "(zeige|starte|öffne) zufälliges (Wiki|Wikipedia)"
+  ],
+  "query.intent": [
+    "Ich bin neugierig auf {keyword}",
+    "Ich möchte mehr über {keyword} wissen",
+    "Was wissen Sie über {keyword}",
+    "wer ist {keyword}",
+    "erzähl mir von {keyword}",
+    "Ich möchte über {keyword} wissen",
+    "Können Sie erklären, was {keyword} ist?",
+    "Kannst du mich über {keyword} erleuchten?",
+    "Ich suche nach Details über {keyword}",
+    "wer war {keyword}",
+    "was ist {keyword}",
+    "Geben Sie mir Informationen über {keyword}"
+  ],
+  "wiki.intent": [
+    "wörterbuch {query}",
+    "Suche wikipedia nach {query}",
+    "wiki {query}"
+  ]
 }
