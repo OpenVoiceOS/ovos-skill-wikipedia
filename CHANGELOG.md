@@ -1,12 +1,12 @@
 # Changelog
 
-## [0.5.12a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.5.12a1) (2024-12-02)
+## [0.5.13a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.5.13a1) (2024-12-04)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.5.11...0.5.12a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.5.12...0.5.13a1)
 
 **Merged pull requests:**
 
-- import basque translations [\#80](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/80) ([JarbasAl](https://github.com/JarbasAl))
+- de-de/translate [\#82](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/82) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
 
 
 
