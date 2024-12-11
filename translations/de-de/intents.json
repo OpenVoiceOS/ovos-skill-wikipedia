@@ -7,22 +7,22 @@
     "(zeige|starte|öffne) zufälliges (Wiki|Wikipedia)"
   ],
   "query.intent": [
-    "Ich bin neugierig auf {keyword}",
-    "Ich möchte mehr über {keyword} wissen",
-    "Was wissen Sie über {keyword}",
-    "wer ist {keyword}",
-    "erzähl mir von {keyword}",
-    "Ich möchte über {keyword} wissen",
-    "Können Sie erklären, was {keyword} ist?",
-    "Kannst du mich über {keyword} erleuchten?",
-    "Ich suche nach Details über {keyword}",
-    "wer war {keyword}",
-    "was ist {keyword}",
-    "Geben Sie mir Informationen über {keyword}"
+    "Ich bin neugierig auf {keyword}\nsage mir (etwas|was) über {keyword}",
+    "Was ist {keyword}",
+    "(Wer |was ) (ist |war ) {keyword}\nwer oder was (ist | war ) {keyword}",
+    null,
+    "erzähl mir von {keyword}\ngib mir Informationen (über |zu ) {keyword}",
+    "Ich möchte (etwas | ) über {keyword} wissen",
+    "Kannst du (mir | ) erklären, was {keyword} ist?",
+    "Kannst du mich über {keyword} aufklären?",
+    "Kannst du mir erklären was oder wer {keyword} ist?",
+    "kannst du mich über {keyword} aufklären",
+    "ich suche nach (Details |Einzelheiten) (zu |über |von ) {keyword}",
+    "Gib mir Informationen über {keyword}"
   ],
   "wiki.intent": [
-    "wörterbuch {query}",
-    "Suche wikipedia nach {query}",
+    "wkipedia {query}",
+    "Suche (in |bei ) wikipedia nach {query}",
     "wiki {query}"
   ]
 }
