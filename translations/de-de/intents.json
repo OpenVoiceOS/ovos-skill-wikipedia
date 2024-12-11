@@ -10,7 +10,7 @@
     "Ich bin neugierig auf {keyword}\nsage mir (etwas|was) über {keyword}",
     "Was ist {keyword}",
     "(Wer |was ) (ist |war ) {keyword}\nwer oder was (ist | war ) {keyword}",
-    null,
+    "was weißt du (über |von ) {keyword}",
     "erzähl mir von {keyword}\ngib mir Informationen (über |zu ) {keyword}",
     "Ich möchte (etwas | ) über {keyword} wissen",
     "Kannst du (mir | ) erklären, was {keyword} ist?",
