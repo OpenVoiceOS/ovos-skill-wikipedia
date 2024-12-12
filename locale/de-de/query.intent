@@ -1,12 +1,15 @@
-Geben Sie mir Informationen über {keyword}
+(Wer |was ) (ist |war ) {keyword}
+wer oder was (ist | war ) {keyword}
+Gib mir Informationen über {keyword}
 Ich bin neugierig auf {keyword}
-Ich möchte mehr über {keyword} wissen
-Ich möchte über {keyword} wissen
-Ich suche nach Details über {keyword}
-Kannst du mich über {keyword} erleuchten?
-Können Sie erklären, was {keyword} ist?
-Was wissen Sie über {keyword}
+sage mir (etwas|was) über {keyword}
+Ich möchte (etwas | ) über {keyword} wissen
+Kannst du (mir | ) erklären, was {keyword} ist?
+Kannst du mich über {keyword} aufklären?
+Kannst du mir erklären was oder wer {keyword} ist?
+Was ist {keyword}
 erzähl mir von {keyword}
-was ist {keyword}
-wer ist {keyword}
-wer war {keyword}
+gib mir Informationen (über |zu ) {keyword}
+ich suche nach (Details |Einzelheiten) (zu |über |von ) {keyword}
+kannst du mich über {keyword} aufklären
+was weißt du (über |von ) {keyword}

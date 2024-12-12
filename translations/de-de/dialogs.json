@@ -1,18 +1,18 @@
 {
-    "wikiroulette.dialog": [
-        "Wissen Roulette aktiviert",
-        "spielen der wikipedia roulette"
-    ],
-    "thats all.dialog": [
-        "Mehr wei\u00df ich nicht",
-        "Mehr kann ich nicht finden"
-    ],
-    "searching.dialog": [
-        "Lass mich in Wikipedia aufschauen {query}",
-        "Ich \u00fcberpr\u00fcfe Wikipedia f\u00fcr {query}"
-    ],
-    "no entry found.dialog": [
-        "Ich f\u00fcrchte, es gibt keinen Artikel dar\u00fcber",
-        "Ich kann keinen verwandten Wikipedia-Artikel finden"
-    ]
+  "wikiroulette.dialog": [
+    "Wissensroulette aktiviert",
+    "ich spiele das wikipedia roulette"
+  ],
+  "thats all.dialog": [
+    "Mehr weiß ich nicht",
+    "Mehr kann ich nicht finden"
+  ],
+  "searching.dialog": [
+    "Lass mich in Wikipedia nach {query} suchen\nlass mich bei wikipedia nach {query} (suchen | nachschlagen )",
+    "Ich überprüfe Wikipedia für {query}"
+  ],
+  "no entry found.dialog": [
+    "Ich fürchte, es gibt keinen Artikel darüber",
+    "Ich kann keinen verwandten Wikipedia-Artikel finden"
+  ]
 }
