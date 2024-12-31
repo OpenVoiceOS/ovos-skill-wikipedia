@@ -269,7 +269,6 @@ class WikipediaSkill(OVOSSkill):
     def cq_callback(self, utterance: str, answer: str, lang: str):
         """ If selected show gui """
         sess = SessionManager.get()
-        self.display_ddg(sess)
         if sess.session_id in self.session_results:
             self.display_wiki_entry()
         else:
