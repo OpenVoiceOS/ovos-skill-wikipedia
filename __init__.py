@@ -275,6 +275,10 @@ class WikipediaSkill(OVOSSkill):
             LOG.error(f"{sess.session_id} not in "
                       f"{list(self.session_results.keys())}")
         self.set_context("WikiKnows", utterance)
+        # cache long answer for "tell me more"
+        self.ask_the_wiki(sess)
+        self.session_results[sess.session_id]["idx"] += 1  # spoken by common query
+        self.session_results[sess.session_id]["title"] = utterance
 
     @common_query(callback=cq_callback)
     def match_common_query(self, phrase: str, lang: str) -> Tuple[str, float]:
@@ -292,11 +296,9 @@ class WikipediaSkill(OVOSSkill):
             "title": phrase,
             "image": None
         }
-        title, summary = self.ask_the_wiki(sess)
+        summary = self.wiki.get_spoken_answer(query, lang=sess.lang, units=sess.system_unit)
         if summary:
             self.log.info(f"Wikipedia answer: {summary}")
-            self.session_results[sess.session_id]["idx"] += 1  # spoken by common query
-            self.session_results[sess.session_id]["title"] = title or phrase
             return summary, 0.6
 
     # wikipedia
@@ -366,7 +368,7 @@ if __name__ == "__main__":
     from ovos_utils.fakebus import FakeBus
 
     s = WikipediaSkill(bus=FakeBus(), skill_id="wiki.skill")
-    print(s.match_common_query("quem é Elon Musk", "pt"))
+    print(s.wiki.get_spoken_answer("quem é Elon Musk", "pt"))
     # ('who is Elon Musk', <CQSMatchLevel.GENERAL: 3>, 'The Musk family is a wealthy family of South African origin that is largely active in the United States and Canada.',
     # {'query': 'who is Elon Musk', 'image': None, 'title': 'Musk Family',
     # 'answer': 'The Musk family is a wealthy family of South African origin that is largely active in the United States and Canada.'})
