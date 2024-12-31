@@ -73,12 +73,15 @@ class WikipediaSolver(QuestionSolver):
             response = requests.get(url, timeout=5).json()
             page = response["query"]["pages"][pid]
             summary = rm_parentheses(page.get("extract", ""))
+            if "commonly refers to:" in summary:
+                return None, None, None  # disambiguation list page
             img = None
             if "thumbnail" in page:
                 thumbnail = page["thumbnail"]["source"]
                 parts = thumbnail.split("/")[:-1]
                 img = "/".join(part for part in parts if part != "thumb")
             ans = flatten_list([sentence_tokenize(s) for s in summary.split("\n")])
+
             return page["title"], ans, img
         except Exception as e:
             LOG.error(f"Error fetching page data for PID {pid}: {e}")
@@ -379,6 +382,7 @@ if __name__ == "__main__":
 
     print(s.wiki.get_spoken_answer("venus", "en"))
     print(s.wiki.get_spoken_answer("elon musk", "en"))
+    print(s.wiki.get_spoken_answer("mercury", "en"))
 
     exit()
     # full answer
