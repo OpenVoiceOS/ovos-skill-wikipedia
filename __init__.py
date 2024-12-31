@@ -11,8 +11,7 @@
 # limitations under the License.
 import os.path
 import re
-from os.path import dirname, join
-from typing import Optional
+from typing import Optional, Tuple
 
 import requests
 from ovos_bus_client.session import SessionManager, Session
@@ -22,9 +21,9 @@ from ovos_utils import flatten_list
 from ovos_utils.gui import can_use_gui
 from ovos_utils.log import LOG
 from ovos_utils.process_utils import RuntimeRequirements
-from ovos_workshop.decorators import intent_handler
+from ovos_workshop.decorators import intent_handler, common_query
 from ovos_workshop.intents import IntentBuilder
-from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
+from ovos_workshop.skills.ovos import OVOSSkill
 from padacioso import IntentContainer
 from padacioso.bracket_expansion import expand_parentheses
 from quebra_frases import sentence_tokenize
@@ -135,7 +134,7 @@ class WikipediaSolver(QuestionSolver):
         return steps
 
 
-class WikipediaSkill(CommonQuerySkill):
+class WikipediaSkill(OVOSSkill):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.session_results = {}
@@ -221,9 +220,21 @@ class WikipediaSkill(CommonQuerySkill):
         self.speak_result(sess)
 
     # common query
-    def CQS_match_query_phrase(self, phrase):
+    def cq_callback(self, utterance: str, answer: str, lang: str):
+        """ If selected show gui """
         sess = SessionManager.get()
-        query = self.wiki.extract_keyword(phrase, lang=sess.lang)
+        self.display_ddg(sess)
+        if sess.session_id in self.session_results:
+            self.display_wiki_entry()
+        else:
+            LOG.error(f"{sess.session_id} not in "
+                      f"{list(self.session_results.keys())}")
+        self.set_context("WikiKnows", utterance)
+
+    @common_query(callback=cq_callback)
+    def match_common_query(self, phrase: str, lang: str) -> Tuple[str, float]:
+        sess = SessionManager.get()
+        query = self.wiki.extract_keyword(phrase, lang=lang)
         if not query:
             # doesnt look like a question we can answer at all
             return None
@@ -232,7 +243,7 @@ class WikipediaSkill(CommonQuerySkill):
             "query": query,
             "results": [],
             "idx": 0,
-            "lang": sess.lang,
+            "lang": lang,
             "title": phrase,
             "image": None
         }
@@ -241,26 +252,7 @@ class WikipediaSkill(CommonQuerySkill):
             self.log.info(f"Wikipedia answer: {summary}")
             self.session_results[sess.session_id]["idx"] += 1  # spoken by common query
             self.session_results[sess.session_id]["title"] = title or phrase
-            return (
-                phrase,
-                CQSMatchLevel.GENERAL,
-                summary, {"query": phrase,
-                          "image": self.session_results[sess.session_id].get("image"),
-                          "title": title,
-                          "answer": summary},
-            )
-
-    def CQS_action(self, phrase, data):
-        """If selected show gui"""
-
-        sess = SessionManager.get()
-        if sess.session_id in self.session_results:
-            self.display_wiki_entry()
-        else:
-            LOG.error(f"{sess.session_id} not in "
-                      f"{list(self.session_results.keys())}")
-
-        self.set_context("WikiKnows", data.get("title") or phrase)
+            return summary, 0.6
 
     # wikipedia
     def ask_the_wiki(self, sess: Session):
@@ -329,7 +321,7 @@ if __name__ == "__main__":
     from ovos_utils.fakebus import FakeBus
 
     s = WikipediaSkill(bus=FakeBus(), skill_id="wiki.skill")
-    print(s.CQS_match_query_phrase("quem é Elon Musk"))
+    print(s.match_common_query("quem é Elon Musk", "pt"))
     # ('who is Elon Musk', <CQSMatchLevel.GENERAL: 3>, 'The Musk family is a wealthy family of South African origin that is largely active in the United States and Canada.',
     # {'query': 'who is Elon Musk', 'image': None, 'title': 'Musk Family',
     # 'answer': 'The Musk family is a wealthy family of South African origin that is largely active in the United States and Canada.'})
@@ -337,6 +329,7 @@ if __name__ == "__main__":
     d = WikipediaSolver()
 
     query = "who is Isaac Newton"
+    print(d.extract_keyword(query, "en-us"))
     assert d.extract_keyword(query, "en-us") == "Isaac Newton"
 
     # full answer
