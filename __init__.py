@@ -9,9 +9,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import concurrent.futures
 import os.path
 import re
-from typing import Optional, Tuple, List
+from typing import Optional, Tuple
 
 import requests
 from langcodes import closest_supported_match
@@ -35,15 +36,12 @@ def rm_parentheses(text: str) -> str:
     return re.sub(r"\((.*?)\)", "", text).replace("  ", " ")
 
 
-WikiMatches = List[Tuple[str, List[str], Optional[str]]]  # (title, sentences, img_url)
-
-
 class WikipediaSolver(QuestionSolver):
     priority = 40
     enable_tx = False
     kw_matchers = {}
 
-    # utils to extract keyword from text
+    # Utils to extract keywords from text
     @classmethod
     def register_kw_extractors(cls, samples: list, lang: str):
         lang = lang.split("-")[0]
@@ -65,54 +63,75 @@ class WikipediaSolver(QuestionSolver):
             LOG.debug(f"Could not extract search keyword for '{lang}' from '{utterance}'")
         return kw
 
-    # abstract Solver methods to implement
-    def get_data(self, query: str,
-                 lang: Optional[str] = None,
-                 units: Optional[str] = None):
-        """
-       query assured to be in self.default_lang
-       return a dict response
-       """
-        LOG.debug(f"WikiSolver query: {query}")
-        lang = lang or self.default_lang
-        lang = lang.split("-")[0]
-        url = f"https://{lang}.wikipedia.org/w/api.php?action=query&list=search&srsearch={query}&format=json"
-        res = requests.get(url).json()["query"]["search"]
-        if not res:
-            q2 = self.extract_keyword(query, lang)
-            if q2 and q2 != query:
-                LOG.debug(f"WikiSolver Fallback, new query: {q2}")
-                return self.get_data(q2, lang=lang, units=units)
-
-        LOG.debug(f"matched {len(res)} wikipedia pages")
-        summaries: WikiMatches = []
-        for r in res:
-            title = r["title"]
-            if "(disambiguation)" in title:
-                continue
-            pid = str(r["pageid"])
-            results_url = f"https://{lang}.wikipedia.org/w/api.php?format=json&action=query&prop=extracts|pageimages&exintro&explaintext&redirects=1&pageids=" + pid
-            r = requests.get(results_url).json()
-
-            summary = r['query']['pages'][pid]['extract']
-            img: Optional[str] = None
-            if "thumbnail" in r['query']['pages'][pid]:
-                thumbnail = r['query']['pages'][pid]['thumbnail']['source']
+    def get_page_data(self, pid: str, lang: str):
+        """Fetch detailed data for a single Wikipedia page."""
+        url = (
+            f"https://{lang}.wikipedia.org/w/api.php?format=json&action=query&"
+            f"prop=extracts|pageimages&exintro&explaintext&redirects=1&pageids={pid}"
+        )
+        try:
+            response = requests.get(url, timeout=5).json()
+            page = response["query"]["pages"][pid]
+            summary = rm_parentheses(page.get("extract", ""))
+            img = None
+            if "thumbnail" in page:
+                thumbnail = page["thumbnail"]["source"]
                 parts = thumbnail.split("/")[:-1]
-                img = '/'.join((part for part in parts if part != 'thumb'))
-                LOG.debug(f"Found image: {img}")
+                img = "/".join(part for part in parts if part != "thumb")
+            ans = flatten_list([sentence_tokenize(s) for s in summary.split("\n")])
+            return page["title"], ans, img
+        except Exception as e:
+            LOG.error(f"Error fetching page data for PID {pid}: {e}")
+            return None, None, None
 
-            summary = rm_parentheses(summary)  # normalize to make more speakable
+    def get_data(self, query: str, lang: Optional[str] = None, units: Optional[str] = None):
+        """Fetch Wikipedia search results and detailed data concurrently."""
+        LOG.debug(f"WikiSolver query: {query}")
+        lang = (lang or self.default_lang).split("-")[0]
+        search_url = (
+            f"https://{lang}.wikipedia.org/w/api.php?action=query&list=search&"
+            f"srsearch={query}&format=json"
+        )
 
-            ans: List[str] = flatten_list([sentence_tokenize(s) for s in summary.split("\n")])
-            summaries.append((title, ans, img))
+        try:
+            search_results = requests.get(search_url, timeout=5).json().get("query", {}).get("search", [])
+        except Exception as e:
+            LOG.error(f"Error fetching search results: {e}")
+            search_results = []
+
+        if not search_results:
+            fallback_query = self.extract_keyword(query, lang)
+            if fallback_query and fallback_query != query:
+                LOG.debug(f"WikiSolver Fallback, new query: {fallback_query}")
+                return self.get_data(fallback_query, lang=lang, units=units)
+            return {}
+
+        LOG.debug(f"Matched {len(search_results)} Wikipedia pages")
+
+        # Prepare for parallel fetch and maintain original order
+        summaries = [None] * len(search_results)  # List to hold results in original order
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future_to_idx = {
+                executor.submit(self.get_page_data, str(r["pageid"]), lang): idx
+                for idx, r in enumerate(search_results)
+                if "(disambiguation)" not in r["title"]
+            }
+
+            for future in concurrent.futures.as_completed(future_to_idx):
+                idx = future_to_idx[future]  # Get original index from future
+                title, ans, img = future.result()
+                if title and ans:
+                    summaries[idx] = (title, ans, img)
+
+        # Filter out None entries and sort based on original order
+        summaries = [entry for entry in summaries if entry is not None]
 
         if summaries:
             if len(summaries) == 1:
                 return {"title": summaries[0][0],
                         "short_answer": summaries[0][1][0],
                         "summary": "\n".join(summaries[0][1]),
-                        "img": summaries[0][-1]}
+                        "img": summaries[0][2]}
 
             final_ans = "\n".join([sentences[0] for title, sentences, _ in summaries[:3]])
             final_sum = "\n\n".join([title + " - " + ".\n".join(sents)
@@ -120,7 +139,7 @@ class WikipediaSolver(QuestionSolver):
             return {"title": query,
                     "short_answer": final_ans,
                     "summary": final_sum,
-                    "img": summaries[0][-1]}
+                    "img": summaries[0][2]}
 
         return {}
 
@@ -347,9 +366,6 @@ class WikipediaSkill(OVOSSkill):
 if __name__ == "__main__":
     from ovos_utils.fakebus import FakeBus
 
-    # print(WikipediaSolver().get_spoken_answer("venus", "en"))
-    # print(WikipediaSolver().get_spoken_answer("elon musk", "en"))
-
     s = WikipediaSkill(bus=FakeBus(), skill_id="wiki.skill")
     print(s.match_common_query("quem é Elon Musk", "pt"))
     # ('who is Elon Musk', <CQSMatchLevel.GENERAL: 3>, 'The Musk family is a wealthy family of South African origin that is largely active in the United States and Canada.',
@@ -360,6 +376,10 @@ if __name__ == "__main__":
     print(s.wiki.extract_keyword(query, "en-us"))
     assert s.wiki.extract_keyword(query, "en-us") == "Isaac Newton"
 
+    print(s.wiki.get_spoken_answer("venus", "en"))
+    print(s.wiki.get_spoken_answer("elon musk", "en"))
+
+    exit()
     # full answer
     ans = s.wiki.spoken_answer(query)
     print(ans)
