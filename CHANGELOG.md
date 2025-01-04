@@ -1,12 +1,12 @@
 # Changelog
 
-## [0.5.14a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.5.14a1) (2024-12-12)
+## [0.5.15a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.5.15a1) (2025-01-04)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.5.13...0.5.14a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.5.14...0.5.15a1)
 
 **Merged pull requests:**
 
-- adjusting German translation from joergz2 [\#84](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/84) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+- fix: locale folder reading + disambiguation [\#86](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/86) ([JarbasAl](https://github.com/JarbasAl))
 
 
 

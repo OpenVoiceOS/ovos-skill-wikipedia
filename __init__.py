@@ -9,28 +9,28 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import concurrent.futures
 import os.path
 import re
-from os.path import dirname, join
-from typing import Optional
+from typing import Optional, Tuple
 
 import requests
+from langcodes import closest_supported_match
 from ovos_bus_client.session import SessionManager, Session
 from ovos_plugin_manager.templates.solvers import QuestionSolver
-from ovos_utils import classproperty
-from ovos_utils import flatten_list
+from ovos_utils import classproperty, flatten_list
+from ovos_utils.bracket_expansion import expand_template
 from ovos_utils.gui import can_use_gui
 from ovos_utils.log import LOG
 from ovos_utils.process_utils import RuntimeRequirements
-from ovos_workshop.decorators import intent_handler
+from ovos_workshop.decorators import intent_handler, common_query
 from ovos_workshop.intents import IntentBuilder
-from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
+from ovos_workshop.skills.ovos import OVOSSkill
 from padacioso import IntentContainer
-from padacioso.bracket_expansion import expand_parentheses
 from quebra_frases import sentence_tokenize
 
 
-def rm_parentheses(text: str):
+def rm_parentheses(text: str) -> str:
     """helper to remove the text between paranthesis in a wikipedia summary,
      makes the text more natural and speakable"""
     return re.sub(r"\((.*?)\)", "", text).replace("  ", " ")
@@ -41,7 +41,7 @@ class WikipediaSolver(QuestionSolver):
     enable_tx = False
     kw_matchers = {}
 
-    # utils to extract keyword from text
+    # Utils to extract keywords from text
     @classmethod
     def register_kw_extractors(cls, samples: list, lang: str):
         lang = lang.split("-")[0]
@@ -63,43 +63,87 @@ class WikipediaSolver(QuestionSolver):
             LOG.debug(f"Could not extract search keyword for '{lang}' from '{utterance}'")
         return kw
 
-    # abstract Solver methods to implement
-    def get_data(self, query: str,
-                 lang: Optional[str] = None,
-                 units: Optional[str] = None):
-        """
-       query assured to be in self.default_lang
-       return a dict response
-       """
-        LOG.debug(f"WikiSolver query: {query}")
-        lang = lang or self.default_lang
-        lang = lang.split("-")[0]
-        url = f"https://{lang}.wikipedia.org/w/api.php?action=query&list=search&srsearch={query}&format=json"
-        res = requests.get(url).json()["query"]["search"]
-        if not res:
-            q2 = self.extract_keyword(query, lang)
-            if q2 and q2 != query:
-                LOG.debug(f"WikiSolver Fallback, new query: {q2}")
-                return self.get_data(q2, lang=lang, units=units)
-
-        for r in res:
-            title = r["title"]
-            pid = str(r["pageid"])
-            results_url = f"https://{lang}.wikipedia.org/w/api.php?format=json&action=query&prop=extracts|pageimages&exintro&explaintext&redirects=1&pageids=" + pid
-            r = requests.get(results_url).json()
-
-            summary = r['query']['pages'][pid]['extract']
+    def get_page_data(self, pid: str, lang: str):
+        """Fetch detailed data for a single Wikipedia page."""
+        url = (
+            f"https://{lang}.wikipedia.org/w/api.php?format=json&action=query&"
+            f"prop=extracts|pageimages&exintro&explaintext&redirects=1&pageids={pid}"
+        )
+        try:
+            response = requests.get(url, timeout=5).json()
+            page = response["query"]["pages"][pid]
+            summary = rm_parentheses(page.get("extract", ""))
+            if "commonly refers to:" in summary:
+                return None, None, None  # disambiguation list page
             img = None
-            if "thumbnail" in r['query']['pages'][pid]:
-                thumbnail = r['query']['pages'][pid]['thumbnail']['source']
+            if "thumbnail" in page:
+                thumbnail = page["thumbnail"]["source"]
                 parts = thumbnail.split("/")[:-1]
-                img = '/'.join((part for part in parts if part != 'thumb'))
-                LOG.debug(f"Found image: {img}")
-
-            summary = rm_parentheses(summary)  # normalize to make more speakable
-
+                img = "/".join(part for part in parts if part != "thumb")
             ans = flatten_list([sentence_tokenize(s) for s in summary.split("\n")])
-            return {"title": title, "short_answer": ans[0], "summary": summary, "img": img}
+
+            return page["title"], ans, img
+        except Exception as e:
+            LOG.error(f"Error fetching page data for PID {pid}: {e}")
+            return None, None, None
+
+    def get_data(self, query: str, lang: Optional[str] = None, units: Optional[str] = None):
+        """Fetch Wikipedia search results and detailed data concurrently."""
+        LOG.debug(f"WikiSolver query: {query}")
+        lang = (lang or self.default_lang).split("-")[0]
+        search_url = (
+            f"https://{lang}.wikipedia.org/w/api.php?action=query&list=search&"
+            f"srsearch={query}&format=json"
+        )
+
+        try:
+            search_results = requests.get(search_url, timeout=5).json().get("query", {}).get("search", [])
+        except Exception as e:
+            LOG.error(f"Error fetching search results: {e}")
+            search_results = []
+
+        if not search_results:
+            fallback_query = self.extract_keyword(query, lang)
+            if fallback_query and fallback_query != query:
+                LOG.debug(f"WikiSolver Fallback, new query: {fallback_query}")
+                return self.get_data(fallback_query, lang=lang, units=units)
+            return {}
+
+        LOG.debug(f"Matched {len(search_results)} Wikipedia pages")
+
+        # Prepare for parallel fetch and maintain original order
+        summaries = [None] * len(search_results)  # List to hold results in original order
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future_to_idx = {
+                executor.submit(self.get_page_data, str(r["pageid"]), lang): idx
+                for idx, r in enumerate(search_results)
+                if "(disambiguation)" not in r["title"]
+            }
+
+            for future in concurrent.futures.as_completed(future_to_idx):
+                idx = future_to_idx[future]  # Get original index from future
+                title, ans, img = future.result()
+                if title and ans:
+                    summaries[idx] = (title, ans, img)
+
+        # Filter out None entries and sort based on original order
+        summaries = [entry for entry in summaries if entry is not None]
+
+        if summaries:
+            if len(summaries) == 1:
+                return {"title": summaries[0][0],
+                        "short_answer": summaries[0][1][0],
+                        "summary": "\n".join(summaries[0][1]),
+                        "img": summaries[0][2]}
+
+            final_ans = "\n".join([sentences[0] for title, sentences, _ in summaries[:3]])
+            final_sum = "\n\n".join([title + " - " + ".\n".join(sents)
+                                     for title, sents, img in summaries])
+            return {"title": query,
+                    "short_answer": final_ans,
+                    "summary": final_sum,
+                    "img": summaries[0][2]}
+
         return {}
 
     def get_spoken_answer(self, query: str,
@@ -135,7 +179,7 @@ class WikipediaSolver(QuestionSolver):
         return steps
 
 
-class WikipediaSkill(CommonQuerySkill):
+class WikipediaSkill(OVOSSkill):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.session_results = {}
@@ -144,20 +188,24 @@ class WikipediaSkill(CommonQuerySkill):
 
     def register_kw_xtract(self):
         """internal padacioso intents for kw extraction"""
+        supported = os.listdir(f"{self.root_dir}/locale")
         for lang in self.native_langs:
-            filename = f"{self.root_dir}/locale/{lang}/query.intent"
+
+            lang2 = closest_supported_match(lang, supported, 10)
+            if not lang2:
+                LOG.warning(f"'{self.root_dir}/locale/{lang}' directory not found! wikipedia will be disabled for '{lang}'")
+                continue
+
+            filename = f"{self.root_dir}/locale/{lang2}/query.intent"
             if not os.path.isfile(filename):
-                LOG.warning(f"{filename} not found! wikipedia common QA will be disabled for '{lang}'")
+                LOG.warning(f"{filename} not found! wikipedia will be disabled for '{lang}'")
                 continue
             samples = []
             with open(filename) as f:
                 for l in f.read().split("\n"):
                     if not l.strip() or l.startswith("#"):
                         continue
-                    if "(" in l:
-                        samples += expand_parentheses(l)
-                    else:
-                        samples.append(l)
+                    samples += expand_template(l)
             self.wiki.register_kw_extractors(samples, lang=lang)
 
     @classproperty
@@ -221,9 +269,24 @@ class WikipediaSkill(CommonQuerySkill):
         self.speak_result(sess)
 
     # common query
-    def CQS_match_query_phrase(self, phrase):
+    def cq_callback(self, utterance: str, answer: str, lang: str):
+        """ If selected show gui """
         sess = SessionManager.get()
-        query = self.wiki.extract_keyword(phrase, lang=sess.lang)
+        if sess.session_id in self.session_results:
+            self.display_wiki_entry()
+        else:
+            LOG.error(f"{sess.session_id} not in "
+                      f"{list(self.session_results.keys())}")
+        self.set_context("WikiKnows", utterance)
+        # cache long answer for "tell me more"
+        self.ask_the_wiki(sess)
+        self.session_results[sess.session_id]["idx"] += 1  # spoken by common query
+        self.session_results[sess.session_id]["title"] = utterance
+
+    @common_query(callback=cq_callback)
+    def match_common_query(self, phrase: str, lang: str) -> Tuple[str, float]:
+        sess = SessionManager.get()
+        query = self.wiki.extract_keyword(phrase, lang=lang)
         if not query:
             # doesnt look like a question we can answer at all
             return None
@@ -232,35 +295,14 @@ class WikipediaSkill(CommonQuerySkill):
             "query": query,
             "results": [],
             "idx": 0,
-            "lang": sess.lang,
+            "lang": lang,
             "title": phrase,
             "image": None
         }
-        title, summary = self.ask_the_wiki(sess)
+        summary = self.wiki.get_spoken_answer(query, lang=sess.lang, units=sess.system_unit)
         if summary:
             self.log.info(f"Wikipedia answer: {summary}")
-            self.session_results[sess.session_id]["idx"] += 1  # spoken by common query
-            self.session_results[sess.session_id]["title"] = title or phrase
-            return (
-                phrase,
-                CQSMatchLevel.GENERAL,
-                summary, {"query": phrase,
-                          "image": self.session_results[sess.session_id].get("image"),
-                          "title": title,
-                          "answer": summary},
-            )
-
-    def CQS_action(self, phrase, data):
-        """If selected show gui"""
-
-        sess = SessionManager.get()
-        if sess.session_id in self.session_results:
-            self.display_wiki_entry()
-        else:
-            LOG.error(f"{sess.session_id} not in "
-                      f"{list(self.session_results.keys())}")
-
-        self.set_context("WikiKnows", data.get("title") or phrase)
+            return summary, 0.6
 
     # wikipedia
     def ask_the_wiki(self, sess: Session):
@@ -329,18 +371,22 @@ if __name__ == "__main__":
     from ovos_utils.fakebus import FakeBus
 
     s = WikipediaSkill(bus=FakeBus(), skill_id="wiki.skill")
-    print(s.CQS_match_query_phrase("quem é Elon Musk"))
+    print(s.wiki.get_spoken_answer("quem é Elon Musk", "pt"))
     # ('who is Elon Musk', <CQSMatchLevel.GENERAL: 3>, 'The Musk family is a wealthy family of South African origin that is largely active in the United States and Canada.',
     # {'query': 'who is Elon Musk', 'image': None, 'title': 'Musk Family',
     # 'answer': 'The Musk family is a wealthy family of South African origin that is largely active in the United States and Canada.'})
 
-    d = WikipediaSolver()
-
     query = "who is Isaac Newton"
-    assert d.extract_keyword(query, "en-us") == "Isaac Newton"
+    print(s.wiki.extract_keyword(query, "en-us"))
+    assert s.wiki.extract_keyword(query, "en-us") == "Isaac Newton"
 
+    print(s.wiki.get_spoken_answer("venus", "en"))
+    print(s.wiki.get_spoken_answer("elon musk", "en"))
+    print(s.wiki.get_spoken_answer("mercury", "en"))
+
+    exit()
     # full answer
-    ans = d.spoken_answer(query)
+    ans = s.wiki.spoken_answer(query)
     print(ans)
     # Sir Isaac Newton  (25 December 1642 – 20 March 1726/27) was an English mathematician, physicist, astronomer, alchemist, theologian, and author (described in his time as a "natural philosopher") widely recognised as one of the greatest mathematicians and physicists of all time and among the most influential scientists. He was a key figure in the philosophical revolution known as the Enlightenment. His book Philosophiæ Naturalis Principia Mathematica (Mathematical Principles of Natural Philosophy), first published in 1687, established classical mechanics. Newton also made seminal contributions to optics, and shares credit with German mathematician Gottfried Wilhelm Leibniz for developing infinitesimal calculus.
     # In the Principia, Newton formulated the laws of motion and universal gravitation that formed the dominant scientific viewpoint until it was superseded by the theory of relativity. Newton used his mathematical description of gravity to derive Kepler's laws of planetary motion, account for tides, the trajectories of comets, the precession of the equinoxes and other phenomena, eradicating doubt about the Solar System's heliocentricity. He demonstrated that the motion of objects on Earth and celestial bodies could be accounted for by the same principles. Newton's inference that the Earth is an oblate spheroid was later confirmed by the geodetic measurements of Maupertuis, La Condamine, and others, convincing most European scientists of the superiority of Newtonian mechanics over earlier systems.
@@ -349,7 +395,7 @@ if __name__ == "__main__":
 
     query = "venus"
     # chunked answer, "tell me more"
-    for sentence in d.long_answer(query):
+    for sentence in s.wiki.long_answer(query):
         print(sentence["title"])
         print(sentence["summary"])
         print(sentence.get("img"))
@@ -415,8 +461,8 @@ if __name__ == "__main__":
 
     # lang support
     query = "Quem é Isaac Newton"
-    sentence = d.spoken_answer(query, context={"lang": "pt"})
-    assert d.extract_keyword(query, "pt") == "Isaac Newton"
+    sentence = s.wiki.spoken_answer(query, context={"lang": "pt"})
+    assert s.wiki.extract_keyword(query, "pt") == "Isaac Newton"
     print(sentence)
     # Sir Isaac Newton (25 de dezembro de 1642 - 20 de março de 1726/27) foi um matemático, físico, astrônomo, alquimista, teólogo e autor (descrito em seu tempo como um "filósofo natural") amplamente reconhecido como um dos maiores matemáticos e físicos de todos os tempos e entre os cientistas mais influentes. Ele era uma figura chave na revolução filosófica conhecida como Iluminismo. Seu livro Philosophiæ Naturalis Principia Mathematica (Princípios matemáticos da Filosofia Natural), publicado pela primeira vez em 1687, estabeleceu a mecânica clássica. Newton também fez contribuições seminais para a óptica, e compartilha crédito com o matemático alemão Gottfried Wilhelm Leibniz para desenvolver cálculo infinitesimal.
     # No Principia, Newton formulou as leis do movimento e da gravitação universal que formaram o ponto de vista científico dominante até ser superado pela teoria da relatividade. Newton usou sua descrição matemática da gravidade para derivar as leis de Kepler do movimento planetário, conta para as marés, as trajetórias dos cometas, a precessão dos equinócios e outros fenômenos, erradicando dúvidas sobre a heliocentricidade do Sistema Solar. Ele demonstrou que o movimento de objetos na Terra e corpos celestes poderia ser contabilizado pelos mesmos princípios. A inferência de Newton de que a Terra é um esferóide oblate foi mais tarde confirmada pelas medidas geodésicas de Maupertuis, La Condamine, e outros, convencendo a maioria dos cientistas europeus da superioridade da mecânica newtoniana sobre sistemas anteriores.
