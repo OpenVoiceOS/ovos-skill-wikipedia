@@ -3,7 +3,7 @@ import unittest
 from unittest import skip
 from unittest.mock import Mock
 
-from ovos_utils.messagebus import FakeBus, Message
+from ovos_utils.fakebus import FakeBus, Message
 from skill_ovos_wikipedia import WikipediaSkill
 
 

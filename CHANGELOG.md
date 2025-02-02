@@ -1,12 +1,28 @@
 # Changelog
 
-## [0.5.15a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.5.15a1) (2025-01-04)
+## [0.7.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.7.0a1) (2025-02-02)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.5.14...0.5.15a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.6.0a2...0.7.0a1)
 
 **Merged pull requests:**
 
-- fix: locale folder reading + disambiguation [\#86](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/86) ([JarbasAl](https://github.com/JarbasAl))
+- feat: wikipedia persona [\#92](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/92) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.6.0a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.6.0a2) (2025-01-25)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.6.0a1...0.6.0a2)
+
+**Merged pull requests:**
+
+- fix automations [\#90](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/90) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.6.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.6.0a1) (2025-01-05)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.5.15...0.6.0a1)
+
+**Merged pull requests:**
+
+- feat:disambiguation and summarization [\#88](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/88) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
