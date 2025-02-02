@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.7.0a1) (2025-02-02)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.6.0a2...0.7.0a1)
+
+**Merged pull requests:**
+
+- feat: wikipedia persona [\#92](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/92) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.6.0a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.6.0a2) (2025-01-25)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.6.0a1...0.6.0a2)
