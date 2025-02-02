@@ -448,6 +448,13 @@ class WikipediaSkill(OVOSSkill):
         if sess.session_id in self.session_results:
             self.session_results.pop(sess.session_id)
 
+WIKIPEDIA_PERSONA = {
+  "name": "Wikipedia",
+  "solvers": [
+    "ovos-solver-plugin-wikipedia",
+    "ovos-solver-failure-plugin"
+  ]
+}
 
 if __name__ == "__main__":
     LOG.set_level("ERROR")
