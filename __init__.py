@@ -11,9 +11,8 @@
 # limitations under the License.
 import concurrent.futures
 import os.path
-import re
 from functools import lru_cache
-from typing import Optional, Tuple, List, Dict
+from typing import Optional, Tuple, List, Dict, Any
 
 import requests
 from langcodes import closest_supported_match
@@ -32,38 +31,21 @@ from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler, common_query
 from ovos_workshop.intents import IntentBuilder
 from ovos_workshop.skills.ovos import OVOSSkill
+from ovos_utils.text_utils import rm_parentheses
 
-
-@lru_cache(maxsize=128)
-def rm_parentheses(text: str) -> str:
-    """
-    Remove text enclosed in parentheses from the given string.
-
-    Args:
-        text (str): Input string.
-
-    Returns:
-        str: String with parentheses and their contents removed.
-    """
-    return re.sub(r"\((.*?)\)", "", text).replace("  ", " ")
 
 
 class WikipediaSolver(QuestionSolver):
     """
     A solver for answering questions using Wikipedia search and summaries.
-
-    Attributes:
-        priority (int): Priority of the solver.
-        enable_tx (bool): Transmission enable status.
-        kw_matchers (Dict[str, IntentContainer]): Registered keyword extractors by language.
     """
-    priority = 40
-    enable_tx = False
-    kw_matchers: Dict[str, IntentContainer] = {}
+
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
+        super().__init__(config, enable_tx=False, priority=40)
+        self.kw_matchers: Dict[str, IntentContainer] = {}
 
     # Utils to extract keywords from text
-    @classmethod
-    def register_kw_extractors(cls, samples: List[str], lang: str) -> None:
+    def register_kw_extractors(self, samples: List[str], lang: str) -> None:
         """
         Register keyword extractors for a given language.
 
@@ -72,13 +54,12 @@ class WikipediaSolver(QuestionSolver):
             lang (str): Language code.
         """
         lang = lang.split("-")[0]
-        if lang not in cls.kw_matchers:
-            cls.kw_matchers[lang] = IntentContainer()
-        cls.kw_matchers[lang].add_intent("question", samples)
+        if lang not in self.kw_matchers:
+            self.kw_matchers[lang] = IntentContainer()
+        self.kw_matchers[lang].add_intent("question", samples)
 
-    @classmethod
     @lru_cache(maxsize=128)
-    def extract_keyword(cls, utterance: str, lang: str) -> Optional[str]:
+    def extract_keyword(self, utterance: str, lang: str) -> Optional[str]:
         """
         Extract a keyword from an utterance for a given language.
 
@@ -90,9 +71,9 @@ class WikipediaSolver(QuestionSolver):
             Optional[str]: Extracted keyword or None.
         """
         lang = lang.split("-")[0]
-        if lang not in cls.kw_matchers:
+        if lang not in self.kw_matchers:
             return None
-        matcher: IntentContainer = cls.kw_matchers[lang]
+        matcher: IntentContainer = self.kw_matchers[lang]
         match = matcher.calc_intent(utterance)
         kw = match.get("entities", {}).get("keyword")
         if kw:
@@ -467,6 +448,13 @@ class WikipediaSkill(OVOSSkill):
         if sess.session_id in self.session_results:
             self.session_results.pop(sess.session_id)
 
+WIKIPEDIA_PERSONA = {
+  "name": "Wikipedia",
+  "solvers": [
+    "ovos-solver-plugin-wikipedia",
+    "ovos-solver-failure-plugin"
+  ]
+}
 
 if __name__ == "__main__":
     LOG.set_level("ERROR")
