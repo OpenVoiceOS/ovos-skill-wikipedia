@@ -1,6 +1,6 @@
 {
-  "skill_id": "skill-ovos-wikipedia.openvoiceos",
-  "source": "https://github.com/OpenVoiceOS/skill-ovos-wikipedia",
+  "skill_id": "ovos-skill-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wikipedia",
   "name": "Wikipedia",
   "description": "Spørg Wikipedia for at få svar på alle dine spørgsmål. Få blot et resumé, eller bed om mere for at få dybdegående information.",
   "examples": [

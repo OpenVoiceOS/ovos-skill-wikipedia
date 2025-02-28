@@ -1,28 +1,28 @@
 {
-    "wikiroulette.intent": [
-        "(wiki|wikipedia) roulette",
-        "(play|play the) (wiki|wikipedia) roulette",
-        "random (wiki|wikipedia) page",
-        "random (wiki|wikipedia)",
-        "(show|display|open) random (wiki|wikipedia)"
-    ],
     "query.intent": [
-        "tell me about {keyword}",
-        "what is {keyword}",
-        "who (is|was) {keyword}",
-        "What do you know about {keyword}",
+        "Can you enlighten me about {keyword}",
+        "Can you explain what {keyword} is",
+        "Can you provide details on {keyword}",
         "Give me information about {keyword}",
-        "I'm curious about {keyword}",
         "I'd like to know about {keyword}",
         "I'd like to know more about {keyword}",
-        "Can you explain what {keyword} is",
-        "Can you enlighten me about {keyword}",
+        "I'm curious about {keyword}",
         "I'm seeking details about {keyword}",
-        "Can you provide details on {keyword}"
+        "What do you know about {keyword}",
+        "tell me about {keyword}",
+        "what is {keyword}",
+        "who (is|was) {keyword}"
+    ],
+    "wikiroulette.intent": [
+        "(play|play the) (wiki|wikipedia) roulette",
+        "(show|display|open) random (wiki|wikipedia)",
+        "(wiki|wikipedia) roulette",
+        "random (wiki|wikipedia)",
+        "random (wiki|wikipedia) page"
     ],
     "wiki.intent": [
+        "(search|check) (wiki|wikipedia) for {query}",
         "(wiki|wikipedia) {query}",
-        "what does (wiki|wikipedia) say about {query}",
-        "(search|check) (wiki|wikipedia) for {query}"
+        "what does (wiki|wikipedia) say about {query}"
     ]
 }

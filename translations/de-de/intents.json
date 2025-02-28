@@ -1,28 +1,31 @@
 {
-  "wikiroulette.intent": [
-    "(wiki|Wikipedia) Roulette",
-    "(spiele|spiele das) (wiki|wikipedia) Roulette",
-    "zufällige (Wiki|Wikipedia) Seite",
-    "zufälliges (wiki|wikipedia)",
-    "(zeige|starte|öffne) zufälliges (Wiki|Wikipedia)"
-  ],
-  "query.intent": [
-    "Ich bin neugierig auf {keyword}\nsage mir (etwas|was) über {keyword}",
-    "Was ist {keyword}",
-    "(Wer |was ) (ist |war ) {keyword}\nwer oder was (ist | war ) {keyword}",
-    "was weißt du (über |von ) {keyword}",
-    "erzähl mir von {keyword}\ngib mir Informationen (über |zu ) {keyword}",
-    "Ich möchte (etwas | ) über {keyword} wissen",
-    "Kannst du (mir | ) erklären, was {keyword} ist?",
-    "Kannst du mich über {keyword} aufklären?",
-    "Kannst du mir erklären was oder wer {keyword} ist?",
-    "kannst du mich über {keyword} aufklären",
-    "ich suche nach (Details |Einzelheiten) (zu |über |von ) {keyword}",
-    "Gib mir Informationen über {keyword}"
-  ],
-  "wiki.intent": [
-    "wkipedia {query}",
-    "Suche (in |bei ) wikipedia nach {query}",
-    "wiki {query}"
-  ]
+    "query.intent": [
+        "(Wer |was ) (ist |war ) {keyword}",
+        "Gib mir Informationen über {keyword}",
+        "Ich bin neugierig auf {keyword}",
+        "Ich möchte (etwas | ) über {keyword} wissen",
+        "Kannst du (mir | ) erklären was {keyword} ist",
+        "Kannst du mich über {keyword} aufklären",
+        "Kannst du mir erklären was oder wer {keyword} ist",
+        "Was ist {keyword}",
+        "erzähl mir von {keyword}",
+        "gib mir Informationen (über |zu ) {keyword}",
+        "ich suche nach (Details |Einzelheiten) (zu |über |von ) {keyword}",
+        "kannst du mich über {keyword} aufklären",
+        "sage mir (etwas|was) über {keyword}",
+        "was weißt du (über |von ) {keyword}",
+        "wer oder was (ist | war ) {keyword}"
+    ],
+    "wikiroulette.intent": [
+        "(spiele|spiele das) (wiki|wikipedia) Roulette",
+        "(wiki|Wikipedia) Roulette",
+        "(zeige|starte|öffne) zufälliges (Wiki|Wikipedia)",
+        "zufällige (Wiki|Wikipedia) Seite",
+        "zufälliges (wiki|wikipedia)"
+    ],
+    "wiki.intent": [
+        "Suche (in |bei ) wikipedia nach {query}",
+        "wiki {query}",
+        "wkipedia {query}"
+    ]
 }

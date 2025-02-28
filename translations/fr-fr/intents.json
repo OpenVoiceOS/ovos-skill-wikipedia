@@ -1,41 +1,41 @@
 {
-    "wikiroulette.intent": [
-        "page (wiki|wikip\u00e9dia)",
-        "ouvre (wiki|wikip\u00e9dia)",
-        "montre (wiki|wikip\u00e9dia) al\u00e9atoirement",
-        "wikip\u00e9dia",
-        "wiki roulette",
-        "affiche wikip\u00e9dia al\u00e9atoirement",
-        "wikip\u00e9dia roulette",
-        "affiche le wiki al\u00e9atoirement",
-        "joue \u00e0 (wiki|wikip\u00e9dia) roulette",
-        "page (wiki|wikip\u00e9dia) al\u00e9atoire",
-        "montre wiki al\u00e9atoirement",
-        "ouvre (wiki|wikip\u00e9dia) al\u00e9atoirement"
-    ],
     "query.intent": [
         "(parle-moi|parle-nous) de {keyword}",
-        "qu'est-ce que {keyword}",
         "(quel|quelle) est {keyword}",
-        "qui est {keyword}",
-        "qui \u00e9tait {keyword}",
-        "que (sais|connais) tu au sujet (de|d'|des|du) {keyword}",
         "donne-moi des informations au sujet (de|d'|des|du) {keyword}",
-        "je suis curieux au sujet (de|d'|des|du) {keyword}",
         "j'aimerais en savoir plus sur {keyword}",
-        "peux-tu (m'expliquer|m'\u00e9clairer) ce qu'est {keyword}",
-        "je cherche des d\u00e9tails sur {keyword}",
-        "peux-tu me donner des d\u00e9tails sur {keyword}"
+        "je cherche des détails sur {keyword}",
+        "je suis curieux au sujet (de|d'|des|du) {keyword}",
+        "peux-tu (m'expliquer|m'éclairer) ce qu'est {keyword}",
+        "peux-tu me donner des détails sur {keyword}",
+        "qu'est-ce que {keyword}",
+        "que (sais|connais) tu au sujet (de|d'|des|du) {keyword}",
+        "qui est {keyword}",
+        "qui était {keyword}"
+    ],
+    "wikiroulette.intent": [
+        "affiche le wiki aléatoirement",
+        "affiche wikipédia aléatoirement",
+        "joue à (wiki|wikipédia) roulette",
+        "montre (wiki|wikipédia) aléatoirement",
+        "montre wiki aléatoirement",
+        "ouvre (wiki|wikipédia)",
+        "ouvre (wiki|wikipédia) aléatoirement",
+        "page (wiki|wikipédia)",
+        "page (wiki|wikipédia) aléatoire",
+        "wiki roulette",
+        "wikipédia",
+        "wikipédia roulette"
     ],
     "wiki.intent": [
-        "recherche sur (wiki|wikip\u00e9dia) (pour|au sujet de) {query}",
+        "(cherche|vérifie) sur (wiki|wikipédia) (pour|au sujet de) {query}",
+        "(wiki|wikipédia) {query}",
         "parle-moi de {query}",
-        "v\u00e9rifier (wiki|wikip\u00e9dia) pour {query}",
-        "que dit (wiki|wikip\u00e9dia) (sur|au sujet de) {query}",
-        "(wiki|wikip\u00e9dia) {query}",
-        "(cherche|v\u00e9rifie) sur (wiki|wikip\u00e9dia) (pour|au sujet de) {query}",
-        "wiki {query}",
         "parle-nous de {query}",
-        "{query} sur (wiki|wikip\u00e9dia)"
+        "que dit (wiki|wikipédia) (sur|au sujet de) {query}",
+        "recherche sur (wiki|wikipédia) (pour|au sujet de) {query}",
+        "vérifier (wiki|wikipédia) pour {query}",
+        "wiki {query}",
+        "{query} sur (wiki|wikipédia)"
     ]
 }

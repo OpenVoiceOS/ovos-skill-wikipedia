@@ -1,28 +1,27 @@
 {
-  "wikiroulette.intent": [
-    "(wiki|wikipedia) roulette",
-    "(spil|spil) (wiki|wikipedia) roulette",
-    "tilfældig (wiki|wikipedia) side",
-    "tilfældig (wiki|wikipedia)",
-    "(vis|vis|åben) tilfældig (wiki|wikipedia)"
-  ],
-  "query.intent": [
-    "fortæl mig om {keyword}",
-    "hvad er {keyword}",
-    "hvem (er|var) {søgeord}",
-    "Hvad ved du om {keyword}",
-    "Giv mig oplysninger om {keyword}",
-    "Jeg er nysgerrig efter {keyword}",
-    "Jeg vil gerne vide mere om {keyword}",
-    "Jeg vil gerne vide mere om {keyword}",
-    "Kan du forklare, hvad {keyword} er",
-    "Kan du oplyse mig om {keyword}",
-    "Jeg søger detaljer om {keyword}",
-    "Kan du give detaljer om {keyword}"
-  ],
-  "wiki.intent": [
-    "(wiki|wikipedia) {query}",
-    "hvad siger (wiki|wikipedia) om {query}",
-    "(søg|tjek) (wiki|wikipedia) for {query}"
-  ]
+    "query.intent": [
+        "Giv mig oplysninger om {keyword}",
+        "Hvad ved du om {keyword}",
+        "Jeg er nysgerrig efter {keyword}",
+        "Jeg søger detaljer om {keyword}",
+        "Jeg vil gerne vide mere om {keyword}",
+        "Kan du forklare hvad {keyword} er",
+        "Kan du give detaljer om {keyword}",
+        "Kan du oplyse mig om {keyword}",
+        "fortæl mig om {keyword}",
+        "hvad er {keyword}",
+        "hvem (er|var) {søgeord}"
+    ],
+    "wikiroulette.intent": [
+        "(spil|spil) (wiki|wikipedia) roulette",
+        "(vis|vis|åben) tilfældig (wiki|wikipedia)",
+        "(wiki|wikipedia) roulette",
+        "tilfældig (wiki|wikipedia)",
+        "tilfældig (wiki|wikipedia) side"
+    ],
+    "wiki.intent": [
+        "(søg|tjek) (wiki|wikipedia) for {query}",
+        "(wiki|wikipedia) {query}",
+        "hvad siger (wiki|wikipedia) om {query}"
+    ]
 }

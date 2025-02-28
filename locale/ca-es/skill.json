@@ -1,6 +1,6 @@
 {
-  "skill_id": "skill-ovos-wikipedia.openvoiceos",
-  "source": "https://github.com/OpenVoiceOS/skill-ovos-wikipedia",
+  "skill_id": "ovos-skill-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wikipedia",
   "name": "Viquipèdia",
   "description": "Consulteu la Viquipèdia per a obtenir respostes a totes les vostres preguntes. Obteniu només un resum o demaneu més informació per a obtenir informació detallada.",
   "examples": [

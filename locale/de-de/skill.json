@@ -1,6 +1,6 @@
 {
-  "skill_id": "skill-ovos-wikipedia.openvoiceos",
-  "source": "https://github.com/OpenVoiceOS/skill-ovos-wikipedia",
+  "skill_id": "ovos-skill-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wikipedia",
   "name": "Wikipedia",
   "description": "Suche in Wikipedia nach Antworten auf all Deine Fragen. Erhalte nur eine Zusammenfassung oder frage nach weiteren Informationen, um tiefer gehende Informationen zu erhalten.",
   "examples": [

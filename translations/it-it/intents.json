@@ -1,28 +1,28 @@
 {
-  "wikiroulette.intent": [
-    "(roulette wiki|roulette Wikipedia|wiki roulette|Wikipedia roulette)",
-    "(Attiva|Inizia) (la|) (roulette wiki|roulette Wikipedia|wiki roulette|Wikipedia roulette)",
-    "(una pagina|pagina|un articolo|articolo) (di|) (wiki|Wikipedia) (a caso|casuale|random)",
-    "(wiki|Wikipedia) (a caso|casuale|random)",
-    "(mostra|apri|dammi|dimmi di|) (una pagina|pagina|un articolo|articolo|) (di|) (wiki|Wikipedia) (a caso|casuale|random)"
-  ],
-  "query.intent": [
-    "(Dimmi|Dì|Parlami|Parla|Spiegami|Spiega) (di|del|dello|della|dell'|dei|degli|delle|il|lo|la|l'|i|gli|le) {keyword}",
-    "(Dimmi|Dì|Parlami di|Parla di|Spiegami|Spiega|) (cos'è|cosa è|cos'era|cosa era|cos'erano|cosa erano) (il|lo|la|l'|i|gli|le|) {keyword}",
-    "(Dimmi|Dì|Parlami di|Parla di|Spiegami|Spiega|) (chi è|chi sono|chi era|chi erano) (il|lo|la|l'|i|gli|le|) {keyword}",
-    "Cosa sai (su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}\n",
-    "(Dammi informazioni|Dammi info|Informami) (su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
-    "Sono curioso (di|del|dello|della|dell'|dei|degli|delle|su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
-    "(Vorrei|Voglio) sapere (di|del|dello|della|dell'|dei|degli|delle|su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
-    "(Vorrei|Voglio) saperne di più (di|del|dello|della|dell'|dei|degli|delle|su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
-    "Puoi (spiegare|spiegarmi|dire|dirmi) (cos'è|cosa è|cos'era|cosa era|cos'erano|cosa erano|cosa sia|cosa siano|cosa fosse|cosa fossero) (il|lo|la|l'|i|gli|le|) {keyword}",
-    "Puoi (delucidarmi|dare delucidazioni|darmi delucidazioni|illuminarmi) (su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
-    "Sto cercando dettagli circa {keyboard}",
-    "Puoi (dare|darmi) dettagli (su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}"
-  ],
-  "wiki.intent": [
-    "(Wikipedia|wiki) {query}",
-    "Cosa (dice|afferma|c'è scritto su|c'è su) (wiki|Wikipedia) (su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
-    "(Cerca su|) (Wikipedia|wiki) {query}"
-  ]
+    "query.intent": [
+        "(Dammi informazioni|Dammi info|Informami) (su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
+        "(Dimmi|Dì|Parlami di|Parla di|Spiegami|Spiega|) (chi è|chi sono|chi era|chi erano) (il|lo|la|l'|i|gli|le|) {keyword}",
+        "(Dimmi|Dì|Parlami di|Parla di|Spiegami|Spiega|) (cos'è|cosa è|cos'era|cosa era|cos'erano|cosa erano) (il|lo|la|l'|i|gli|le|) {keyword}",
+        "(Dimmi|Dì|Parlami|Parla|Spiegami|Spiega) (di|del|dello|della|dell'|dei|degli|delle|il|lo|la|l'|i|gli|le) {keyword}",
+        "(Vorrei|Voglio) sapere (di|del|dello|della|dell'|dei|degli|delle|su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
+        "(Vorrei|Voglio) saperne di più (di|del|dello|della|dell'|dei|degli|delle|su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
+        "Cosa sai (su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
+        "Puoi (dare|darmi) dettagli (su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
+        "Puoi (delucidarmi|dare delucidazioni|darmi delucidazioni|illuminarmi) (su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
+        "Puoi (spiegare|spiegarmi|dire|dirmi) (cos'è|cosa è|cos'era|cosa era|cos'erano|cosa erano|cosa sia|cosa siano|cosa fosse|cosa fossero) (il|lo|la|l'|i|gli|le|) {keyword}",
+        "Sono curioso (di|del|dello|della|dell'|dei|degli|delle|su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
+        "Sto cercando dettagli circa {keyboard}"
+    ],
+    "wikiroulette.intent": [
+        "(Attiva|Inizia) (la|) (roulette wiki|roulette Wikipedia|wiki roulette|Wikipedia roulette)",
+        "(mostra|apri|dammi|dimmi di|) (una pagina|pagina|un articolo|articolo|) (di|) (wiki|Wikipedia) (a caso|casuale|random)",
+        "(roulette wiki|roulette Wikipedia|wiki roulette|Wikipedia roulette)",
+        "(una pagina|pagina|un articolo|articolo) (di|) (wiki|Wikipedia) (a caso|casuale|random)",
+        "(wiki|Wikipedia) (a caso|casuale|random)"
+    ],
+    "wiki.intent": [
+        "(Cerca su|) (Wikipedia|wiki) {query}",
+        "(Wikipedia|wiki) {query}",
+        "Cosa (dice|afferma|c'è scritto su|c'è su) (wiki|Wikipedia) (su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}"
+    ]
 }
