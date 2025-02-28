@@ -1,5 +1,5 @@
 (Dóna|Dona)'m informació sobre {keyword}
-(Ens pots explicar|Em pots explicar|Explica'm|Explica'ns) què és (el |la |l'|es |sa |s'){keyword}
+(Ens pots explicar|Em pots explicar|Explica'm|Explica'ns) què és (el |la |l'|es |sa |s') {keyword}
 (Pots il·lustrar-me|Il·lustra'm) sobre {keyword}
 (Pots proporcionar-me|Pots proporcionar|Proporciona'm|Proporciona) detalls sobre {keyword}
 (Vull|Cerco|Busco) (detalls|informació) sobre {keyword}
@@ -7,6 +7,6 @@
 (Vull|M'agradaria) (saber|conèixer|descobrir|esbrinar) més (coses|) sobre {keyword}
 (digues-me|diga'm|digue'm|diguem|digam) (coses sobre|) {keyword}
 Què (en|) saps sobre {keyword}
-Tinc curiositat sobre (el |la |l'|es |sa |s'|els |les |ses ){keyword}
+Tinc curiositat sobre (el |la |l'|es |sa |s'|els |les |ses ) {keyword}
 qui (és|era|fou|va ser) {keyword}
 què és {keyword}

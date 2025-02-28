@@ -4,9 +4,9 @@ Gib mir Informationen über {keyword}
 Ich bin neugierig auf {keyword}
 sage mir (etwas|was) über {keyword}
 Ich möchte (etwas | ) über {keyword} wissen
-Kannst du (mir | ) erklären, was {keyword} ist?
-Kannst du mich über {keyword} aufklären?
-Kannst du mir erklären was oder wer {keyword} ist?
+Kannst du (mir | ) erklären was {keyword} ist
+Kannst du mich über {keyword} aufklären
+Kannst du mir erklären was oder wer {keyword} ist
 Was ist {keyword}
 erzähl mir von {keyword}
 gib mir Informationen (über |zu ) {keyword}
