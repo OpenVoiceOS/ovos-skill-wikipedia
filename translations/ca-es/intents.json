@@ -6,20 +6,6 @@
     "(pàgina|article) (wiki|wikipedia|viqui|viquipèdia) (aleatòria|aleatori|a l'atzar)",
     "(pàgina|article) (aleatòria|aleatori|a l'atzar) de la (wiki|wikipedia|viqui|viquipèdia)"
   ],
-  "query.intent": [
-    "(digues-me|diga'm|digue'm|diguem|digam) (coses sobre|) {keyword}",
-    "què és {keyword}",
-    "qui (és|era|fou|va ser) {keyword}",
-    "Què (en|) saps sobre {keyword}",
-    "(Dóna|Dona)'m informació sobre {keyword}",
-    "Tinc curiositat sobre (el |la |l'|es |sa |s'|els |les |ses ){keyword}",
-    "(Vull|M'agradaria) (saber|conèixer|descobrir|esbrinar) (coses|alguna cosa|quelcom|qualque) sobre {keyword}",
-    "(Vull|M'agradaria) (saber|conèixer|descobrir|esbrinar) més (coses|) sobre {keyword}",
-    "(Ens pots explicar|Em pots explicar|Explica'm|Explica'ns) què és (el |la |l'|es |sa |s'){keyword}",
-    "(Pots il·lustrar-me|Il·lustra'm) sobre {keyword}",
-    "(Vull|Cerco|Busco) (detalls|informació) sobre {keyword}",
-    "(Pots proporcionar-me|Pots proporcionar|Proporciona'm|Proporciona) detalls sobre {keyword}"
-  ],
   "wiki.intent": [
     "(wiki|wikipedia|viqui|viquipèdia) {query}",
     "explica(|'m|ns) sobre {query}",
