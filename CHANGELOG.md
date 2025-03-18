@@ -1,28 +1,16 @@
 # Changelog
 
-## [0.7.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.7.0a1) (2025-02-02)
+## [0.8.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.0a1) (2025-03-18)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.6.0a2...0.7.0a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.7.0...0.8.0a1)
 
-**Merged pull requests:**
+**Implemented enhancements:**
 
-- feat: wikipedia persona [\#92](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/92) ([JarbasAl](https://github.com/JarbasAl))
-
-## [0.6.0a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.6.0a2) (2025-01-25)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.6.0a1...0.6.0a2)
+- feat - search best passage inside wiki page [\#49](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/issues/49)
 
 **Merged pull requests:**
 
-- fix automations [\#90](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/90) ([JarbasAl](https://github.com/JarbasAl))
-
-## [0.6.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.6.0a1) (2025-01-05)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.5.15...0.6.0a1)
-
-**Merged pull requests:**
-
-- feat:disambiguation and summarization [\#88](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/88) ([JarbasAl](https://github.com/JarbasAl))
+- feat: new\_kw\_extractor [\#95](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/95) ([JarbasAl](https://github.com/JarbasAl))
 
 
 

@@ -10,29 +10,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import concurrent.futures
-import os.path
 from functools import lru_cache
-from typing import Optional, Tuple, List, Dict, Any
+from typing import Optional, Tuple, Dict, Any
 
 import requests
-from langcodes import closest_supported_match
-from padacioso import IntentContainer
+from crf_query_xtract import SearchtermExtractorCRF
 from quebra_frases import sentence_tokenize
 
 from ovos_bm25_solver import BM25MultipleChoiceSolver
 from ovos_bus_client.session import SessionManager, Session
 from ovos_plugin_manager.templates.solvers import QuestionSolver
 from ovos_utils import classproperty, flatten_list
-from ovos_utils.bracket_expansion import expand_template
 from ovos_utils.gui import can_use_gui
 from ovos_utils.log import LOG
 from ovos_utils.parse import fuzzy_match, MatchStrategy
 from ovos_utils.process_utils import RuntimeRequirements
+from ovos_utils.text_utils import rm_parentheses
 from ovos_workshop.decorators import intent_handler, common_query
 from ovos_workshop.intents import IntentBuilder
 from ovos_workshop.skills.ovos import OVOSSkill
-from ovos_utils.text_utils import rm_parentheses
-
 
 
 class WikipediaSolver(QuestionSolver):
@@ -42,21 +38,7 @@ class WikipediaSolver(QuestionSolver):
 
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         super().__init__(config, enable_tx=False, priority=40)
-        self.kw_matchers: Dict[str, IntentContainer] = {}
-
-    # Utils to extract keywords from text
-    def register_kw_extractors(self, samples: List[str], lang: str) -> None:
-        """
-        Register keyword extractors for a given language.
-
-        Args:
-            samples (List[str]): List of sample utterances.
-            lang (str): Language code.
-        """
-        lang = lang.split("-")[0]
-        if lang not in self.kw_matchers:
-            self.kw_matchers[lang] = IntentContainer()
-        self.kw_matchers[lang].add_intent("question", samples)
+        self.kword_extractors: Dict[str, SearchtermExtractorCRF] = {}
 
     @lru_cache(maxsize=128)
     def extract_keyword(self, utterance: str, lang: str) -> Optional[str]:
@@ -71,16 +53,19 @@ class WikipediaSolver(QuestionSolver):
             Optional[str]: Extracted keyword or None.
         """
         lang = lang.split("-")[0]
-        if lang not in self.kw_matchers:
+        # langs supported by keyword extractor
+        if lang not in ["ca", "da", "de", "en", "eu", "fr", "gl", "it", "pt"]:
+            LOG.error(f"Keyword extractor does not support lang: '{lang}'")
             return None
-        matcher: IntentContainer = self.kw_matchers[lang]
-        match = matcher.calc_intent(utterance)
-        kw = match.get("entities", {}).get("keyword")
+        if lang not in self.kword_extractors:
+            self.kword_extractors[lang] = SearchtermExtractorCRF.from_pretrained(lang)
+
+        kw = self.kword_extractors[lang].extract_keyword(utterance)
         if kw:
-            LOG.debug(f"Wikipedia Keyword: {kw} - Confidence: {match['conf']}")
+            LOG.debug(f"Wikipedia search term: {kw}")
         else:
             LOG.debug(f"Could not extract search keyword for '{lang}' from '{utterance}'")
-        return kw
+        return kw or utterance
 
     @staticmethod
     @lru_cache(maxsize=128)
@@ -265,30 +250,6 @@ class WikipediaSkill(OVOSSkill):
         super().__init__(*args, **kwargs)
         self.session_results = {}
         self.wiki = WikipediaSolver()
-        self.register_kw_xtract()
-
-    def register_kw_xtract(self):
-        """internal padacioso intents for kw extraction"""
-        supported = os.listdir(f"{self.root_dir}/locale")
-        for lang in self.native_langs:
-
-            lang2 = closest_supported_match(lang, supported, 10)
-            if not lang2:
-                LOG.warning(
-                    f"'{self.root_dir}/locale/{lang}' directory not found! wikipedia will be disabled for '{lang}'")
-                continue
-
-            filename = f"{self.root_dir}/locale/{lang2}/query.intent"
-            if not os.path.isfile(filename):
-                LOG.warning(f"{filename} not found! wikipedia will be disabled for '{lang}'")
-                continue
-            samples = []
-            with open(filename) as f:
-                for l in f.read().split("\n"):
-                    if not l.strip() or l.startswith("#"):
-                        continue
-                    samples += expand_template(l)
-            self.wiki.register_kw_extractors(samples, lang=lang)
 
     @classproperty
     def runtime_requirements(self):
@@ -448,12 +409,13 @@ class WikipediaSkill(OVOSSkill):
         if sess.session_id in self.session_results:
             self.session_results.pop(sess.session_id)
 
+
 WIKIPEDIA_PERSONA = {
-  "name": "Wikipedia",
-  "solvers": [
-    "ovos-solver-plugin-wikipedia",
-    "ovos-solver-failure-plugin"
-  ]
+    "name": "Wikipedia",
+    "solvers": [
+        "ovos-solver-plugin-wikipedia",
+        "ovos-solver-failure-plugin"
+    ]
 }
 
 if __name__ == "__main__":
