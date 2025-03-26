@@ -26,7 +26,7 @@
     "(search|check) (wiki|wikipedia) for {query}",
     "tell me about {query} on (wiki|wikipedia)",
     "what's on (wiki|wikipedia) about {query}",
-    "can you find {query} on (wiki|wikipedia)?",
+    "can you find {query} on (wiki|wikipedia)",
     "look up {query} on (wiki|wikipedia)",
     "what does the (wiki|wikipedia) say regarding {query}",
     "give me information on {query} from (wiki|wikipedia)",
