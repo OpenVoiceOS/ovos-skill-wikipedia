@@ -12,8 +12,6 @@ PYPI_NAME = "ovos-skill-wikipedia"  # pip install PYPI_NAME
 SKILL_AUTHOR, SKILL_NAME = URL.split(".com/")[-1].split("/")
 SKILL_PKG = SKILL_NAME.lower().replace('-', '_')
 PLUGIN_ENTRY_POINT = f'{SKILL_NAME.lower()}.{SKILL_AUTHOR.lower()}={SKILL_PKG}:{SKILL_CLAZZ}'
-PERSONA_ENTRY_POINT = f'Wikipedia={SKILL_PKG}:WIKIPEDIA_PERSONA'
-SOLVER_ENTRY_POINT = f'ovos-solver-plugin-wikipedia={SKILL_PKG}:WikipediaSolver'
 
 BASE_DIR = path.abspath(path.dirname(__file__))
 
@@ -87,8 +85,5 @@ setup(
     include_package_data=True,
     install_requires=get_requirements("requirements.txt"),
     keywords='ovos skill plugin',
-    entry_points={
-        'ovos.plugin.skill': PLUGIN_ENTRY_POINT,
-        'neon.plugin.solver': SOLVER_ENTRY_POINT,
-        "opm.plugin.persona": PERSONA_ENTRY_POINT}
+    entry_points={'ovos.plugin.skill': PLUGIN_ENTRY_POINT}
 )
