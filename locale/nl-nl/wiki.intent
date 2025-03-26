@@ -1,3 +1,12 @@
-(wiki|wikipedia) {query}
-(zoek op|check) (wiki|wikipedia) (naar|voor){query}
-wat zegt (wiki|wikipedia) over {query}
+check wiki naar{query}
+check wiki voor{query}
+check wikipedia naar{query}
+check wikipedia voor{query}
+wat zegt wiki over {query}
+wat zegt wikipedia over {query}
+wiki {query}
+wikipedia {query}
+zoek op wiki naar{query}
+zoek op wiki voor{query}
+zoek op wikipedia naar{query}
+zoek op wikipedia voor{query}

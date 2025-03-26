@@ -1,3 +1,8 @@
-(search|check) (wiki|wikipedia) for {query}
-(wiki|wikipedia) {query}
-what does (wiki|wikipedia) say about {query}
+check wiki for {query}
+check wikipedia for {query}
+search wiki for {query}
+search wikipedia for {query}
+what does wiki say about {query}
+what does wikipedia say about {query}
+wiki {query}
+wikipedia {query}
