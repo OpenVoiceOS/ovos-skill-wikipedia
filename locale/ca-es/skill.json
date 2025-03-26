@@ -10,7 +10,10 @@
     "Parla'm del Pembroke Welsh Corgi",
     "Cerca sobre xocolata",
     "Més informació",
-    "Digues-me més"
+    "Digues-me més",
+    "Busca a la wikipedia qui era Joan Maragall",
+    "Busca informació sobre el Barri Vell de Banyoles",
+    "Què saps del Canigó?"
   ],
   "tags": [
     "viquipèdia",
@@ -18,6 +21,7 @@
     "coneixement-general",
     "wiki",
     "preguntes",
-    "consulta"
+    "consulta",
+    "wikipedia"
   ]
 }

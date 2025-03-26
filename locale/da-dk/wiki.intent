@@ -1,3 +1,8 @@
-(søg|tjek) (wiki|wikipedia) for {query}
-(wiki|wikipedia) {query}
-hvad siger (wiki|wikipedia) om {query}
+hvad siger wiki om {query}
+hvad siger wikipedia om {query}
+søg wiki for {query}
+søg wikipedia for {query}
+tjek wiki for {query}
+tjek wikipedia for {query}
+wiki {query}
+wikipedia {query}

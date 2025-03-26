@@ -1,3 +1,14 @@
-(procura|procurar) (wiki|wikipedia) (sobre|por) {query}
-(wiki|wikipedia) {query}
-o que diz (a|) (wiki|wikipedia) sobre {query}
+o que diz  wiki sobre {query}
+o que diz  wikipedia sobre {query}
+o que diz a wiki sobre {query}
+o que diz a wikipedia sobre {query}
+procura wiki por {query}
+procura wiki sobre {query}
+procura wikipedia por {query}
+procura wikipedia sobre {query}
+procurar wiki por {query}
+procurar wiki sobre {query}
+procurar wikipedia por {query}
+procurar wikipedia sobre {query}
+wiki {query}
+wikipedia {query}
