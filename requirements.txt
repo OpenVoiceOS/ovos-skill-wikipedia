@@ -1,7 +1,3 @@
 ovos-utils>=0.7.0,<1.0.0
 ovos_workshop>=3.3.2,<4.0.0
-ovos-plugin-manager>=0.0.26,<1.0.0
-ovos-bus-client>=1.0.1
-ovos-solver-bm25-plugin
-crf_query_xtract>=0.1.2,<1.0.0
-brill_postagger>=0.1.2,<1.0.0
+ovos-wikipedia-solver>=0.0.1,<1.0.0

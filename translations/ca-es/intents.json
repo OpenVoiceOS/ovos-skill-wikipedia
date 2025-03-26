@@ -7,8 +7,17 @@
     "(pàgina|article) (aleatòria|aleatori|a l'atzar) de la (wiki|wikipedia|viqui|viquipèdia)"
   ],
   "wiki.intent": [
-    "(busca a|què diu la|què hi ha a la|què posa a la|) (wiki|wikipedia|viqui|viquipèdia) (què és|qui era|què en saps de|sobre) {query}",
-    "(informa|explica|digue)(|'m|ns) sobre {query} a la (wiki|wikipedia|viqui|viquipèdia)",
-    "(fes una cerca sobre|troba informació sobre|què és) {query} (segons la|a la) (wiki|wikipedia|viqui|viquipèdia)"
+    "[busca] (wiki|wikipedia|viqui|viquipèdia) (sobre|qui era|) {query}",
+    "explica(|'m|ns) sobre {query} a[ la] (wiki|wikipedia|viqui|viquipèdia)",
+    "(busca a|què diu) la (wiki|wikipedia|viqui|viquipèdia) (sobre|qui era|) {query}",
+    "què és {query} (segons la|a la) (wiki|wikipedia|viqui|viquipèdia)",
+    "informa'm sobre {query} a la (wiki|wikipedia|viqui|viquipèdia)",
+    "digue'm (què és|qui era|què en saps de) {query} (segons|a) la (wiki|wikipedia|viqui|viquipèdia)",
+    "troba informació sobre {query} (a la|a) (wiki|wikipedia|viqui|viquipèdia)",
+    "què hi ha a la (wiki|wikipedia|viqui|viquipèdia) sobre {query}",
+    "què posa a la (wiki|wikipedia|viqui|viquipèdia) de {query}",
+    "fes una cerca sobre {query} a la (wiki|wikipedia|viqui|viquipèdia)",
+    "busca {query} a la (wiki|wikipedia|viqui|viquipèdia)",
+    "què diu la (wiki|wikipedia|viqui|viquipèdia) de {query}"
   ]
 }
