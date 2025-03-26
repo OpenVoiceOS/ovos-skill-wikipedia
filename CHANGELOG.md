@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.1a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.1a2) (2025-03-26)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.1a1...0.8.1a2)
+
+**Merged pull requests:**
+
+- fix: improve catalan [\#100](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/100) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.8.1a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.1a1) (2025-03-26)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.0...0.8.1a1)
