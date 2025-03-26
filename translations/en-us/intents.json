@@ -1,28 +1,38 @@
 {
-    "wikiroulette.intent": [
-        "(wiki|wikipedia) roulette",
-        "(play|play the) (wiki|wikipedia) roulette",
-        "random (wiki|wikipedia) page",
-        "random (wiki|wikipedia)",
-        "(show|display|open) random (wiki|wikipedia)"
-    ],
-    "query.intent": [
-        "tell me about {keyword}",
-        "what is {keyword}",
-        "who (is|was) {keyword}",
-        "What do you know about {keyword}",
-        "Give me information about {keyword}",
-        "I'm curious about {keyword}",
-        "I'd like to know about {keyword}",
-        "I'd like to know more about {keyword}",
-        "Can you explain what {keyword} is",
-        "Can you enlighten me about {keyword}",
-        "I'm seeking details about {keyword}",
-        "Can you provide details on {keyword}"
-    ],
-    "wiki.intent": [
-        "(wiki|wikipedia) {query}",
-        "what does (wiki|wikipedia) say about {query}",
-        "(search|check) (wiki|wikipedia) for {query}"
-    ]
+  "wikiroulette.intent": [
+    "(wiki|wikipedia) roulette",
+    "(play|play the) (wiki|wikipedia) roulette",
+    "random (wiki|wikipedia) page",
+    "random (wiki|wikipedia)",
+    "(show|display|open) random (wiki|wikipedia)"
+  ],
+  "query.intent": [
+    "tell me about {keyword}",
+    "what is {keyword}",
+    "who (is|was) {keyword}",
+    "What do you know about {keyword}",
+    "Give me information about {keyword}",
+    "I'm curious about {keyword}",
+    "I'd like to know about {keyword}",
+    "I'd like to know more about {keyword}",
+    "Can you explain what {keyword} is",
+    "Can you enlighten me about {keyword}",
+    "I'm seeking details about {keyword}",
+    "Can you provide details on {keyword}"
+  ],
+  "wiki.intent": [
+    "(wiki|wikipedia) {query}",
+    "what does (wiki|wikipedia) say about {query}",
+    "(search|check) (wiki|wikipedia) for {query}",
+    "tell me about {query} on (wiki|wikipedia)",
+    "what's on (wiki|wikipedia) about {query}",
+    "can you find {query} on (wiki|wikipedia)?",
+    "look up {query} on (wiki|wikipedia)",
+    "what does the (wiki|wikipedia) say regarding {query}",
+    "give me information on {query} from (wiki|wikipedia)",
+    "find details about {query} on (wiki|wikipedia)",
+    "search (wiki|wikipedia) for details about {query}",
+    "what is the (wiki|wikipedia) entry for {query}",
+    "what is known about {query} on (wiki|wikipedia)"
+  ]
 }
