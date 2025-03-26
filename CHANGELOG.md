@@ -1,16 +1,13 @@
 # Changelog
 
-## [0.8.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.0a1) (2025-03-18)
+## [0.8.1a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.1a1) (2025-03-26)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.7.0...0.8.0a1)
-
-**Implemented enhancements:**
-
-- feat - search best passage inside wiki page [\#49](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/issues/49)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.0...0.8.1a1)
 
 **Merged pull requests:**
 
-- feat: new\_kw\_extractor [\#95](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/95) ([JarbasAl](https://github.com/JarbasAl))
+- fix: improve catalan [\#98](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/98) ([JarbasAl](https://github.com/JarbasAl))
+- Update skill.json [\#97](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/97) ([c-armentano](https://github.com/c-armentano))
 
 
 
