@@ -8,7 +8,7 @@
   ],
   "wiki.intent": [
     "[busca] (wiki|wikipedia|viqui|viquipèdia) (sobre|qui era|) {query}",
-    "explica(|'m|ns) sobre {query}",
+    "explica(|'m|ns) sobre {query} a[ la] (wiki|wikipedia|viqui|viquipèdia)",
     "(busca a|què diu) la (wiki|wikipedia|viqui|viquipèdia) (sobre|qui era|) {query}",
     "què és {query} (segons la|a la) (wiki|wikipedia|viqui|viquipèdia)",
     "informa'm sobre {query} a la (wiki|wikipedia|viqui|viquipèdia)",
