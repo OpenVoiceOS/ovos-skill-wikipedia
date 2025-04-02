@@ -6,9 +6,33 @@
     "zufälliges (wiki|wikipedia)",
     "(zeige|starte|öffne) zufälliges (Wiki|Wikipedia)"
   ],
+  "query.intent": [
+    "erzähl mir von {keyword}",
+    "was ist {keyword}",
+    "wer (ist|war) {keyword}",
+    "Was weist Du über {keyword}",
+    "Gib mir Informationen zu {keyword}",
+    "Ich bin neugierig auf {keyword}",
+    "Ich möchte etwas über {keyword} erfahren",
+    "Ich möchte mehr über {keyword} erfahren",
+    "Kannst Du mir erklären, was {keyword} ist",
+    "Kannst Du mich über {keyword} aufklären",
+    "Ich suche Details zu {keyword}",
+    "Kannst Du mir Einzelheiten zu {keyword} sagen?"
+  ],
   "wiki.intent": [
     "wkipedia {query}",
     "Suche (in |bei ) wikipedia nach {query}",
-    "wiki {query}"
+    "wiki {query}",
+    "Erzähl mir von {query}",
+    "Erzähl uns von {query}",
+    "was wiki sagt über {query}",
+    "Was sagt Wikipedia über {query}",
+    "Suche wiki für {query}",
+    "gib mir Informationen zu {query} von (wiki|wikipedia)",
+    "Finde Details zu {query} auf (wiki|wikipedia)",
+    "Suche (auf) (Wiki|Wikipedia) nach Details zu {query}",
+    "was ist der (wiki|wikipedia) Eintrag für {query}",
+    "was ist über {query} auf (wiki|wikipedia) bekannt"
   ]
 }
