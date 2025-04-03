@@ -1,0 +1,26 @@
+{
+  "skill_id": "skill-ovos-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/skill-ovos-wikipedia",
+  "name": "Wikipedia",
+  "description": "Consulta la Wikipedia para obtener respuestas a tus preguntas. Pide un resumen o más información para tener más detalles.",
+  "examples": [
+	"Háblame de Elon Musk",
+	"Háblamde de las habichuelas",
+	"Consulta la Wikipedia sobre las habichuelas",
+	"Explícame sobre el Pembroke Welsh Corgi",
+	"Busca sobre el chocolate",
+	"Más información",
+	"Cuéntame más",
+	"Busca a la Wikipedia quién era Gustavo Adolfo Bécquer",
+	"Busca información sobre Salamanca",
+	"¿Qué sabes del Mulhacén?"
+  ],
+  "tags": [
+	"wikipedia",
+	"enciclopedia",
+	"conocimiento general",
+	"wiki",
+	"preguntas",
+	"consulta"
+  ]
+}

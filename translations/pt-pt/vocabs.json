@@ -1,4 +1,8 @@
 {
+  "Weather.voc": [
+    "(tempo|clima)",
+    "(metereologia|metereológica)"
+  ],
   "More.voc": [
     "quero (saber|aprender|descobrir) mais (coisas|)",
     "(diz-me|conta-me) mais (coisas|)",

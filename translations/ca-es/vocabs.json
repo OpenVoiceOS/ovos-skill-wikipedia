@@ -1,4 +1,8 @@
 {
+  "Weather.voc": [
+    "temps",
+    "(metereologia|meteorològiques)"
+  ],
   "More.voc": [
     "en vull saber més",
     "vull saber-ne més",

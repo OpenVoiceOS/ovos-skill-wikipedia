@@ -46,7 +46,7 @@ class WikipediaSkill(OVOSSkill):
         )
 
     # intents
-    @intent_handler("wiki.intent")
+    @intent_handler("wiki.intent", voc_blacklist=["Weather"])
     def handle_search(self, message):
         """Extract what the user asked about and reply with info
         from wikipedia.
