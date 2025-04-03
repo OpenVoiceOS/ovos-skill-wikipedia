@@ -1,4 +1,8 @@
 {
+  "Weather.voc": [
+    "weather",
+    "meteorology"
+  ],
     "More.voc": [
         "know more",
         "tell me more",
