@@ -1,11 +1,12 @@
 {
   "Weather.voc": [
-    "tiempo"
+    "tiempo",
+    "meteorología"
   ],
-    "More.voc": [
-        "Dime m\u00e1s",
-        "saber m\u00e1s",
-        "continuar",
-        "Diga m\u00e1s"
-    ]
+  "More.voc": [
+    "(Quiero| ) saber más",
+    "Dime más",
+    "(Di|Cuenta) más",
+    "Continúa"
+  ]
 }
