@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.4a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.4a2) (2025-04-08)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.4a1...0.8.4a2)
+
+**Merged pull requests:**
+
+- es-es/translate [\#113](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/113) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+
 ## [0.8.4a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.4a1) (2025-04-03)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.3...0.8.4a1)
