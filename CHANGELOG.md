@@ -1,12 +1,29 @@
 # Changelog
 
-## [0.8.3a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.3a1) (2025-04-02)
+## [0.8.4a3](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.4a3) (2025-04-08)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.2...0.8.3a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.4a2...0.8.4a3)
 
 **Merged pull requests:**
 
-- German translation of new intents [\#108](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/108) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+- es-es/translate [\#115](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/115) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+
+## [0.8.4a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.4a2) (2025-04-08)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.4a1...0.8.4a2)
+
+**Merged pull requests:**
+
+- es-es/translate [\#113](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/113) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+
+## [0.8.4a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.4a1) (2025-04-03)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.3...0.8.4a1)
+
+**Merged pull requests:**
+
+- Create skill.json [\#111](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/111) ([c-armentano](https://github.com/c-armentano))
+- fix: dont match Weather queries [\#110](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/110) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
