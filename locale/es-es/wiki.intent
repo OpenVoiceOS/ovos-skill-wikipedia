@@ -1,10 +1,54 @@
-Cuéntame sobre {query}
-Cuéntanos sobre {query}
-buscar wiki para {query}
-búsqueda wikipedia para {query}
-cheque wiki para {query}
-cheque wikipedia para {query}
+Busca  wiki para {query}
+Busca  wikipedia para {query}
+Busca detalles de {query} en  wiki
+Busca detalles de {query} en  wikipedia
+Busca detalles de {query} en la wiki
+Busca detalles de {query} en la wikipedia
+Busca en  wiki detalles sobre {query}
+Busca en  wikipedia detalles sobre {query}
+Busca en la wiki detalles sobre {query}
+Busca en la wikipedia detalles sobre {query}
+Busca la wiki para {query}
+Busca la wikipedia para {query}
+Busca {query} en  wiki
+Busca {query} en  wikipedia
+Busca {query} en la wiki
+Busca {query} en la wikipedia
+Cuéntame sobre {query} en lawiki
+Cuéntame sobre {query} en lawikipedia
+Cuéntame sobre {query} en wiki
+Cuéntame sobre {query} en wikipedia
+Dame información sobre {query} de  wiki
+Dame información sobre {query} de  wikipedia
+Dame información sobre {query} de la wiki
+Dame información sobre {query} de la wikipedia
+Qué hay en  wiki sobre {query}
+Qué hay en  wikipedia sobre {query}
+Qué hay en la wiki sobre {query}
+Qué hay en la wikipedia sobre {query}
+Qué se sabe sobre {query} en  wiki
+Qué se sabe sobre {query} en  wikipedia
+Qué se sabe sobre {query} en la wiki
+Qué se sabe sobre {query} en la wikipedia
+comprueba  wiki para {query}
+comprueba  wikipedia para {query}
+comprueba la wiki para {query}
+comprueba la wikipedia para {query}
 wiki {query}
 wikipedia {query}
-¿Qué dice wiki sobre {query}
-¿Qué dice wikipedia sobre {query}
+¿Cuál es la entrada de  wiki para {query}?
+¿Cuál es la entrada de  wikipedia para {query}?
+¿Cuál es la entrada de la wiki para {query}?
+¿Cuál es la entrada de la wikipedia para {query}?
+¿Puedes encontrar {query} en  wiki?
+¿Puedes encontrar {query} en  wikipedia?
+¿Puedes encontrar {query} en la wiki?
+¿Puedes encontrar {query} en la wikipedia?
+¿Qué dice  wiki acerca de {query}?
+¿Qué dice  wiki sobre {query}?
+¿Qué dice  wikipedia acerca de {query}?
+¿Qué dice  wikipedia sobre {query}?
+¿Qué dice la wiki acerca de {query}?
+¿Qué dice la wiki sobre {query}?
+¿Qué dice la wikipedia acerca de {query}?
+¿Qué dice la wikipedia sobre {query}?
