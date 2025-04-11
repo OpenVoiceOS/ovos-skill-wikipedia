@@ -108,7 +108,7 @@ class WikipediaSkill(OVOSSkill):
     @common_query(callback=cq_callback)
     def match_common_query(self, phrase: str, lang: str) -> Tuple[str, float]:
 
-        if (self.voc_match(phrase, "Help") or
+        if (self.voc_match(phrase, "MiscBlacklist") or
                 self.voc_match(phrase, "Weather")):
             return None
 
