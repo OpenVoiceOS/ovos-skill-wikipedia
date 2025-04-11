@@ -46,7 +46,8 @@ class WikipediaSkill(OVOSSkill):
         )
 
     # intents
-    @intent_handler("wiki.intent", voc_blacklist=["Weather"])
+    @intent_handler("wiki.intent",
+                    voc_blacklist=["Weather", "Help"])
     def handle_search(self, message):
         """Extract what the user asked about and reply with info
         from wikipedia.
@@ -106,6 +107,11 @@ class WikipediaSkill(OVOSSkill):
 
     @common_query(callback=cq_callback)
     def match_common_query(self, phrase: str, lang: str) -> Tuple[str, float]:
+
+        if (self.voc_match(phrase, "Help") or
+                self.voc_match(phrase, "Weather")):
+            return None
+
         sess = SessionManager.get()
         query = self.wiki.extract_keyword(phrase, lang=lang)
         if not query:
