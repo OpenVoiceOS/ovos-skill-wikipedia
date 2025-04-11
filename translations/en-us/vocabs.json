@@ -3,6 +3,17 @@
     "weather",
     "meteorology"
   ],
+  "MiscBlacklist.voc": [
+    "install",
+    "skills",
+    "how",
+    "how long",
+    "what time",
+    "is it",
+    "can you",
+    "you do",
+    "explain"
+  ],
     "More.voc": [
         "know more",
         "tell me more",
