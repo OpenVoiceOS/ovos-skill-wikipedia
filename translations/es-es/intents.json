@@ -15,8 +15,8 @@
     "Tengo curiosidad sobre {keyword}",
     "Me gustaría saber (acerca de|sobre) {keyword}",
     "Me gustaría saber más sobre {keyword}",
-    "Puedes (explicar|explicarme) lo que es {keyword}",
-    "Puedes iluminarme sobre {keyword}",
+    "¿Puedes (explicar|explicarme) lo que es {keyword}?",
+    "¿Puedes iluminarme sobre {keyword}?",
     "Estoy buscando detalles sobre {keyword}",
     "¿Me puedes dar detalles (sobre|acerca de) {keyword}?"
   ],
@@ -25,7 +25,7 @@
     "¿Qué dice (la|) (wiki|wikipedia) (sobre|acerca de) {query}?",
     "(Busca|comprueba) (la|) (wiki|wikipedia) para {query}",
     "Cuéntame sobre {query} en (la|)(wiki|wikipedia)",
-    "Qué hay en (la|) (wiki|wikipedia) sobre {query}",
+    "¿Qué hay en (la|) (wiki|wikipedia) sobre {query}?",
     "¿Puedes encontrar {query} en (la|) (wiki|wikipedia)?",
     "Busca {query} en (la|) (wiki|wikipedia)",
     "¿Qué dice (la|) (wikipedia|wiki) sobre {query}?",
@@ -33,6 +33,6 @@
     "Busca detalles de {query} en (la|) (wiki|wikipedia)",
     "Busca en (la|) (wiki|wikipedia) detalles sobre {query}",
     "¿Cuál es la entrada de (la|) (wiki|wikipedia) para {query}?",
-    "Qué se sabe sobre {query} en (la|) (wiki|wikipedia)"
+    "¿Qué se sabe sobre {query} en (la|) (wiki|wikipedia)?"
   ]
 }
