@@ -14,18 +14,18 @@
         "ouvre (wiki|wikip\u00e9dia) al\u00e9atoirement"
     ],
     "query.intent": [
-        "(parle-moi|parle-nous) de {keyword}",
-        "qu'est-ce que {keyword}",
-        "(quel|quelle) est {keyword}",
-        "qui est {keyword}",
-        "qui \u00e9tait {keyword}",
-        "que (sais|connais) tu au sujet (de|d'|des|du) {keyword}",
-        "donne-moi des informations au sujet (de|d'|des|du) {keyword}",
-        "je suis curieux au sujet (de|d'|des|du) {keyword}",
-        "j'aimerais en savoir plus sur {keyword}",
-        "peux-tu (m'expliquer|m'\u00e9clairer) ce qu'est {keyword}",
-        "je cherche des d\u00e9tails sur {keyword}",
-        "peux-tu me donner des d\u00e9tails sur {keyword}"
+        "(parle-moi|parle-nous) de {query}",
+        "qu'est-ce que {query}",
+        "(quel|quelle) est {query}",
+        "qui est {query}",
+        "qui \u00e9tait {query}",
+        "que (sais|connais) tu au sujet (de|d'|des|du) {query}",
+        "donne-moi des informations au sujet (de|d'|des|du) {query}",
+        "je suis curieux au sujet (de|d'|des|du) {query}",
+        "j'aimerais en savoir plus sur {query}",
+        "peux-tu (m'expliquer|m'\u00e9clairer) ce qu'est {query}",
+        "je cherche des d\u00e9tails sur {query}",
+        "peux-tu me donner des d\u00e9tails sur {query}"
     ],
     "wiki.intent": [
         "recherche sur (wiki|wikip\u00e9dia) (pour|au sujet de) {query}",

@@ -1,13 +1,13 @@
-Adieraz al ditzakezu honi buruzko xehetasunak: {keyword}?
-Azal al dezakezu zer den {keyword}?
-Emadazu informazioa honi buruz: {keyword}
-Emango al didazu azalpenik honi buruz: {keyword}?
-Gai honi buruzko datuak jakin nahi ditut: {keyword}
-Gai honi buruzko xehetasunak bilatzen ari naiz: {keyword}
-Honi buruzko informazio gehiago nahiko nuke: {keyword}
-Honi buruzko informazioa nahiko nuke: {keyword}
-Zer jakin nahi duzu gai honi buruz: {keyword}?
-kontadazu honi buruz: {keyword}
-nor da {keyword}?
-nor zen {keyword}?
-zer da {keyword}?
+Adieraz al ditzakezu honi buruzko xehetasunak: {query}?
+Azal al dezakezu zer den {query}?
+Emadazu informazioa honi buruz: {query}
+Emango al didazu azalpenik honi buruz: {query}?
+Gai honi buruzko datuak jakin nahi ditut: {query}
+Gai honi buruzko xehetasunak bilatzen ari naiz: {query}
+Honi buruzko informazio gehiago nahiko nuke: {query}
+Honi buruzko informazioa nahiko nuke: {query}
+Zer jakin nahi duzu gai honi buruz: {query}?
+kontadazu honi buruz: {query}
+nor da {query}?
+nor zen {query}?
+zer da {query}?

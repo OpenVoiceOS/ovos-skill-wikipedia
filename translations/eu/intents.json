@@ -7,18 +7,18 @@
         "(wiki|wikipedia) ausazko orria"
     ],
     "query.intent": [
-        "Emango al didazu azalpenik honi buruz: {keyword}?",
-        "Azal al dezakezu zer den {keyword}?",
-        "Adieraz al ditzakezu honi buruzko xehetasunak: {keyword}?",
-        "Emadazu informazioa honi buruz: {keyword}",
-        "Honi buruzko informazioa nahiko nuke: {keyword}",
-        "Honi buruzko informazio gehiago nahiko nuke: {keyword}",
-        "Gai honi buruzko datuak jakin nahi ditut: {keyword}",
-        "Gai honi buruzko xehetasunak bilatzen ari naiz: {keyword}",
-        "Zer jakin nahi duzu gai honi buruz: {keyword}?",
-        "kontadazu honi buruz: {keyword}",
-        "zer da {keyword}?",
-        "nor (da|zen) {keyword}?"
+        "Emango al didazu azalpenik honi buruz: {query}?",
+        "Azal al dezakezu zer den {query}?",
+        "Adieraz al ditzakezu honi buruzko xehetasunak: {query}?",
+        "Emadazu informazioa honi buruz: {query}",
+        "Honi buruzko informazioa nahiko nuke: {query}",
+        "Honi buruzko informazio gehiago nahiko nuke: {query}",
+        "Gai honi buruzko datuak jakin nahi ditut: {query}",
+        "Gai honi buruzko xehetasunak bilatzen ari naiz: {query}",
+        "Zer jakin nahi duzu gai honi buruz: {query}?",
+        "kontadazu honi buruz: {query}",
+        "zer da {query}?",
+        "nor (da|zen) {query}?"
     ],
     "wiki.intent": [
         "(bilatu|egiaztatu) (wiki-n|wikipedian) {query}",
