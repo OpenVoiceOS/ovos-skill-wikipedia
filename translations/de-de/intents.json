@@ -6,20 +6,6 @@
     "zufälliges (wiki|wikipedia)",
     "(zeige|starte|öffne) zufälliges (Wiki|Wikipedia)"
   ],
-  "query.intent": [
-    "erzähl mir von {query}",
-    "was ist {query}",
-    "wer (ist|war) {query}",
-    "Was weist Du über {query}",
-    "Gib mir Informationen zu {query}",
-    "Ich bin neugierig auf {query}",
-    "Ich möchte etwas über {query} erfahren",
-    "Ich möchte mehr über {query} erfahren",
-    "Kannst Du mir erklären, was {query} ist",
-    "Kannst Du mich über {query} aufklären",
-    "Ich suche Details zu {query}",
-    "Kannst Du mir Einzelheiten zu {query} sagen?"
-  ],
   "wiki.intent": [
     "wkipedia {query}",
     "Suche (in |bei ) wikipedia nach {query}",

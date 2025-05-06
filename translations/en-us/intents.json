@@ -6,20 +6,6 @@
     "random (wiki|wikipedia)",
     "(show|display|open) random (wiki|wikipedia)"
   ],
-  "query.intent": [
-    "tell me about {query}",
-    "what is {query}",
-    "who (is|was) {query}",
-    "What do you know about {query}",
-    "Give me information about {query}",
-    "I'm curious about {query}",
-    "I'd like to know about {query}",
-    "I'd like to know more about {query}",
-    "Can you explain what {query} is",
-    "Can you enlighten me about {query}",
-    "I'm seeking details about {query}",
-    "Can you provide details on {query}"
-  ],
   "wiki.intent": [
     "(wiki|wikipedia) {query}",
     "what does (wiki|wikipedia) say about {query}",
