@@ -8,7 +8,7 @@
   ],
   "wiki.intent": [
     "(Wikipedia|wiki) {query}",
-    "Cosa (dice|afferma|c'è scritto su|c'è su) (wiki|Wikipedia) (su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {keyword}",
+    "Cosa (dice|afferma|c'è scritto su|c'è su) (wiki|Wikipedia) (su|su il|su lo|su la|su l'|su i|su gli|su le|sul|sullo|sulla|sull'|sui|sugli|sulle) {query}",
     "(Cerca su|) (Wikipedia|wiki) {query}"
   ]
 }
