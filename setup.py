@@ -4,7 +4,7 @@ from os import walk, path
 
 from setuptools import setup
 
-URL = "https://github.com/OpenVoiceOS/skill-ovos-wikipedia"
+URL = "https://github.com/OpenVoiceOS/ovos-skill-wikipedia"
 SKILL_CLAZZ = "WikipediaSkill"  # needs to match __init__.py class name
 PYPI_NAME = "ovos-skill-wikipedia"  # pip install PYPI_NAME
 

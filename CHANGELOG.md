@@ -1,20 +1,12 @@
 # Changelog
 
-## [0.8.8a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.8a2) (2025-05-15)
+## [0.8.9a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.9a1) (2025-05-15)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.8a1...0.8.8a2)
-
-**Merged pull requests:**
-
-- Update Catalan strings [\#125](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/125) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
-
-## [0.8.8a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.8a1) (2025-05-06)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.6...0.8.8a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.8...0.8.9a1)
 
 **Merged pull requests:**
 
-- feat: standardize entity slots [\#123](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/123) ([JarbasAl](https://github.com/JarbasAl))
+- Std [\#127](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/127) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
