@@ -1,20 +1,20 @@
 # Changelog
 
-## [0.8.6a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.6a2) (2025-04-11)
+## [0.8.8a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.8a2) (2025-05-15)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.6a1...0.8.6a2)
-
-**Merged pull requests:**
-
-- Blacklist2 [\#120](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/120) ([JarbasAl](https://github.com/JarbasAl))
-
-## [0.8.6a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.6a1) (2025-04-11)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.4...0.8.6a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.8a1...0.8.8a2)
 
 **Merged pull requests:**
 
-- fix: extend keyword blacklist [\#118](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/118) ([JarbasAl](https://github.com/JarbasAl))
+- Update Catalan strings [\#125](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/125) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+
+## [0.8.8a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.8a1) (2025-05-06)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.6...0.8.8a1)
+
+**Merged pull requests:**
+
+- feat: standardize entity slots [\#123](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/123) ([JarbasAl](https://github.com/JarbasAl))
 
 
 

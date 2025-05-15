@@ -6,20 +6,6 @@
         "(wiki|wikipedia) ao chou",
         "páxina da (wiki|wikipedia) ao chou"
     ],
-    "query.intent": [
-        "Podes aclararme que é {keyword}",
-        "Podes explicar o que é {keyword}?",
-        "Podes fornecer datos sobre {keyword}?",
-        "Dáme información sobre {keyword}",
-        "Quixera informarme sobre {keyword}",
-        "Quixera saber máis sobre {keyword}",
-        "Interésame o tema de {keyword}",
-        "Estou á procura de datos sobre {keyword}",
-        "Que sabes sobre {keyword}",
-        "fálame de {keyword}",
-        "o que é {keyword}",
-        "quen (é|foi) {keyword}"
-    ],
     "wiki.intent": [
         "(busca|comproba) {query} na (wiki|wikipedia)",
         "(wiki|wikipedia) {query}",

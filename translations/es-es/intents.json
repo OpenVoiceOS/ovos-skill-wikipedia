@@ -6,20 +6,6 @@
     "(wikipedia|wiki) (al azar|aleatoria|random)",
     "(enseña|muestra|abre) (una|)(wiki|wikipedia) (aleatoria|al azar|random)"
   ],
-  "query.intent": [
-    "(Háblame|Cuéntame) (sobre|de) {keyword}",
-    "¿Qué es {keyword}?",
-    "¿Quién (es|fue) {keyword}?",
-    "¿Qué sabes (sobre|acerca de) {keyword}?",
-    "Dame información sobre {keyword}",
-    "Tengo curiosidad sobre {keyword}",
-    "Me gustaría saber (acerca de|sobre) {keyword}",
-    "Me gustaría saber más sobre {keyword}",
-    "Puedes (explicar|explicarme) lo que es {keyword}",
-    "Puedes iluminarme sobre {keyword}",
-    "Estoy buscando detalles sobre {keyword}",
-    "¿Me puedes dar detalles (sobre|acerca de) {keyword}?"
-  ],
   "wiki.intent": [
     "(wiki|wikipedia) {query}",
     "¿Qué dice (la|) (wiki|wikipedia) (sobre|acerca de) {query}?",
