@@ -1,21 +1,23 @@
 {
   "Weather.voc": [
-    "temps",
-    "(metereologia|meteorològiques)"
+    "(temps|oratge)",
+    "(metereologia|meteorològiques|oratge)"
   ],
   "MiscBlacklist.voc": [
-    "sobre el que fa",
-    "skills",
-    "aquesta tarda",
-    "ara mateix",
-    "quin dia",
-    "passat al món",
-    "que hi ha de nou"
+    "instal·la",
+    "habilitats",
+    "com",
+    "quant fa",
+    "quina hora",
+    "és",
+    "pots",
+    "fes",
+    "explain"
   ],
   "More.voc": [
     "en vull saber més",
     "vull saber-ne més",
     "vull més informació",
-    "en vull més informació"
+    "continua"
   ]
 }
