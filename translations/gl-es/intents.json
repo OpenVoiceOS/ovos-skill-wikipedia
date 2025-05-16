@@ -1,14 +1,24 @@
 {
-    "wikiroulette.intent": [
-        "dálle á ruleta da (wiki|wikipedia)",
-        "(mostrar|ensinar|abrir) (wiki|wikipedia) ao chou",
-        "ruleta da (wiki|wikipedia)",
-        "(wiki|wikipedia) ao chou",
-        "páxina da (wiki|wikipedia) ao chou"
-    ],
-    "wiki.intent": [
-        "(busca|comproba) {query} na (wiki|wikipedia)",
-        "(wiki|wikipedia) {query}",
-        "que di a (wiki|wikipedia) sobre {query}"
-    ]
+  "wikiroulette.intent": [
+    "ruleta da (wiki|wikipedia) ",
+    "dálle á ruleta da (wiki|wikipedia)",
+    "páxina da (wiki|wikipedia) ao chou",
+    "(wiki|wikipedia) ao chou",
+    "(mostrar|ensinar|abrir) (wiki|wikipedia) ao chou"
+  ],
+  "wiki.intent": [
+    "(wiki|wikipedia) {query}",
+    "que di a (wiki|wikipedia) sobre {query}",
+    "(busca|comproba) {query} na (wiki|wikipedia)",
+    "Fálame de {query} en (wiki|wikipedia)",
+    "que (hai|aparece) en (wiki|wikipedia) sobre {query}",
+    "podes atopar {query} en (wiki|wikipedia)",
+    "buscar {query} en (wiki|wikipedia)",
+    "que di a (wiki|wikipedia) sobre {query}",
+    "dáme información (de|da) (wiki|wikipedia) sobre {query}",
+    "Procurar detalles sobre {query} (en|na) (wiki|wikipedia)",
+    "buscar (en|na) (wiki|wikipedia) detalles sobre {query}",
+    "cal é a entrada (de|da) (wiki|wikipedia) para {query}",
+    "que se sabe sobre {query} (en|na) (wiki|wikipedia)"
+  ]
 }
