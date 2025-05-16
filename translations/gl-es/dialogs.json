@@ -8,8 +8,8 @@
     "Isto é todo o que atopei"
   ],
   "searching.dialog": [
-    null,
-    null
+    "Espera, vou consultar {query} na Wikipedia",
+    "Estou a procurar {query} na Wikipedia"
   ],
   "no entry found.dialog": [
     "Non atopo ningún artigo relacionado na Wikipedia",
