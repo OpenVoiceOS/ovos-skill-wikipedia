@@ -1,6 +1,18 @@
 {
   "Weather.voc": [
-    "vejr"
+    "vejrret",
+    "meteorologi"
+  ],
+  "MiscBlacklist.voc": [
+    "installe",
+    "færdigheder",
+    "hvordan",
+    "hvor længe",
+    "hvad tid",
+    "er det",
+    "kan du",
+    "du gør",
+    "forklar"
   ],
   "More.voc": [
     "vide mere",
