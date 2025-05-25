@@ -1,6 +1,18 @@
 {
   "Weather.voc": [
-    "vejr"
+    "vejrret",
+    null
+  ],
+  "MiscBlacklist.voc": [
+    "installe",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "forklar"
   ],
   "More.voc": [
     "vide mere",
