@@ -12,6 +12,7 @@
 from typing import Tuple
 
 from ovos_bus_client.session import SessionManager, Session
+from ovos_bus_client.message import Message
 from ovos_utils import classproperty
 from ovos_utils.gui import can_use_gui
 from ovos_utils.log import LOG
@@ -63,7 +64,7 @@ class WikipediaSkill(OVOSSkill):
             "image": None,
         }
 
-        if session.session_id == "default":
+        if sess.session_id == "default":
             self.gui.show_animated_image("jumping.gif")
 
         self.speak_dialog("searching", {"query": query})
@@ -163,7 +164,7 @@ class WikipediaSkill(OVOSSkill):
         if image:
             self.session_results[sess.session_id]["image"] = image
 
-            if session.session_id == "default":
+            if sess.session_id == "default":
                 self.gui.show_image(image, title=title, fill='PreserveAspectFit',
                                     override_idle=20, override_animations=True)
         else:
