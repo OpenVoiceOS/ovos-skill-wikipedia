@@ -18,6 +18,7 @@
     "què posa a la (wiki|wikipedia|viqui|viquipèdia) de {query}",
     "fes una cerca sobre {query} a la (wiki|wikipedia|viqui|viquipèdia)",
     "busca {query} a la (wiki|wikipedia|viqui|viquipèdia)",
-    "què diu la (wiki|wikipedia|viqui|viquipèdia) de {query}"
+    "què diu la (wiki|wikipedia|viqui|viquipèdia) de {query}",
+    "què (se|es) sap (sobre|de) {query} a (la|sa) (wiki|wikipedia|viqui|viquipèdia)"
   ]
 }

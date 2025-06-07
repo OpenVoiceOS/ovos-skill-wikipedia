@@ -12,6 +12,7 @@
 from typing import Tuple
 
 from ovos_bus_client.session import SessionManager, Session
+from ovos_bus_client.message import Message
 from ovos_utils import classproperty
 from ovos_utils.gui import can_use_gui
 from ovos_utils.log import LOG
@@ -63,7 +64,8 @@ class WikipediaSkill(OVOSSkill):
             "image": None,
         }
 
-        self.gui.show_animated_image("jumping.gif")
+        if sess.session_id == "default":
+            self.gui.show_animated_image("jumping.gif")
 
         self.speak_dialog("searching", {"query": query})
 
@@ -161,8 +163,10 @@ class WikipediaSkill(OVOSSkill):
         title = self.session_results[sess.session_id].get("title") or "Wikipedia"
         if image:
             self.session_results[sess.session_id]["image"] = image
-            self.gui.show_image(image, title=title, fill='PreserveAspectFit',
-                                override_idle=20, override_animations=True)
+
+            if sess.session_id == "default":
+                self.gui.show_image(image, title=title, fill='PreserveAspectFit',
+                                    override_idle=20, override_animations=True)
         else:
             LOG.info(f"No image in {self.session_results[sess.session_id]}")
 
@@ -186,12 +190,16 @@ class WikipediaSkill(OVOSSkill):
         else:
             self.speak_dialog("thats all")
 
-    def stop(self):
-        self.gui.release()
+    def can_stop(self, message: Message) -> bool:
+        return False
 
-    def stop_session(self, sess):
-        if sess.session_id in self.session_results:
-            self.session_results.pop(sess.session_id)
+    def stop(self):
+        session = SessionManager.get()
+        # called during global stop only
+        if session.session_id in self.session_results:
+            self.session_results.pop(session.session_id)
+        if session.session_id == "default":
+            self.gui.release()
 
 
 if __name__ == "__main__":
