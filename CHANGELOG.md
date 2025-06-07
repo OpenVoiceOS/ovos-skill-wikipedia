@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.12a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.12a1) (2025-06-07)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.11a1...0.8.12a1)
+
+**Merged pull requests:**
+
+- fix: workshop 6.0.0 compat [\#135](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/135) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.8.11a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.11a1) (2025-05-25)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.10...0.8.11a1)
