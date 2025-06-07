@@ -193,14 +193,13 @@ class WikipediaSkill(OVOSSkill):
     def can_stop(self, message: Message) -> bool:
         return False
 
-    def stop_session(self, session: Session) -> bool:
+    def stop(self):
+        session = SessionManager.get()
         # called during global stop only
         if session.session_id in self.session_results:
             self.session_results.pop(session.session_id)
-            if session.session_id == "default":
-                self.gui.release()
-            return True
-        return False
+        if session.session_id == "default":
+            self.gui.release()
 
 
 if __name__ == "__main__":
