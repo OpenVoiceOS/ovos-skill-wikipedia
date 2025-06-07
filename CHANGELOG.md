@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.12a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.12a2) (2025-06-07)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.12a1...0.8.12a2)
+
+**Merged pull requests:**
+
+- fix:improve global stop handling [\#137](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/137) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.8.12a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.12a1) (2025-06-07)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.11a1...0.8.12a1)
