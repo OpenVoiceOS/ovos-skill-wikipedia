@@ -3,10 +3,21 @@
     "Wetter",
     "Meteorologie"
   ],
-    "More.voc": [
-        "Ich habe mehr",
-        "mehr",
-        "weiter",
-        "Mehr erfahren"
-    ]
+  "MiscBlacklist.voc": [
+    "installieren",
+    "Fähigkeiten\nSkills",
+    "Wie",
+    "Wie lange",
+    "wie viel Uhr",
+    "ist es",
+    "kannst du",
+    "du tust",
+    "erklären\nerkläre"
+  ],
+  "More.voc": [
+    "Ich habe mehr",
+    "mehr",
+    "weiter",
+    "Mehr erfahren"
+  ]
 }
