@@ -1,0 +1,23 @@
+{
+  "Weather.voc": [
+    null,
+    null
+  ],
+  "MiscBlacklist.voc": [
+    "(instale|instalar)",
+    "(habilidades|aplicativos)",
+    null,
+    null,
+    null,
+    "é",
+    "(você pode|pode|poderia)",
+    null,
+    "(explicar|explique)"
+  ],
+  "More.voc": [
+    "saiba mais",
+    null,
+    null,
+    "(continuar|continue)"
+  ]
+}
