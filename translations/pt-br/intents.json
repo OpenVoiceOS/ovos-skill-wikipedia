@@ -1,0 +1,24 @@
+{
+  "wikiroulette.intent": [
+    "roleta (wiki|wikipedia)",
+    "(comece|inicie) a roleta (wiki|wikipédia)",
+    "página aleatória (wiki|wikipédia)",
+    "aleatório (wiki|wikipédia)",
+    "(mostre|exiba|abra) página aleatória (wiki|wikipédia)"
+  ],
+  "wiki.intent": [
+    "(wiki|wikipédia) {query}",
+    "o que (wiki|wikipédia) diz sobre {query}",
+    "(pesquise|verifique) (wiki|wikipédia) sobre {query}",
+    "conte-me sobre {query} na (wiki|wikipédia)",
+    "o que há na (wiki|wikipédia) sobre {query}",
+    "poderia buscar {query} em (wiki|wikipédia)",
+    "procure {query} em (wiki|wikipédia)",
+    "o que a (wiki|wikipédia) diz sobre {query}",
+    "me dê informações sobre {query} da (wiki|wikipédia)",
+    "encontre detalhes sobre {query} na (wiki|wikipedia)",
+    "pesquise na (wiki|wikipédia) por detalhes sobre {query}",
+    "o que há na (wiki|wikipédia) sobre {query}",
+    "o que se sabe sobre {query} na (wiki|wikipédia)"
+  ]
+}
