@@ -1,0 +1,23 @@
+{
+  "Weather.voc": [
+    "clima",
+    "meteorologia"
+  ],
+  "MiscBlacklist.voc": [
+    "(instale|instalar)",
+    "(habilidades|aplicativos)",
+    "como",
+    "quanto tempo",
+    "que horas",
+    "é",
+    "(você pode|pode|poderia)",
+    "você faz",
+    "(explicar|explique)"
+  ],
+  "More.voc": [
+    "saiba mais",
+    "conte-me mais",
+    "conte mais",
+    "(continuar|continue)"
+  ]
+}
