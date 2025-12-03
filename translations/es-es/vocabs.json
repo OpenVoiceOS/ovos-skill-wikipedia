@@ -3,10 +3,21 @@
     "tiempo",
     "meteorología"
   ],
+  "MiscBlacklist.voc": [
+    "instalar",
+    "habilidades",
+    "¿cómo?",
+    "¿cuánto tiempo?",
+    "¿a qué hora?",
+    "¿es?",
+    "¿podrías?",
+    "tú haces",
+    "explicar"
+  ],
   "More.voc": [
-    "(Quiero| ) saber más",
-    "Dime más",
-    "(Di|Cuenta) más",
-    "Continúa"
+    "(quiero|) saber más",
+    "dime más",
+    "(di|cuenta) más",
+    "continuar"
   ]
 }
