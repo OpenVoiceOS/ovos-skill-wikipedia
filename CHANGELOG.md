@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.14a4](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.14a4) (2025-12-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.14a3...0.8.14a4)
+
+**Merged pull requests:**
+
+- Update dependency python to 3.14 [\#150](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/150) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.8.14a3](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.14a3) (2025-12-18)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.14a2...0.8.14a3)
