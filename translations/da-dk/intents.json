@@ -9,6 +9,16 @@
   "wiki.intent": [
     "(wiki|wikipedia) {query}",
     "hvad siger (wiki|wikipedia) om {query}",
-    "(søg|tjek) (wiki|wikipedia) for {query}"
+    "(søg|tjek) (wiki|wikipedia) for {query}",
+    "fortæl mig om {query} på (wiki|wikipedia)",
+    "hvad sker der (wiki|wikipedia) om {query}",
+    "kan du finde {query} på (wiki|wikipedia)",
+    "slå op på {query} på (wiki|wikipedia)",
+    "hvad siger (wiki|wikipedia) om {query}",
+    "giv mig oplysninger om {query} fra (wiki|wikipedia)",
+    "find detaljer om {query} på (wiki|wikipedia)",
+    "søg (wiki|wikipedia) for detaljer om {query}",
+    "hvad er (wiki|wikipedia)-indgangen for {query}",
+    "hvad er kendt om {query} på (wiki|wikipedia)"
   ]
 }
