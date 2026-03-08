@@ -15,13 +15,12 @@
     ],
     "wiki.intent": [
         "recherche sur (wiki|wikip\u00e9dia) (pour|au sujet de) {query}",
-        "parle-moi de {query}",
+        "parle-moi de {query} sur wikip\u00e9dia",
         "v\u00e9rifier (wiki|wikip\u00e9dia) pour {query}",
         "que dit (wiki|wikip\u00e9dia) (sur|au sujet de) {query}",
-        "(wiki|wikip\u00e9dia) {query}",
         "(cherche|v\u00e9rifie) sur (wiki|wikip\u00e9dia) (pour|au sujet de) {query}",
-        "wiki {query}",
-        "parle-nous de {query}",
+        "article (wiki|wikip\u00e9dia) sur {query}",
+        "parle-nous de {query} sur wikip\u00e9dia",
         "{query} sur (wiki|wikip\u00e9dia)"
     ]
 }
