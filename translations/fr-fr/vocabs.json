@@ -1,6 +1,8 @@
 {
   "Weather.voc": [
-    "temps"
+    "quel temps fait-il",
+    "quelle est la m\u00e9t\u00e9o",
+    "m\u00e9t\u00e9o actuelle"
   ],
     "More.voc": [
         "En savoir plus",
