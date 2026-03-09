@@ -1,22 +1,8 @@
-cherche sur wiki au sujet de {query}
-cherche sur wiki pour {query}
-cherche sur wikipédia au sujet de {query}
-cherche sur wikipédia pour {query}
-parle-moi de {query} sur wikipédia
-parle-nous de {query} sur wikipédia
-que dit wiki au sujet de {query}
-que dit wiki sur {query}
-que dit wikipédia au sujet de {query}
-que dit wikipédia sur {query}
-recherche sur wiki au sujet de {query}
-recherche sur wiki pour {query}
-recherche sur wikipédia au sujet de {query}
-recherche sur wikipédia pour {query}
-vérifie sur wiki au sujet de {query}
-vérifie sur wiki pour {query}
-vérifie sur wikipédia au sujet de {query}
-vérifie sur wikipédia pour {query}
-article wiki sur {query}
 article wikipédia sur {query}
-{query} sur wiki
-{query} sur wikipédia
+cherche sur wikipédia {query}
+cherche {query} sur wikipédia
+parle-moi de {query} sur wikipédia
+que dit l'article wikipédia sur {query}
+que dit wikipédia sur {query}
+recherche {query} sur wikipédia
+vérifie sur wikipédia {query}
