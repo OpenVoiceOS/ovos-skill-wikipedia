@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.8.14a7](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.14a7) (2026-03-09)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.14a6...0.8.14a7)
+
+**Merged pull requests:**
+
+- Complete French Wikipedia locale metadata [\#162](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/162) ([goldyfruit](https://github.com/goldyfruit))
+- Update actions/setup-python action to v6 [\#156](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/156) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/checkout action to v6 [\#155](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/155) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.8.14a6](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.14a6) (2026-01-19)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.14a5...0.8.14a6)
