@@ -1,27 +1,25 @@
 {
     "wikiroulette.intent": [
-        "page (wiki|wikip\u00e9dia)",
-        "ouvre (wiki|wikip\u00e9dia)",
-        "montre (wiki|wikip\u00e9dia) al\u00e9atoirement",
-        "wikip\u00e9dia",
-        "wiki roulette",
-        "affiche wikip\u00e9dia al\u00e9atoirement",
-        "wikip\u00e9dia roulette",
-        "affiche le wiki al\u00e9atoirement",
-        "joue \u00e0 (wiki|wikip\u00e9dia) roulette",
-        "page (wiki|wikip\u00e9dia) al\u00e9atoire",
-        "montre wiki al\u00e9atoirement",
-        "ouvre (wiki|wikip\u00e9dia) al\u00e9atoirement"
+        "affiche une page wikip\u00e9dia au hasard",
+        "affiche un article wikip\u00e9dia au hasard",
+        "joue \u00e0 la roulette wikip\u00e9dia",
+        "lance la roulette wikip\u00e9dia",
+        "montre une page wikip\u00e9dia au hasard",
+        "ouvre une page wikip\u00e9dia au hasard",
+        "ouvre un article wikip\u00e9dia au hasard",
+        "page wikip\u00e9dia au hasard",
+        "article wikip\u00e9dia au hasard",
+        "roulette wikip\u00e9dia",
+        "wikip\u00e9dia roulette"
     ],
     "wiki.intent": [
-        "recherche sur (wiki|wikip\u00e9dia) (pour|au sujet de) {query}",
-        "parle-moi de {query}",
-        "v\u00e9rifier (wiki|wikip\u00e9dia) pour {query}",
-        "que dit (wiki|wikip\u00e9dia) (sur|au sujet de) {query}",
-        "(wiki|wikip\u00e9dia) {query}",
-        "(cherche|v\u00e9rifie) sur (wiki|wikip\u00e9dia) (pour|au sujet de) {query}",
-        "wiki {query}",
-        "parle-nous de {query}",
-        "{query} sur (wiki|wikip\u00e9dia)"
-    ]
+        "cherche {query} sur wikip\u00e9dia",
+        "cherche sur wikip\u00e9dia {query}",
+        "parle-moi de {query} sur wikip\u00e9dia",
+        "que dit wikip\u00e9dia sur {query}",
+    "que dit l'article wikip\u00e9dia sur {query}",
+    "recherche {query} sur wikip\u00e9dia",
+    "v\u00e9rifie sur wikip\u00e9dia {query}",
+    "article wikip\u00e9dia sur {query}"
+  ]
 }
