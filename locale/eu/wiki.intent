@@ -1,0 +1,8 @@
+bilatu wiki-n {query}
+bilatu wikipedian {query}
+egiaztatu wiki-n {query}
+egiaztatu wikipedian {query}
+wiki {query}
+wikipedia {query}
+zer dio wiki-k honi buruz: {query}?
+zer dio wikipediak honi buruz: {query}?
