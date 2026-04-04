@@ -8,35 +8,9 @@ on:
 
 jobs:
 
-  translations:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-        with:
-          ref: dev
-          fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.14"
 
-      - name: Install Build Tools
-        run: |
-          python -m pip install ovos-utils
-
-      - name: Sync translations by gitlocalize-app[bot]
-        run: |
-          python scripts/sync_translations.py
-
-      - name: Commit to dev
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Update translations
-          branch: dev
 
   publish_alpha:
-    needs: translations
     uses: TigreGotico/gh-automations/.github/workflows/publish-alpha.yml@master
     secrets: inherit
     with:
