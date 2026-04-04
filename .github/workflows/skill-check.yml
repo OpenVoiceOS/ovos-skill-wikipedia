@@ -1,0 +1,15 @@
+name: Skill Check
+
+on:
+  pull_request:
+    branches: [dev, master, main]
+  workflow_dispatch:
+
+jobs:
+  skill_check:
+    uses: OpenVoiceOS/gh-automations/.github/workflows/skill-check.yml@dev
+    secrets: inherit
+    with:
+      fail_on_missing_en_us: true
+      fail_on_invalid_skill_json: false
+      skip_if_not_skill: true
