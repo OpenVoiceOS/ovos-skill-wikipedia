@@ -34,34 +34,6 @@ pip install ovos-skill-wikipedia
 
 When the [Common Query pipeline plugin](https://github.com/OpenVoiceOS/ovos-common-query-pipeline-plugin) is active, this skill competes against other knowledge skills (e.g. Wolfram Alpha, WordNet) to answer general questions. The pipeline selects the response with the highest confidence score.
 
-To enable, add to `mycroft.conf`:
-
-```json
-{
-  "intents": {
-    "pipeline": [
-      "...",
-      "common_query_high",
-      "...",
-      "common_query_low"
-    ]
-  }
-}
-```
-
-Optionally, configure a reranker to improve answer selection across skills:
-
-```json
-{
-  "intents": {
-    "common_query": {
-      "min_reranker_score": 0.5,
-      "reranker": "ovos-flashrank-reranker-plugin"
-    }
-  }
-}
-```
-
 ---
 
 ## Sub-plugins
