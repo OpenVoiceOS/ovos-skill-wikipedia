@@ -19,7 +19,7 @@ jobs:
       MATRIX_TOKEN: ${{ secrets.MATRIX_TOKEN }}
     with:
       branch: 'dev'
-      version_file: 'version.py'
+      version_file: 'ovos_skill_wikipedia/version.py'
       update_changelog: true
       publish_prerelease: true
       propose_release: true
