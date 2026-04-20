@@ -8,7 +8,6 @@ on:
 jobs:
   lint:
     uses: OpenVoiceOS/gh-automations/.github/workflows/lint.yml@dev
-    secrets: inherit
     with:
       ruff: true
       pre_commit: false   # set true if .pre-commit-config.yaml exists

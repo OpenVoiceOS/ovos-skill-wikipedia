@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ovos-skill-wikipedia"
+dynamic = ["version"]
+description = "ovos wikipedia skill plugin"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "JarbasAi", email = "jarbasai@mailfence.com"}
+]
+keywords = ["ovos", "skill", "plugin"]
+dependencies = [
+    "ovos-utils>=0.7.0,<1.0.0",
+    "ovos-workshop>=8.0.0,<9.0.0",
+    "ovos-wikipedia-plugin>=1.0.0a1,<2.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/OpenVoiceOS/ovos-skill-wikipedia"
+
+[project.entry-points."ovos.plugin.skill"]
+"ovos-skill-wikipedia.openvoiceos" = "ovos_skill_wikipedia:WikipediaSkill"
+
+[tool.setuptools.dynamic]
+version = {attr = "ovos_skill_wikipedia.version.__version__"}
+
+[tool.setuptools]
+package-dir = {"ovos_skill_wikipedia" = "."}
+packages = ["ovos_skill_wikipedia"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+ovos_skill_wikipedia = [
+    "*.json",
+    "locale/**/*",
+    "gui/**/*",
+    "vocab/**/*",
+    "dialog/**/*",
+    "regex/**/*",
+    "skill/**/*"
+]

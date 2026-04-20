@@ -8,7 +8,6 @@ on:
 jobs:
   ovoscope:
     uses: OpenVoiceOS/gh-automations/.github/workflows/ovoscope.yml@dev
-    secrets: inherit
     with:
       python_version: '3.11'
       install_extras: 'test'
