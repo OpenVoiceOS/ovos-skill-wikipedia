@@ -1,8 +1,13 @@
-# auto add labels to PRs
+name: conventional-release-labels
+
 on:
   pull_request_target:
-    types: [ opened, edited ]
-name: conventional-release-labels
+    types: [opened, edited]
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   label:
     runs-on: ubuntu-latest
