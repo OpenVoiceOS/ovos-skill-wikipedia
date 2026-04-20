@@ -9,14 +9,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import Tuple
+from typing import Optional, Tuple
 
+import requests
 from ovos_bus_client.session import SessionManager
 from ovos_utils import classproperty
 from ovos_utils.process_utils import RuntimeRequirements
-from ovos_wikipedia import WikipediaRetrievalEngine
+from ovos_wikipedia import WikipediaRetrievalEngine, WikipediaResult
 from ovos_workshop.decorators import intent_handler, common_query
-from ovos_workshop.intents import IntentBuilder
 from ovos_workshop.skills.ovos import OVOSSkill
 
 
@@ -61,12 +61,32 @@ class WikipediaSkill(OVOSSkill):
         else:
             self.speak_dialog("no_answer")
 
-    # @intent_handler("wikiroulette.intent")
-    # def handle_wiki_roulette_query(self, message):
-    #    """Random wikipedia page"""
-    #    self.gui.show_animated_image(join(dirname(__file__), "ui", "jumping.gif"))
-    #    self.speak_dialog("wikiroulette")
-    # TODO
+    def _get_random_page(self, lang: str) -> Optional[WikipediaResult]:
+        url = f"https://{lang}.wikipedia.org/w/api.php"
+        params = {"action": "query", "list": "random", "rnnamespace": 0, "rnlimit": 1, "format": "json"}
+        try:
+            resp = requests.get(url, params=params, timeout=10, headers={"User-Agent": self.wiki.USER_AGENT})
+            resp.raise_for_status()
+            page = resp.json()["query"]["random"][0]
+            return self.wiki._get_page_data(str(page["id"]), lang)
+        except Exception:
+            return None
+
+    @intent_handler("wikiroulette.intent")
+    def handle_wiki_roulette_query(self, message):
+        """Speak a random Wikipedia page."""
+        sess = SessionManager.get()
+        lang = sess.lang.split("-")[0]
+        if sess.session_id == "default":
+            self.gui.show_animated_image("jumping.gif")
+        self.speak_dialog("wikiroulette")
+        result = self._get_random_page(lang)
+        if result:
+            self.speak(result.title + ". " + (result.best_passage or result.summary))
+            if sess.session_id == "default" and result.image:
+                self.gui.show_image(result.image)
+        else:
+            self.speak_dialog("no_answer")
 
     # common query
     def cq_callback(self, utterance: str, answer: str, lang: str):
