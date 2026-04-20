@@ -212,5 +212,82 @@ class TestCqCallback(unittest.TestCase):
         self.skill.gui.show_image.assert_not_called()
 
 
+# ---------------------------------------------------------------------------
+# WikiRoulette
+# ---------------------------------------------------------------------------
+
+class TestWikiRoulette(unittest.TestCase):
+
+    def setUp(self):
+        self.skill = _make_skill()
+        self.skill.speak = MagicMock()
+        self.skill.speak_dialog = MagicMock()
+        self.skill.gui = MagicMock()
+
+    def _message(self):
+        return Message("ovos.skills.test", data={})
+
+    def test_get_random_page_returns_result(self):
+        fake_api = {"query": {"random": [{"id": 42, "title": "Banana"}]}}
+        result = _make_result(title="Banana", summary="Banana is a fruit.")
+        self.skill.wiki._get_page_data.return_value = result
+        with patch("ovos_skill_wikipedia.requests.get") as mock_get:
+            mock_get.return_value.json.return_value = fake_api
+            mock_get.return_value.raise_for_status = MagicMock()
+            ret = self.skill._get_random_page("en")
+        self.assertEqual(ret, result)
+        self.skill.wiki._get_page_data.assert_called_once_with("42", "en")
+
+    def test_get_random_page_returns_none_on_error(self):
+        with patch("ovos_skill_wikipedia.requests.get") as mock_get:
+            mock_get.side_effect = Exception("network error")
+            ret = self.skill._get_random_page("en")
+        self.assertIsNone(ret)
+
+    def test_handle_roulette_speaks_title_and_summary(self):
+        result = _make_result(title="Banana", summary="Banana is a fruit.", best_passage=None)
+        self.skill._get_random_page = MagicMock(return_value=result)
+        with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
+            mock_sm.get.return_value.session_id = "default"
+            mock_sm.get.return_value.lang = "en-US"
+            self.skill.handle_wiki_roulette_query(self._message())
+        self.skill.speak.assert_called_once_with("Banana. Banana is a fruit.")
+
+    def test_handle_roulette_speaks_best_passage_if_available(self):
+        result = _make_result(title="Banana", summary="Long summary.", best_passage="Short.")
+        self.skill._get_random_page = MagicMock(return_value=result)
+        with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
+            mock_sm.get.return_value.session_id = "default"
+            mock_sm.get.return_value.lang = "en-US"
+            self.skill.handle_wiki_roulette_query(self._message())
+        self.skill.speak.assert_called_once_with("Banana. Short.")
+
+    def test_handle_roulette_speaks_no_answer_when_none(self):
+        self.skill._get_random_page = MagicMock(return_value=None)
+        with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
+            mock_sm.get.return_value.session_id = "default"
+            mock_sm.get.return_value.lang = "en-US"
+            self.skill.handle_wiki_roulette_query(self._message())
+        self.skill.speak_dialog.assert_any_call("no_answer")
+
+    def test_handle_roulette_shows_image_for_default_session(self):
+        result = _make_result(title="Banana", summary="A fruit.", image="http://img/banana.jpg")
+        self.skill._get_random_page = MagicMock(return_value=result)
+        with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
+            mock_sm.get.return_value.session_id = "default"
+            mock_sm.get.return_value.lang = "en-US"
+            self.skill.handle_wiki_roulette_query(self._message())
+        self.skill.gui.show_image.assert_called_once_with("http://img/banana.jpg")
+
+    def test_handle_roulette_no_image_for_remote_session(self):
+        result = _make_result(title="Banana", summary="A fruit.", image="http://img/banana.jpg")
+        self.skill._get_random_page = MagicMock(return_value=result)
+        with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
+            mock_sm.get.return_value.session_id = "remote-xyz"
+            mock_sm.get.return_value.lang = "en-US"
+            self.skill.handle_wiki_roulette_query(self._message())
+        self.skill.gui.show_image.assert_not_called()
+
+
 if __name__ == "__main__":
     unittest.main()
