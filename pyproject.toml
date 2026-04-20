@@ -27,18 +27,13 @@ Homepage = "https://github.com/OpenVoiceOS/ovos-skill-wikipedia"
 [tool.setuptools.dynamic]
 version = {attr = "ovos_skill_wikipedia.version.__version__"}
 
-[tool.setuptools]
-package-dir = {"ovos_skill_wikipedia" = "."}
-packages = ["ovos_skill_wikipedia"]
-include-package-data = true
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ovos_skill_wikipedia*"]
 
 [tool.setuptools.package-data]
 ovos_skill_wikipedia = [
     "*.json",
     "locale/**/*",
     "gui/**/*",
-    "vocab/**/*",
-    "dialog/**/*",
-    "regex/**/*",
-    "skill/**/*"
 ]
