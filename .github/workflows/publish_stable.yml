@@ -16,7 +16,7 @@ jobs:
       PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
       MATRIX_TOKEN: ${{ secrets.MATRIX_TOKEN }}
     with:
-      version_file: 'version.py'
+      version_file: 'ovos_skill_wikipedia/version.py'
       publish_pypi: true
       publish_release: true
       sync_dev: true
