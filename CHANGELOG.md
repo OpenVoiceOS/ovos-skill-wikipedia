@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.17a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a1) (2026-04-20)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.16a3...0.8.17a1)
+
+**Merged pull requests:**
+
+- fix: update version\_file path in release workflows [\#172](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/172) ([JarbasAl](https://github.com/JarbasAl))
+- feat: migrate package, add CI workflows, implement wikiroulette [\#171](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/171) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.8.16a3](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.16a3) (2026-04-09)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.16a2...0.8.16a3)
