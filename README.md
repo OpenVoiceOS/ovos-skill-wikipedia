@@ -7,8 +7,11 @@
 Wikipedia skill for [OpenVoiceOS](https://openvoiceos.org). Adds a voice interface on top of [ovos-wikipedia-plugin](https://github.com/OpenVoiceOS/ovos-wikipedia-solver), which handles all Wikipedia search and retrieval.
 
 Supports two answer modes:
-- **Direct intent** — responds to explicit requests like "tell me about X" or "search Wikipedia for X"
-- **Common Query** — participates in the [OVOS Common Query pipeline](https://github.com/OpenVoiceOS/ovos-common-query-pipeline-plugin) alongside other knowledge skills; the best answer wins
+
+- **Explicit intent** — handles utterances that target Wikipedia directly (e.g. "search Wikipedia for X", "what does Wikipedia say about X"). These always go to this skill.
+- **Common Query** — handles general knowledge questions (e.g. "what is X", "tell me about X") via the [OVOS Common Query pipeline](https://github.com/OpenVoiceOS/ovos-common-query-pipeline-plugin). The pipeline asks all registered knowledge skills and picks the best answer — Wikipedia competes alongside Wolfram Alpha, WordNet, and others.
+
+In other words: if you mention Wikipedia by name, this skill answers directly. If you just ask a general question, it enters the competition and wins only if it has the most confident answer.
 
 ---
 
@@ -20,13 +23,23 @@ pip install ovos-skill-wikipedia
 
 ---
 
-## Example utterances
+## Explicit intent utterances
 
-- "Tell me about Elon Musk"
-- "Tell me about beans"
-- "Check Wikipedia for beans"
-- "Tell me about the Pembroke Welsh Corgi"
-- "Search for chocolate"
+These always route to this skill because they name Wikipedia explicitly:
+
+- "Search Wikipedia for Ada Lovelace"
+- "What does Wikipedia say about beans?"
+- "Look up the Pembroke Welsh Corgi on Wikipedia"
+- "Wiki chocolate"
+- "Check wiki for Elon Musk"
+
+## Common Query utterances
+
+These go through the pipeline — Wikipedia answers if it wins:
+
+- "What is a black hole?"
+- "Tell me about the Roman Empire"
+- "Who was Marie Curie?"
 
 ---
 
