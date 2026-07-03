@@ -11,6 +11,6 @@ jobs:
     with:
       python_version: '3.11'
       coverage_source: 'ovos_skill_wikipedia'
-      test_path: 'test/'
+      test_path: 'test/unittests'
       install_extras: ''
       min_coverage: 0
