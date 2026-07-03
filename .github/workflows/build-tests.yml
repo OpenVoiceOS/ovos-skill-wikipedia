@@ -11,4 +11,5 @@ jobs:
     with:
       python_versions: '["3.10", "3.11", "3.12", "3.13", "3.14"]'
       install_extras: 'test'
-      test_path: 'test'
+      system_deps: 'swig libfann-dev'
+      test_path: 'test/unittests'
