@@ -6,12 +6,12 @@
 
 Wikipedia skill for [OpenVoiceOS](https://openvoiceos.org). Adds a voice interface on top of [ovos-wikipedia-plugin](https://github.com/OpenVoiceOS/ovos-wikipedia-solver), which handles all Wikipedia search and retrieval.
 
-Supports two answer modes:
+The skill supports two answer modes:
 
-- **Explicit intent** — handles utterances that target Wikipedia directly (e.g. "search Wikipedia for X", "what does Wikipedia say about X"). These always go to this skill.
-- **Common Query** — handles general knowledge questions (e.g. "what is X", "tell me about X") via the [OVOS Common Query pipeline](https://github.com/OpenVoiceOS/ovos-common-query-pipeline-plugin). The pipeline asks all registered knowledge skills and picks the best answer — Wikipedia competes alongside Wolfram Alpha, WordNet, and others.
+- **Explicit intent**: handles utterances that name Wikipedia directly, such as "search Wikipedia for X" or "what does Wikipedia say about X". These always go to this skill.
+- **Common Query**: handles general knowledge questions, such as "what is X" or "tell me about X", through the [OVOS Common Query pipeline](https://github.com/OpenVoiceOS/ovos-common-query-pipeline-plugin). The pipeline asks all registered knowledge skills for an answer and picks the one with the highest confidence score. Wikipedia competes alongside other knowledge skills such as Wolfram Alpha and WordNet.
 
-In other words: if you mention Wikipedia by name, this skill answers directly. If you just ask a general question, it enters the competition and wins only if it has the most confident answer.
+If you name Wikipedia, this skill answers directly. If you ask a general question, this skill answers only when it has the most confident response among the competing skills.
 
 ---
 
@@ -63,9 +63,9 @@ All sub-plugins are optional. Configure them via `~/.config/mycroft/skills/ovos-
 
 ### Reranker (`reranker`)
 
-Wikipedia searches often return multiple candidate pages for ambiguous topics — a search for "Mercury" might return the planet, the element, and the god. Without a reranker, results are ordered only by fuzzy title/summary match.
+Wikipedia searches often return several candidate pages for ambiguous topics. A search for "Mercury" can return pages about the planet, the element, or the Roman god. Without a reranker, the skill orders results only by a fuzzy match between the query and the page title or summary.
 
-A reranker re-scores all candidate pages against the original query using a cross-encoder model, promoting the most contextually relevant page to the top. This is the single biggest quality improvement for voice use because a wrong page pick means a completely irrelevant spoken answer.
+A reranker re-scores all candidate pages against the original query with a cross-encoder model, and moves the most relevant page to the top. This step improves voice answer quality more than any other setting, because a wrong page pick gives a completely irrelevant spoken answer.
 
 ```json
 { "reranker": "ovos-bm25-reranker" }
@@ -93,9 +93,9 @@ Much more natural for a voice interface.
 
 ### Keyword Extractor (`keyword_extractor`)
 
-When the initial Wikipedia search returns no results — common with conversational phrasing like "tell me more about that thing on the moon" — the keyword extractor pulls the most salient terms from the query and retries the search with a cleaner keyword.
+The initial Wikipedia search can return no results for conversational phrasing, such as "tell me more about that thing on the moon". When this happens, the keyword extractor pulls the most relevant terms from the query and retries the search with a cleaner keyword.
 
-Without it, over-specific or colloquial queries silently return nothing. With it, the skill gracefully recovers and finds the right page in most cases.
+Without it, over-specific or colloquial queries silently return nothing. With it, the skill recovers and finds the right page in most cases.
 
 ```json
 { "keyword_extractor": "ovos-rake-keywords" }
