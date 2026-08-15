@@ -1,28 +1,20 @@
-can you find {query} on wiki
-can you find {query} on wikipedia
-check wiki for {query}
-check wikipedia for {query}
-find details about {query} on wiki
-find details about {query} on wikipedia
-give me information on {query} from wiki
-give me information on {query} from wikipedia
-look up {query} on wiki
-look up {query} on wikipedia
-search wiki for details about {query}
-search wiki for {query}
-search wikipedia for details about {query}
-search wikipedia for {query}
-tell me about {query} on wiki
-tell me about {query} on wikipedia
-what does the wiki say regarding {query}
-what does the wikipedia say regarding {query}
-what does wiki say about {query}
-what does wikipedia say about {query}
-what is known about {query} on wiki
-what is known about {query} on wikipedia
-what is the wiki entry for {query}
-what is the wikipedia entry for {query}
-what's on wiki about {query}
-what's on wikipedia about {query}
-wiki {query}
-wikipedia {query}
+# Explicit Wikipedia lookups. Every template is anchored to the
+# "wiki"/"wikipedia" keyword, so the open {query} slot only binds inside an
+# unambiguous request for an encyclopedia article and cannot swallow
+# utterances a dedicated skill (weather, time, ...) should own. Open-ended
+# "what is X" / "who is X" phrasings are intentionally NOT listed here; they
+# are handled by the common_query fallback, which scores low and yields to
+# any skill with a better answer.
+can you find {query} on (wiki|wikipedia)
+check (wiki|wikipedia) for {query}
+find details about {query} (on|in) (wiki|wikipedia)
+give me information (on|about) {query} from (wiki|wikipedia)
+look up {query} (on|in) (wiki|wikipedia)
+search (wiki|wikipedia) for [details about] {query}
+tell me about {query} (on|from) (wiki|wikipedia)
+what does [the] (wiki|wikipedia) say (about|regarding) {query}
+what is known about {query} on (wiki|wikipedia)
+what is the (wiki|wikipedia) entry for {query}
+what's on (wiki|wikipedia) about {query}
+who (is|was) {query} (on|according to) (wiki|wikipedia)
+(wiki|wikipedia) {query}

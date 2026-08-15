@@ -42,15 +42,27 @@ class WikipediaSkill(OVOSSkill):
             no_gui_fallback=True,
         )
 
+    def _is_anaphoric(self, phrase: str, lang: str) -> bool:
+        """True if ``phrase`` is *exactly* an anaphoric pronoun (no partial
+        containment): "the it crowd" or "her majesty" are real article
+        titles and must never be rejected just because they contain a
+        pronoun word.
+        """
+        return phrase.strip().lower() in set(self.voc_list("pronoun", lang=lang))
+
     # explicit wikipedia requests
-    @intent_handler("wiki.intent",
-                    voc_blacklist=["Weather", "Help"])
+    @intent_handler("wiki.intent", voc_blacklist=["weather"])
     def handle_search(self, message):
         """Extract what the user asked about and reply with info
         from wikipedia.
         """
-        query = message.data["query"]
+        query = message.data.get("query", "")
         sess = SessionManager.get()
+        if not query.strip() or self._is_anaphoric(query, sess.lang):
+            # bare pronoun / unresolved slot: leave the lookup to a later
+            # stage (context fill or a re-prompt) instead of searching for it
+            self.speak_dialog("no_query")
+            return
         if sess.session_id == "default":
             self.gui.show_animated_image("jumping.gif")
         self.speak_dialog("searching", {"query": query})
@@ -99,8 +111,16 @@ class WikipediaSkill(OVOSSkill):
     @common_query(callback=cq_callback)
     def match_common_query(self, phrase: str, lang: str) -> Tuple[str, float]:
 
-        if (self.voc_match(phrase, "MiscBlacklist") or
-                self.voc_match(phrase, "Weather")):
+        last_word = phrase.strip().split()[-1] if phrase.strip() else ""
+        if (self.voc_match(phrase, "misc_blacklist") or
+                self.voc_match(phrase, "weather") or
+                self._is_anaphoric(last_word, lang)):
+            # bare anaphora ("who is he", "what about it") has no article to
+            # look up; decline rather than searching wikipedia for the
+            # pronoun itself. checked against the trailing word only, an
+            # exact match rather than containment, so real titles that merely
+            # end in a non-pronoun word ("her majesty", "the it crowd") are
+            # still searched
             return None
 
         sess = SessionManager.get()
