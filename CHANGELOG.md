@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.8.17a6](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a6) (2026-08-26)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a5...0.8.17a6)
+
+**Merged pull requests:**
+
+- translate\(kab-DZ\): update no entry found.dialog [\#187](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/187) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
+- translate\(kab-DZ\): update thats all.dialog [\#186](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/186) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
+- translate\(kab-DZ\): update wikiroulette.intent [\#185](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/185) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
+- translate\(kab-DZ\): update wiki.intent [\#184](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/184) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
+- translate\(kab-DZ\): update searching.dialog [\#183](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/183) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
+
 ## [0.8.17a5](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a5) (2026-08-12)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a4...0.8.17a5)
