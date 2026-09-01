@@ -1,16 +1,6 @@
-display random wiki
-display random wikipedia
-open random wiki
-open random wikipedia
-play the wiki roulette
-play the wikipedia roulette
-play wiki roulette
-play wikipedia roulette
-random wiki
-random wiki page
-random wikipedia
-random wikipedia page
-show random wiki
-show random wikipedia
-wiki roulette
-wikipedia roulette
+# Random-article ("roulette") request, keyword-anchored to "wiki"/"wikipedia"
+# so it never fires on a bare "random" / "surprise me".
+(display|show|open) [a] random (wiki|wikipedia) [page]
+play [the] (wiki|wikipedia) roulette
+random (wiki|wikipedia) [page]
+(wiki|wikipedia) roulette

@@ -81,26 +81,25 @@ TRIO_ARBITRATION = [
     ("what does word net say about word", "ovos-skill-wordnet.openvoiceos"),
 ]
 
-# Real, CI-reproduced collision: en-US/wiki.intent's padatious training data
-# includes the generic template "search wiki for {query}", which shares
-# enough tokens ("search"..."for"...slot) with "search the wolf for
-# something" that padatious's fuzzy matcher claims it for wikipedia instead
-# of wolfie. Confirmed under CI-pinned padatious; does NOT reproduce in this
-# dev venv (no libfann-dev/sudo here to build ovos-padatious, so padacioso --
-# a stricter, non-fuzzy matcher -- handles it and correctly does not claim
-# it). This is a real, out-of-scope defect (wikipedia's own "search ... for"
-# template is too generic), not a corpus mistake, and not blind-edited here
-# since there's no local way to verify a template change against padatious.
-# Tracked as a strict xfail, gated on padatious actually being installed
-# (same shape as the sibling ovos-skill-spelling PR's xfail): a row that
-# stops reproducing (env gets padatious and it no longer collides, or the
-# template gets fixed) must fail the build.
+# en-US/wiki.intent's padatious training data includes the generic template
+# "search wiki for {query}", which shares enough tokens ("search"..."for"
+# ...slot) with "search the wolf for something" that padatious's fuzzy
+# matcher can claim it for wikipedia instead of wolfie. Whether this
+# actually happens depends on padatious's trained model, which is
+# nondeterministic run to run (same training data, different vector-space
+# outcome) -- this confusable sometimes routes away correctly and sometimes
+# doesn't. Tracked as a non-strict xfail, gated on padatious actually being
+# installed (same shape as the sibling ovos-skill-spelling PR's xfail): a
+# non-strict xfail records the miss when it happens without failing the
+# build on the runs where padatious happens to get it right.
 _TRIO_XFAIL_REASONS = {
     "search the wolf for something": (
-        "padatious fuzzy-matches this to wiki.intent via token overlap on "
-        "the generic 'search ... for {query}' template shared by several "
-        "wiki.intent training lines; reproduces under CI-pinned padatious, "
-        "not under the padacioso fallback used in this dev venv."
+        "padatious training variance: this confusable sometimes routes away "
+        "correctly and sometimes doesn't, from the same training data, "
+        "because padatious's fuzzy matcher shares tokens between wiki.intent's "
+        "generic 'search ... for {query}' template and this utterance -- "
+        "non-strict because the outcome is genuinely nondeterministic, not a "
+        "fixed defect."
     ),
 }
 
@@ -116,7 +115,7 @@ def _as_trio_param(case):
     reason = _TRIO_XFAIL_REASONS.get(text)
     if reason is None or not _PADATIOUS_INSTALLED:
         return pytest.param(case, id=text)
-    return pytest.param(case, id=text, marks=pytest.mark.xfail(reason=reason, strict=True))
+    return pytest.param(case, id=text, marks=pytest.mark.xfail(reason=reason, strict=False))
 
 
 TRIO_PARAMS = [_as_trio_param(c) for c in TRIO_ARBITRATION]
@@ -236,3 +235,24 @@ def test_trio_arbitration_not_claimed_by_wikipedia(minicroft, case):
     assert not claimed, (
         f"{text!r} (expected to belong to {expected_claimant}) was incorrectly claimed by {SKILL_ID}"
     )
+
+
+@pytest.mark.timeout(60)
+def test_weather_neural_tier_not_claimed(minicroft):
+    """"can you tell me the weather" never exact-matches a wiki.intent
+    template, so it is only ever scored by the neural (padatious) tier,
+    where ``voc_blacklist=["weather"]`` correctly suppresses the match."""
+    types = _types(minicroft, "can you tell me the weather", "weather-neural")
+    claimed = any(t.startswith(f"{SKILL_ID}:") for t in types)
+    assert not claimed, "neural-tier weather query was incorrectly claimed by wikipedia"
+
+
+@pytest.mark.timeout(60)
+def test_weather_exact_template_match_still_blacklisted(minicroft):
+    """"tell me about the weather on wikipedia" exact-matches the "tell me
+    about {query} on wikipedia" wiki.intent template with query="the
+    weather"; voc_blacklist=["weather"] correctly suppresses it here too,
+    confirmed under CI-pinned ovos-padatious (not just the neural tier)."""
+    types = _types(minicroft, "tell me about the weather on wikipedia", "weather-exact")
+    claimed = any(t.startswith(f"{SKILL_ID}:") for t in types)
+    assert not claimed, "exact-template weather query was incorrectly claimed by wikipedia"

@@ -13,5 +13,4 @@ jobs:
       install_extras: 'test'
       require_adapt: true
       require_padatious: true
-      system_deps: 'swig libfann-dev'
       test_path: 'test/end2end/'

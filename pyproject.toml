@@ -19,13 +19,28 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# The end-to-end suite boots an in-process MiniCroft (ovos-core) with the
+# padatious pipeline. That stack currently only ships as pre-releases, so each
+# one is floor-pinned to its alpha: the resolver then picks it without a global
+# --pre (which would also drag unrelated projects onto pre-releases).
 test = [
-    "pytest",
-    "pytest-timeout",
-    "ovoscope>=1.0.1a1",
-    "ovos-workshop>=8.3.0a1,<10.0.0",
-    "ovos-adapt-parser>=1.6.0a1,<2.0.0",
-    "ovos-padatious>=1.1.0a1,<2.0.0",
+    "ovoscope>=1.5.0",
+    "pytest>=7.0.0",
+    "pytest-timeout>=2.0.0",
+    "ovos-core>=2.2.4a1",
+    "ovos-padatious>=2.0.7a1",
+    "ovos-adapt-parser>=1.6.0a1",
+    "ovos-workshop>=9.5.0a1",
+    "ovos-bus-client>=2.2.0a1",
+    "ovos-plugin-manager>=2.9.0a1",
+    "ovos-config>=2.1.4a5",
+    "ovos-utils>=0.13.4a1",
+    "ovos-spec-tools>=1.4.0a1",
+    "ovos-number-parser>=0.5.2a2",
+    "ovos-yes-no-plugin>=0.3.1a1",
+    "padacioso>=1.1.1a1",
+    "json-database>=1.0.2a1",
+    "quebra-frases>=0.3.8a1"
 ]
 
 [project.urls]

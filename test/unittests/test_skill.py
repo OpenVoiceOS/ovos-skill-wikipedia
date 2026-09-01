@@ -18,6 +18,14 @@ def _make_result(title="Python", summary="Python is a language.", conf=0.8, imag
     return r
 
 
+_PRONOUN_WORDS = ["he", "him", "his", "she", "her", "hers", "it", "its", "they",
+                  "them", "their", "theirs", "that", "this", "those", "these"]
+
+
+def _pronoun_voc_list(voc_filename, lang=None):
+    return _PRONOUN_WORDS if voc_filename == "pronoun" else []
+
+
 def _make_skill():
     with patch("ovos_wikipedia.WikipediaRetrievalEngine") as mock_engine_cls:
         from ovos_skill_wikipedia import WikipediaSkill
@@ -111,6 +119,37 @@ class TestHandleSearch(unittest.TestCase):
             self.skill.handle_search(self._message("Ada Lovelace"))
         self.skill.gui.show_animated_image.assert_not_called()
 
+    def test_anaphoric_slot_value_is_not_searched(self):
+        self.skill.voc_list = MagicMock(return_value=["he", "him", "her", "it", "they"])
+        self.skill.wiki.search.return_value = [_make_result()]
+        self.skill.handle_search(self._message("him"))
+        self.skill.wiki.search.assert_not_called()
+        self.skill.speak_dialog.assert_called_once_with("no_query")
+
+    def test_non_anaphoric_slot_value_is_searched(self):
+        self.skill.voc_list = MagicMock(return_value=["he", "him", "her", "it", "they"])
+        self.skill.wiki.search.return_value = [_make_result()]
+        self.skill.handle_search(self._message("Ada Lovelace"))
+        self.skill.wiki.search.assert_called_once()
+
+    def test_title_containing_pronoun_word_is_not_excluded(self):
+        """"the it crowd" / "her majesty" are real titles: the check is an
+        exact match against the whole {query} value, never a containment
+        test, so they must still be searched."""
+        self.skill.voc_list = MagicMock(return_value=["he", "him", "her", "it", "they"])
+        self.skill.wiki.search.return_value = [_make_result()]
+        self.skill.handle_search(self._message("the it crowd"))
+        self.skill.wiki.search.assert_called_once()
+        self.skill.handle_search(self._message("her majesty"))
+        self.assertEqual(self.skill.wiki.search.call_count, 2)
+
+    def test_empty_query_reprompts(self):
+        self.skill.voc_list = MagicMock(return_value=["he", "him", "her", "it", "they"])
+        self.skill.wiki.search.return_value = [_make_result()]
+        self.skill.handle_search(self._message(""))
+        self.skill.wiki.search.assert_not_called()
+        self.skill.speak_dialog.assert_called_once_with("no_query")
+
 
 # ---------------------------------------------------------------------------
 # match_common_query
@@ -142,16 +181,87 @@ class TestMatchCommonQuery(unittest.TestCase):
         self.assertIsNone(ret)
 
     def test_returns_none_for_misc_blacklist(self):
-        self.skill.voc_match.side_effect = lambda phrase, voc: voc == "MiscBlacklist"
+        self.skill.voc_match.side_effect = lambda phrase, voc: voc == "misc_blacklist"
         ret = self.skill.match_common_query("how do you install this", "en-US")
         self.assertIsNone(ret)
         self.skill.wiki.search.assert_not_called()
 
     def test_returns_none_for_weather_query(self):
-        self.skill.voc_match.side_effect = lambda phrase, voc: voc == "Weather"
+        self.skill.voc_match.side_effect = lambda phrase, voc: voc == "weather"
         ret = self.skill.match_common_query("what is the weather today", "en-US")
         self.assertIsNone(ret)
         self.skill.wiki.search.assert_not_called()
+
+    def test_returns_none_for_bare_anaphora(self):
+        """"he" has no article to look up and must never reach the
+        live wikipedia search."""
+        self.skill.voc_list = MagicMock(return_value=["he", "him", "her", "it", "they"])
+        ret = self.skill.match_common_query("he", "en-US")
+        self.assertIsNone(ret)
+        self.skill.wiki.search.assert_not_called()
+
+    def _use_real_voc_match(self):
+        """Restore the real (unmocked) ``voc_match`` implementation, backed
+        by a stubbed ``voc_list`` -- so these tests exercise the actual
+        containment-vs-exact-match semantics instead of an always-False
+        stand-in that can't tell the buggy and fixed code apart."""
+        from ovos_skill_wikipedia import WikipediaSkill
+        self.skill.voc_match = WikipediaSkill.voc_match.__get__(self.skill, WikipediaSkill)
+        self.skill.voc_list = MagicMock(side_effect=_pronoun_voc_list)
+
+    def test_who_is_her_majesty_is_answered(self):
+        """"her majesty" is a real article title; the anaphora guard must
+        not reject it just because it contains the pronoun word "her"."""
+        self._use_real_voc_match()
+        result = _make_result(summary="Elizabeth II was a monarch.", conf=0.9)
+        self.skill.wiki.search.return_value = [result]
+        with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
+            mock_sm.get.return_value.session_id = "s6"
+            mock_sm.get.return_value.lang = "en-US"
+            ret = self.skill.match_common_query("who is her majesty", "en-US")
+        self.assertEqual(ret, ("Elizabeth II was a monarch.", 0.9))
+
+    def test_what_is_the_it_crowd_is_answered(self):
+        self._use_real_voc_match()
+        result = _make_result(summary="A British sitcom.", conf=0.9)
+        self.skill.wiki.search.return_value = [result]
+        with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
+            mock_sm.get.return_value.session_id = "s7"
+            mock_sm.get.return_value.lang = "en-US"
+            ret = self.skill.match_common_query("what is the it crowd", "en-US")
+        self.assertEqual(ret, ("A British sitcom.", 0.9))
+
+    def test_tell_me_about_his_dark_materials_is_answered(self):
+        self._use_real_voc_match()
+        result = _make_result(summary="A fantasy trilogy.", conf=0.9)
+        self.skill.wiki.search.return_value = [result]
+        with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
+            mock_sm.get.return_value.session_id = "s8"
+            mock_sm.get.return_value.lang = "en-US"
+            ret = self.skill.match_common_query("tell me about his dark materials", "en-US")
+        self.assertEqual(ret, ("A fantasy trilogy.", 0.9))
+
+    def test_who_is_he_still_declined(self):
+        self._use_real_voc_match()
+        ret = self.skill.match_common_query("who is he", "en-US")
+        self.assertIsNone(ret)
+        self.skill.wiki.search.assert_not_called()
+
+    def test_what_about_it_still_declined(self):
+        self._use_real_voc_match()
+        ret = self.skill.match_common_query("what about it", "en-US")
+        self.assertIsNone(ret)
+        self.skill.wiki.search.assert_not_called()
+
+    def test_real_question_still_answered(self):
+        self.skill.voc_match.return_value = False
+        result = _make_result(summary="Ada was a mathematician.", conf=0.9)
+        self.skill.wiki.search.return_value = [result]
+        with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
+            mock_sm.get.return_value.session_id = "s5"
+            mock_sm.get.return_value.lang = "en-US"
+            ret = self.skill.match_common_query("who is ada lovelace", "en-US")
+        self.assertEqual(ret, ("Ada was a mathematician.", 0.9))
 
     def test_stores_image_in_session_results(self):
         result = _make_result(image="http://img.example.com/pic.jpg")
