@@ -9,7 +9,7 @@ can you find {query} on (wiki|wikipedia)
 check (wiki|wikipedia) for {query}
 find details about {query} (on|in) (wiki|wikipedia)
 give me information (on|about) {query} from (wiki|wikipedia)
-look up {query} (on|in) (wiki|wikipedia)
+[please] look up {query} (on|in) (wiki|wikipedia)
 search (wiki|wikipedia) for [details about] {query}
 tell me about {query} (on|from) (wiki|wikipedia)
 what does [the] (wiki|wikipedia) say (about|regarding) {query}

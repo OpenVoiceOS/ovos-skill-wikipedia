@@ -9,15 +9,23 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import Optional, Tuple
+import re
+from typing import List, Optional, Tuple
 
 import requests
 from ovos_bus_client.session import SessionManager
+from ovos_spec_tools.context import resolve_key
 from ovos_utils import classproperty
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_wikipedia import WikipediaRetrievalEngine, WikipediaResult
 from ovos_workshop.decorators import intent_handler, common_query
+from ovos_workshop.intents import IntentBuilder
 from ovos_workshop.skills.ovos import OVOSSkill
+
+# `self.set_context`/`remove_context` only accept string values (adapt-engine
+# legacy context words), so title + remaining chunks are packed into one
+# string on this separator rather than a dict, and split back apart on read.
+_CONTEXT_SEP = "\x1f"
 
 
 class WikipediaSkill(OVOSSkill):
@@ -50,6 +58,23 @@ class WikipediaSkill(OVOSSkill):
         """
         return phrase.strip().lower() in set(self.voc_list("pronoun", lang=lang))
 
+    @staticmethod
+    def _remaining_chunks(summary: str, spoken: str) -> List[str]:
+        """Split whatever of ``summary`` was not already ``spoken`` into
+        sentence-sized chunks, for a follow-up "tell me more" to work
+        through one at a time.
+
+        ``spoken`` is either the full summary (nothing left) or a shorter
+        QA-selected passage drawn from within it (the rest of the summary
+        is still unread).
+        """
+        text = summary or ""
+        if spoken and spoken == text:
+            text = ""
+        elif spoken and spoken in text:
+            text = text.replace(spoken, "", 1)
+        return [s.strip() for s in re.split(r"(?<=[.!?])\s+", text) if s.strip()]
+
     # explicit wikipedia requests
     @intent_handler("wiki.intent", voc_blacklist=["weather"])
     def handle_search(self, message):
@@ -69,9 +94,55 @@ class WikipediaSkill(OVOSSkill):
         results = self.wiki.search(query, lang=sess.lang)
         if results:
             best = results[0]
-            self.speak(best.best_passage or best.summary)
+            spoken = best.best_passage or best.summary
+            self.speak(spoken)
+            chunks = self._remaining_chunks(best.summary, spoken)
+            if chunks:
+                self.set_context("prev_wiki_article",
+                                  _CONTEXT_SEP.join([best.title] + chunks),
+                                  origin="wiki.intent")
         else:
             self.speak_dialog("no_answer")
+
+    def _read_prev_wiki_article(self, message) -> Tuple[str, List[str]]:
+        """Read the "prev_wiki_article" adapt-engine context back out of the
+        session (`self.set_context` writes it private-scoped, owned by this
+        skill -- `message.data` doesn't reliably carry the stored value
+        back, per OVOS-CONTEXT-1 §5.0, so it's read from the session's
+        `intent_context` map directly instead).
+        """
+        session = SessionManager.get(message)
+        key = resolve_key("prev_wiki_article", "private", self.skill_id)
+        entry = (session.intent_context or {}).get(key)
+        if not isinstance(entry, dict) or not isinstance(entry.get("value"), str):
+            return "", []
+        title, *chunks = entry["value"].split(_CONTEXT_SEP)
+        return title, chunks
+
+    @intent_handler(IntentBuilder("WikiMoreIntent")
+                     .require("more").require("prev_wiki_article"))
+    def handle_wiki_more_intent(self, message):
+        """Follow-up "tell me more" -- speak the next unread chunk of the
+        last article looked up via ``handle_search``.
+
+        The gate has no meaning of its own -- "more" is only ever paired
+        with the "prev_wiki_article" context set on a successful lookup,
+        never satisfied by the utterance alone (a bare "tell me more" with
+        nothing looked up first must not fire this handler).
+        """
+        title, chunks = self._read_prev_wiki_article(message)
+        if not chunks:
+            self.speak_dialog("nothing.more", {"title": title})
+            self.remove_context("prev_wiki_article")
+            return
+        next_chunk, remaining = chunks[0], chunks[1:]
+        self.speak(next_chunk)
+        # kept even when `remaining` is empty (rather than removed outright)
+        # so the *next* "tell me more" still has the title to speak in
+        # nothing.more.dialog, instead of falling back to an empty {title}
+        self.set_context("prev_wiki_article",
+                          _CONTEXT_SEP.join([title] + remaining),
+                          origin="WikiMoreIntent")
 
     def _get_random_page(self, lang: str) -> Optional[WikipediaResult]:
         url = f"https://{lang}.wikipedia.org/w/api.php"
