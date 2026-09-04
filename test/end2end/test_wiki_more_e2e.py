@@ -8,16 +8,22 @@ more" in the SAME session, so the intent-context write from
 ``handle_search`` is actually read back by ``WikiMoreIntent`` instead of
 being asserted at the unit level only.
 
-``_fire()`` looks the live session back up in ``SessionManager.sessions``
-after a turn completes, since the context write happens server-side on the
-``SessionManager`` registry singleton, not on the caller's local ``Session``
-snapshot (same shape as the sibling wallpapers-skill slideshow-gate suite).
+``_fire()`` captures the session off the skill's own
+``mycroft.skill.handler.complete`` done-signal (the ``CaptureSession`` EOF
+marker already used to know the turn is finished) rather than reading the
+orchestrator's private ``SessionManager.sessions`` registry: that registry
+is default-session-only per spec and never holds a named conversation
+session's real state. ``mycroft.skill.handler.complete`` is used instead of
+``ovos.utterance.speak`` because both ``handle_search`` and
+``handle_wiki_more_intent`` speak BEFORE writing "prev_wiki_article"
+(speak-then-set order); ``handler.complete`` only fires once the handler has
+fully returned, so it reflects the context write regardless of that
+ordering. The captured session is then re-declared on the next turn's
+utterance, exactly as a real client would.
 """
-from unittest.mock import patch
-
 import pytest
 from ovos_bus_client.message import Message
-from ovos_bus_client.session import Session, SessionManager
+from ovos_bus_client.session import Session
 from ovos_wikipedia import WikipediaResult
 from ovoscope import CaptureSession, get_minicroft
 
@@ -82,8 +88,11 @@ def _fire(mc, session, text):
     messages = capture.finish()
     spoken = [m.data.get("utterance", "") for m in messages if m.msg_type == "ovos.utterance.speak"]
     types = [m.msg_type for m in messages]
-    live_session = SessionManager.sessions.get(session.session_id, session)
-    return spoken, types, live_session
+    carried_session = session
+    for m in messages:
+        if m.msg_type == "mycroft.skill.handler.complete" and m.context.get("session"):
+            carried_session = Session.deserialize(m.context["session"])
+    return spoken, types, carried_session
 
 
 @pytest.mark.timeout(90)
