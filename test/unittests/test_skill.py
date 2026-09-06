@@ -8,7 +8,6 @@ from unittest.mock import MagicMock, patch, call
 
 from ovos_bus_client.message import Message
 from ovos_bus_client.session import Session
-from ovos_spec_tools.context import resolve_key
 from ovos_utils.fakebus import FakeBus
 from ovos_wikipedia import WikipediaResult
 
@@ -412,18 +411,15 @@ class TestWikiMoreContext(unittest.TestCase):
         self.skill.speak = MagicMock()
         self.skill.speak_dialog = MagicMock()
         self.skill.gui = MagicMock()
-        self.skill.set_context = MagicMock()
-        self.skill.remove_context = MagicMock()
 
     def _message(self, query="Ada Lovelace"):
         return Message("ovos.skills.test", data={"query": query})
 
     def _prime_context(self, session, title, chunks):
-        """Write "prev_wiki_article" the same way ``self.set_context`` does:
-        private-scoped, owned by the skill, packed on the same separator."""
-        key = resolve_key("prev_wiki_article", "private", self.skill.skill_id)
+        """Write "prev_wiki_article" the same way ``session.set_intent_context``
+        does: OVOS-CONTEXT-1 shared scope, packed on the same separator."""
         session.intent_context = {
-            key: {"value": "\x1f".join([title] + chunks)}
+            "prev_wiki_article": {"value": "\x1f".join([title] + chunks)}
         }
 
     def test_handle_search_sets_context_when_summary_has_leftover_sentences(self):
@@ -433,24 +429,26 @@ class TestWikiMoreContext(unittest.TestCase):
             title="Ada Lovelace",
         )
         self.skill.wiki.search.return_value = [result]
+        session = Session("s-more-1")
+        session.lang = "en-US"
         with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
-            mock_sm.get.return_value.session_id = "s-more-1"
-            mock_sm.get.return_value.lang = "en-US"
+            mock_sm.get.return_value = session
             self.skill.handle_search(self._message())
-        self.skill.set_context.assert_called_once_with(
-            "prev_wiki_article",
+        entry = session.intent_context["prev_wiki_article"]
+        self.assertEqual(
+            entry["value"],
             "Ada Lovelace\x1fShe worked with Babbage.\x1fShe wrote the first algorithm.",
-            origin="wiki.intent",
         )
 
     def test_handle_search_sets_no_context_when_nothing_left(self):
         result = _make_result(summary="Ada was a mathematician.", best_passage=None, title="Ada Lovelace")
         self.skill.wiki.search.return_value = [result]
+        session = Session("s-more-2")
+        session.lang = "en-US"
         with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
-            mock_sm.get.return_value.session_id = "s-more-2"
-            mock_sm.get.return_value.lang = "en-US"
+            mock_sm.get.return_value = session
             self.skill.handle_search(self._message())
-        self.skill.set_context.assert_not_called()
+        self.assertNotIn("prev_wiki_article", session.intent_context or {})
 
     def test_wiki_more_speaks_next_chunk_and_keeps_context(self):
         session = Session("s-more-3")
@@ -459,9 +457,8 @@ class TestWikiMoreContext(unittest.TestCase):
             mock_sm.get.return_value = session
             self.skill.handle_wiki_more_intent(self._message())
         self.skill.speak.assert_called_once_with("First more bit.")
-        self.skill.set_context.assert_called_once_with(
-            "prev_wiki_article", "Ada Lovelace\x1fSecond more bit.", origin="WikiMoreIntent")
-        self.skill.remove_context.assert_not_called()
+        entry = session.intent_context["prev_wiki_article"]
+        self.assertEqual(entry["value"], "Ada Lovelace\x1fSecond more bit.")
 
     def test_wiki_more_exhausts_and_speaks_nothing_more_dialog(self):
         session = Session("s-more-4")
@@ -470,8 +467,8 @@ class TestWikiMoreContext(unittest.TestCase):
             mock_sm.get.return_value = session
             self.skill.handle_wiki_more_intent(self._message())
         self.skill.speak.assert_called_once_with("Last bit.")
-        self.skill.set_context.assert_called_once_with(
-            "prev_wiki_article", "Ada Lovelace", origin="WikiMoreIntent")
+        entry = session.intent_context["prev_wiki_article"]
+        self.assertEqual(entry["value"], "Ada Lovelace")
 
         # a second "more" call sees the now-empty chunk list this write
         # produced, and speaks the exhaustion dialog with the title intact
@@ -481,7 +478,7 @@ class TestWikiMoreContext(unittest.TestCase):
             self.skill.handle_wiki_more_intent(self._message())
         self.skill.speak_dialog.assert_called_once_with(
             "nothing.more", {"title": "Ada Lovelace"})
-        self.skill.remove_context.assert_called_once_with("prev_wiki_article")
+        self.assertIsNone(session.intent_context["prev_wiki_article"])
 
     def test_wiki_more_without_context_speaks_nothing_more_dialog(self):
         session = Session("s-more-5")

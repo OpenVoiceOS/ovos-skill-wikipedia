@@ -14,17 +14,18 @@ from typing import List, Optional, Tuple
 
 import requests
 from ovos_bus_client.session import SessionManager
-from ovos_spec_tools.context import resolve_key
 from ovos_utils import classproperty
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_wikipedia import WikipediaRetrievalEngine, WikipediaResult
 from ovos_workshop.decorators import intent_handler, common_query
-from ovos_workshop.intents import IntentBuilder
 from ovos_workshop.skills.ovos import OVOSSkill
 
-# `self.set_context`/`remove_context` only accept string values (adapt-engine
-# legacy context words), so title + remaining chunks are packed into one
-# string on this separator rather than a dict, and split back apart on read.
+# OVOS-CONTEXT-1 shared-scope key holding the title + unread sentence chunks
+# of the last article looked up, so a follow-up "tell me more" can continue
+# reading it. Session context values are opaque JSON-able payloads (not
+# limited to adapt-engine's plain context words), so title and chunks are
+# packed on this separator into one string rather than needing a dict.
+PREV_WIKI_ARTICLE_CONTEXT = "prev_wiki_article"
 _CONTEXT_SEP = "\x1f"
 
 
@@ -98,51 +99,48 @@ class WikipediaSkill(OVOSSkill):
             self.speak(spoken)
             chunks = self._remaining_chunks(best.summary, spoken)
             if chunks:
-                self.set_context("prev_wiki_article",
-                                  _CONTEXT_SEP.join([best.title] + chunks),
-                                  origin="wiki.intent")
+                sess.set_intent_context(PREV_WIKI_ARTICLE_CONTEXT,
+                                         _CONTEXT_SEP.join([best.title] + chunks),
+                                         scope="shared", turns_remaining=3)
         else:
             self.speak_dialog("no_answer")
 
-    def _read_prev_wiki_article(self, message) -> Tuple[str, List[str]]:
-        """Read the "prev_wiki_article" adapt-engine context back out of the
-        session (`self.set_context` writes it private-scoped, owned by this
-        skill -- `message.data` doesn't reliably carry the stored value
-        back, per OVOS-CONTEXT-1 §5.0, so it's read from the session's
-        `intent_context` map directly instead).
-        """
-        session = SessionManager.get(message)
-        key = resolve_key("prev_wiki_article", "private", self.skill_id)
-        entry = (session.intent_context or {}).get(key)
+    @staticmethod
+    def _read_prev_wiki_article(session) -> Tuple[str, List[str]]:
+        """Read the "prev_wiki_article" OVOS-CONTEXT-1 shared-scope entry
+        back out of the session."""
+        entry = (session.intent_context or {}).get(PREV_WIKI_ARTICLE_CONTEXT)
         if not isinstance(entry, dict) or not isinstance(entry.get("value"), str):
             return "", []
         title, *chunks = entry["value"].split(_CONTEXT_SEP)
         return title, chunks
 
-    @intent_handler(IntentBuilder("WikiMoreIntent")
-                     .require("more").require("prev_wiki_article"))
+    @intent_handler("WikiMore.intent",
+                     requires_context=[{"key": PREV_WIKI_ARTICLE_CONTEXT, "scope": "shared"}])
     def handle_wiki_more_intent(self, message):
         """Follow-up "tell me more" -- speak the next unread chunk of the
         last article looked up via ``handle_search``.
 
-        The gate has no meaning of its own -- "more" is only ever paired
-        with the "prev_wiki_article" context set on a successful lookup,
-        never satisfied by the utterance alone (a bare "tell me more" with
-        nothing looked up first must not fire this handler).
+        Gated on OVOS-CONTEXT-1 ``requires_context`` rather than a keyword
+        vocab: "tell me more" has no meaning of its own, it only fires as a
+        follow-up to a lookup that already set "prev_wiki_article" (a bare
+        "tell me more" with nothing looked up first must not fire this
+        handler).
         """
-        title, chunks = self._read_prev_wiki_article(message)
+        session = SessionManager.get(message)
+        title, chunks = self._read_prev_wiki_article(session)
         if not chunks:
             self.speak_dialog("nothing.more", {"title": title})
-            self.remove_context("prev_wiki_article")
+            session.remove_intent_context(PREV_WIKI_ARTICLE_CONTEXT, scope="shared")
             return
         next_chunk, remaining = chunks[0], chunks[1:]
         self.speak(next_chunk)
         # kept even when `remaining` is empty (rather than removed outright)
         # so the *next* "tell me more" still has the title to speak in
         # nothing.more.dialog, instead of falling back to an empty {title}
-        self.set_context("prev_wiki_article",
-                          _CONTEXT_SEP.join([title] + remaining),
-                          origin="WikiMoreIntent")
+        session.set_intent_context(PREV_WIKI_ARTICLE_CONTEXT,
+                                    _CONTEXT_SEP.join([title] + remaining),
+                                    scope="shared", turns_remaining=3)
 
     def _get_random_page(self, lang: str) -> Optional[WikipediaResult]:
         url = f"https://{lang}.wikipedia.org/w/api.php"
