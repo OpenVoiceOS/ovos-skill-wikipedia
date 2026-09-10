@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.12.1a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.12.1a1) (2026-09-10)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.12.0a1...0.12.1a1)
+
+**Merged pull requests:**
+
+- fix: raise ovos-workshop floor to 9.8.1a1 for voc\_list lang fix [\#208](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/208) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+- translate\(da-DK\): add missing no\_query/nothing.more dialogs + pronoun.voc, remove dead more.voc [\#206](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/206) ([andlo](https://github.com/andlo))
+
 ## [0.12.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.12.0a1) (2026-09-07)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.11.2a1...0.12.0a1)
@@ -58,19 +67,19 @@
 
 ## [0.8.17a8](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a8) (2026-08-26)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a6...0.8.17a8)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a7...0.8.17a8)
 
 **Merged pull requests:**
 
 - translate\(kab-DZ\): update thats all.dialog [\#188](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/188) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
 
-## [0.8.17a6](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a6) (2026-08-26)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a7...0.8.17a6)
-
 ## [0.8.17a7](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a7) (2026-08-26)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a5...0.8.17a7)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a6...0.8.17a7)
+
+## [0.8.17a6](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a6) (2026-08-26)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a5...0.8.17a6)
 
 **Merged pull requests:**
 
