@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.12.1a3](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.12.1a3) (2026-09-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.12.1a2...0.12.1a3)
+
+**Merged pull requests:**
+
+- translate\(kab\): update nothing.more.dialog [\#212](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/212) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
+- translate\(kab\): update skill.json [\#211](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/211) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
+
 ## [0.12.1a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.12.1a2) (2026-09-13)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.12.1a1...0.12.1a2)
