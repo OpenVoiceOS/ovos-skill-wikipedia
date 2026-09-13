@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.12.1a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.12.1a2) (2026-09-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.12.1a1...0.12.1a2)
+
+**Merged pull requests:**
+
+- translate\(kab\): update no\_query.dialog [\#213](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/213) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
+- translate\(kab\): update weather.voc [\#210](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/210) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
+
 ## [0.12.1a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.12.1a1) (2026-09-10)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.12.0a1...0.12.1a1)
@@ -67,19 +76,19 @@
 
 ## [0.8.17a8](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a8) (2026-08-26)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a7...0.8.17a8)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a6...0.8.17a8)
 
 **Merged pull requests:**
 
 - translate\(kab-DZ\): update thats all.dialog [\#188](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/188) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
 
-## [0.8.17a7](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a7) (2026-08-26)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a6...0.8.17a7)
-
 ## [0.8.17a6](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a6) (2026-08-26)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a5...0.8.17a6)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a7...0.8.17a6)
+
+## [0.8.17a7](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a7) (2026-08-26)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a5...0.8.17a7)
 
 **Merged pull requests:**
 
