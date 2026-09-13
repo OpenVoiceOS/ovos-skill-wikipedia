@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.13.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.13.0a1) (2026-09-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.12.1a3...0.13.0a1)
+
+**Merged pull requests:**
+
+- feat\(locale\): parity for ovos-skill-wikipedia \(11 locales\) [\#216](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/216) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.12.1a3](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.12.1a3) (2026-09-13)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.12.1a2...0.12.1a3)
