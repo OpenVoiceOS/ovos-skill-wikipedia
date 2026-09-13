@@ -5,16 +5,16 @@
 # "what is X" / "who is X" phrasings are intentionally NOT listed here; they
 # are handled by the common_query fallback, which scores low and yields to
 # any skill with a better answer.
-można znaleźć {query} w (wiki|wikiepia)
-Spraw (wiki|wikiepia) dla {query}
-Znajdź szczegóły dotyczące {query} (w dniu|w) (wiki|wikiepia)
-Podaj mi informacje (w dniu|o) {query} od (wiki|wikiepia)
-[Proszę, proszę.] Sprawdź w górę {query} (w dniu|w) (wiki|wikiepia)
-wyszukiwanie (wiki|wikiepia) dla [Szczegóły dotyczące] {query}
-Opowiedz mi o {query} (w dniu|od) (wiki|wikiepia)
-co robi [CZĘŚĆ 2] (wiki|wikiepia) mów (o|w odniesieniu do) {query}
-co jest znane o {query} (wiki|wikiepia)
-Co to jest? (wiki|wikiepia) wpis do {query}
-O co chodzi. (wiki|wikiepia) około {query}
-kto (jest|był) {query} (w dniu|w zależności od) (wiki|wikiepia)
-(wiki|wikiepia) {query}
+można znaleźć {query} w (wiki|wikipedii)
+sprawdź {query} na (wiki|wikipedii)
+znajdź [szczegóły dotyczące] {query} (na|w) (wiki|wikipedii)
+podaj mi informacje (o|na temat) {query} z (wiki|wikipedii)
+[proszę] wyszukaj {query} (na|w) (wiki|wikipedii)
+wyszukaj (wiki|wikipedię) dla [szczegółów o] {query}
+opowiedz mi o {query} (na|w) (wiki|wikipedii)
+co (wiki|wikipedia) mówi (o|w odniesieniu do) {query}
+co jest znane o {query} na (wiki|wikipedii)
+jaki jest wpis (wiki|wikipedii) dla {query}
+co jest na (wiki|wikipedii) o {query}
+kto (jest|był) {query} (na|według) (wiki|wikipedii)
+(wiki|wikipedia) {query}

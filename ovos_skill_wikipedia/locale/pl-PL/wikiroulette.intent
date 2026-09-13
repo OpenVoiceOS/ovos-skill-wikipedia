@@ -1,6 +1,6 @@
 # Random-article ("roulette") request, keyword-anchored to "wiki"/"wikipedia"
 # so it never fires on a bare "random" / "surprise me".
-(wyświetlanie|pokazać|Otwórz) [a] losowo (wiki|wikiepia) [strona]
-rozgrzać [CZĘŚĆ 2] (wiki|wikiepia) ruletka
-losowo (wiki|wikiepia) [strona]
-(wiki|wikiepia) ruletka
+(wyświetl|pokaż|otwórz) losową (wiki|wikipedię) [stronę]
+zagraj w ruletkę (wiki|wikipedii)
+losowo (wiki|wikipedia) [strona]
+(wiki|wikipedia) ruletka
