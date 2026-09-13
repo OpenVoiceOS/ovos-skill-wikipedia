@@ -1,0 +1,23 @@
+{
+  "skill_id": "ovos-skill-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wikipedia",
+  "name": "Wikipidya",
+  "description": "Steqsi Wikipedia akken ad tafeḍ tiririyin i yesteqsiyen-ik meṛṛa. Awi-d kan agzul, neɣ suter ugar akken ad tafeḍ talɣut talqayant.",
+  "examples": [
+    "examples[0]: Ini-yi-d kra ɣef Elon Musk",
+    "examples[1]: Ini-yi-d kra ɣef yibawen",
+    "examples[2]: Nadi deg Wikipedia ɣef yibawen",
+    "examples[3]: Ini-yi-d kra ɣef Pembroke Welsh Corgi",
+    "examples[4]: Nadi ɣef ccakula",
+    "examples[5]: Ugar n telɣut",
+    "examples[6]: Ini-yi-d ugar"
+  ],
+  "tags": [
+    "tags[0]: wikipedia",
+    "tags[1]: tasanayt",
+    "tags[2]: tamusni-tamattut",
+    "tags[3]: wiki",
+    "tags[4]: asteqsi",
+    "tags[5]: tuttra"
+  ]
+}
