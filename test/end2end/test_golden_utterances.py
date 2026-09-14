@@ -256,3 +256,19 @@ def test_weather_exact_template_match_still_blacklisted(minicroft):
     types = _types(minicroft, "tell me about the weather on wikipedia", "weather-exact")
     claimed = any(t.startswith(f"{SKILL_ID}:") for t in types)
     assert not claimed, "exact-template weather query was incorrectly claimed by wikipedia"
+
+
+@pytest.mark.timeout(60)
+def test_wordnet_exact_template_match_still_blacklisted(minicroft):
+    """"tell me about wordnet on wikipedia" exact-matches the "tell me
+    about {query} on wikipedia" wiki.intent template with query="wordnet".
+    ``voc_blacklist=["wordnet"]`` suppresses it. This is the deterministic
+    proof that the brand vocabulary reaches the matcher: the neural-tier
+    theft of "ask wordnet about word" happens in about 1 run in 60, so the
+    row in NEGATIVE_UTTERANCES alone cannot show the mechanism works. The
+    cost of the suppression is that this skill does not answer a wikipedia
+    lookup ABOUT wordnet, the same trade already made for weather and
+    wikihow."""
+    types = _types(minicroft, "tell me about wordnet on wikipedia", "wordnet-exact")
+    claimed = any(t.startswith(f"{SKILL_ID}:") for t in types)
+    assert not claimed, "exact-template wordnet query was incorrectly claimed by wikipedia"

@@ -3,6 +3,7 @@ Tests for the en-US intent definitions and the {query} pronoun slot-value
 exclusion (OVOS-INTENT-2 §4.3).
 """
 import os
+import re
 import unittest
 
 from ovos_spec_tools import expand
@@ -71,13 +72,20 @@ class TestPronounVocabulary(unittest.TestCase):
 LOCALE_ROOT = os.path.dirname(LOCALE)
 
 
-class TestWikihowBlacklistParity(unittest.TestCase):
-    """``wiki.intent`` carries the generic template "search wiki for
-    {query}", which padatious sometimes matches against "search wikihow
-    for something". ``voc_blacklist=["wikihow"]`` suppresses that, but
-    only in a locale that ships the voc file: a missing file makes the
-    blacklist silently do nothing. The brand name is the same in every
-    language, so every locale with the intent must ship the file."""
+# Every brand this skill's voc_blacklist names, and the entry the file
+# must list. The brand names are the same in every language, so the file
+# is identical in each locale.
+BRAND_VOCS = (("wikihow.voc", "wikihow"), ("wordnet.voc", "wordnet"))
+
+
+class TestBrandBlacklistParity(unittest.TestCase):
+    """``wiki.intent`` carries the generic templates "search wiki for
+    {query}" and "what does the wiki say about {query}", which padatious
+    sometimes matches against "search wikihow for something" and "ask
+    wordnet about word". ``voc_blacklist`` suppresses that, but only in a
+    locale that ships the voc file: a missing file makes the blacklist
+    silently do nothing. So every locale with the intent must ship every
+    brand file."""
 
     def _locales_with_wiki_intent(self):
         return sorted(
@@ -86,17 +94,32 @@ class TestWikihowBlacklistParity(unittest.TestCase):
         )
 
     def test_every_locale_with_the_intent_ships_the_voc(self):
-        missing = [
-            d for d in self._locales_with_wiki_intent()
-            if not os.path.isfile(os.path.join(LOCALE_ROOT, d, "wikihow.voc"))
-        ]
-        self.assertEqual(missing, [], f"wikihow.voc missing in: {missing}")
+        for voc, _brand in BRAND_VOCS:
+            missing = [
+                d for d in self._locales_with_wiki_intent()
+                if not os.path.isfile(os.path.join(LOCALE_ROOT, d, voc))
+            ]
+            self.assertEqual(missing, [], f"{voc} missing in: {missing}")
 
     def test_the_voc_names_the_brand(self):
-        for d in self._locales_with_wiki_intent():
-            with open(os.path.join(LOCALE_ROOT, d, "wikihow.voc")) as f:
-                entries = {ln.strip().lower() for ln in f if ln.strip()}
-            self.assertIn("wikihow", entries, f"{d}: wikihow not listed")
+        for voc, brand in BRAND_VOCS:
+            for d in self._locales_with_wiki_intent():
+                with open(os.path.join(LOCALE_ROOT, d, voc)) as f:
+                    entries = {ln.strip().lower() for ln in f if ln.strip()}
+                self.assertIn(brand, entries, f"{d}: {brand} not listed")
+
+    def test_the_handler_blacklists_every_brand(self):
+        """A voc file that the handler does not name does nothing."""
+        src = os.path.join(
+            os.path.dirname(LOCALE_ROOT), "__init__.py")
+        with open(src) as f:
+            text = f.read()
+        match = re.search(r"voc_blacklist=\[([^\]]*)\]", text)
+        self.assertIsNotNone(match, "no voc_blacklist on the handler")
+        listed = {v.strip().strip('"\'') for v in match.group(1).split(",")}
+        for _voc, brand in BRAND_VOCS:
+            self.assertIn(brand, listed,
+                          f"{brand} not in the handler voc_blacklist")
 
 
 if __name__ == "__main__":
