@@ -241,7 +241,8 @@ def test_trio_arbitration_not_claimed_by_wikipedia(minicroft, case):
 def test_weather_neural_tier_not_claimed(minicroft):
     """"can you tell me the weather" never exact-matches a wiki.intent
     template, so it is only ever scored by the neural (padatious) tier,
-    where ``voc_blacklist=["weather"]`` correctly suppresses the match."""
+    where the weather words in ``wiki.blacklist`` correctly suppress the
+    match."""
     types = _types(minicroft, "can you tell me the weather", "weather-neural")
     claimed = any(t.startswith(f"{SKILL_ID}:") for t in types)
     assert not claimed, "neural-tier weather query was incorrectly claimed by wikipedia"
@@ -251,8 +252,35 @@ def test_weather_neural_tier_not_claimed(minicroft):
 def test_weather_exact_template_match_still_blacklisted(minicroft):
     """"tell me about the weather on wikipedia" exact-matches the "tell me
     about {query} on wikipedia" wiki.intent template with query="the
-    weather"; voc_blacklist=["weather"] correctly suppresses it here too,
-    confirmed under CI-pinned ovos-padatious (not just the neural tier)."""
+    weather"; the weather words in ``wiki.blacklist`` suppress it here
+    too, confirmed under CI-pinned ovos-padatious (not just the neural
+    tier)."""
     types = _types(minicroft, "tell me about the weather on wikipedia", "weather-exact")
     claimed = any(t.startswith(f"{SKILL_ID}:") for t in types)
     assert not claimed, "exact-template weather query was incorrectly claimed by wikipedia"
+
+
+@pytest.mark.timeout(60)
+def test_wordnet_exact_template_match_still_blacklisted(minicroft):
+    """"tell me about wordnet on wikipedia" exact-matches the "tell me
+    about {query} on wikipedia" wiki.intent template with query="wordnet".
+    ``wiki.blacklist`` suppresses it. This is the deterministic proof that
+    the brand word reaches the matcher: the neural-tier theft of "ask
+    wordnet about word" happens in about 1 run in 60, so the row in
+    NEGATIVE_UTTERANCES alone cannot show the mechanism works. The cost of
+    the suppression is that this skill does not answer a wikipedia lookup
+    ABOUT wordnet, the same trade already made for weather and wikihow."""
+    types = _types(minicroft, "tell me about wordnet on wikipedia", "wordnet-exact")
+    claimed = any(t.startswith(f"{SKILL_ID}:") for t in types)
+    assert not claimed, "exact-template wordnet query was incorrectly claimed by wikipedia"
+
+
+@pytest.mark.timeout(60)
+def test_wikihow_exact_template_match_still_blacklisted(minicroft):
+    """"tell me about wikihow on wikipedia" exact-matches the same
+    template with query="wikihow". The wikihow words moved out of
+    wikihow.voc and into ``wiki.blacklist``; this asserts the move kept
+    the suppression, deterministically, at the exact-match tier."""
+    types = _types(minicroft, "tell me about wikihow on wikipedia", "wikihow-exact")
+    claimed = any(t.startswith(f"{SKILL_ID}:") for t in types)
+    assert not claimed, "exact-template wikihow query was incorrectly claimed by wikipedia"

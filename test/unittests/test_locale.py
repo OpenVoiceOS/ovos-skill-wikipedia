@@ -71,13 +71,17 @@ class TestPronounVocabulary(unittest.TestCase):
 LOCALE_ROOT = os.path.dirname(LOCALE)
 
 
-class TestWikihowBlacklistParity(unittest.TestCase):
+class TestWikiBlacklistParity(unittest.TestCase):
     """``wiki.intent`` carries the generic template "search wiki for
-    {query}", which padatious sometimes matches against "search wikihow
-    for something". ``voc_blacklist=["wikihow"]`` suppresses that, but
-    only in a locale that ships the voc file: a missing file makes the
-    blacklist silently do nothing. The brand name is the same in every
+    {query}", which padatious sometimes matches against another skill's
+    brand ("search wikihow for something", "ask wordnet about word").
+    OVOS-INTENT-2 §1 gives the suppression words their own role, and §4.3
+    pairs the file with the intent by base name: ``wiki.blacklist`` beside
+    ``wiki.intent``. A locale with the intent and no blacklist file
+    suppresses nothing, in silence. The brand names are the same in every
     language, so every locale with the intent must ship the file."""
+
+    BRANDS = ("wikihow", "wordnet")
 
     def _locales_with_wiki_intent(self):
         return sorted(
@@ -85,18 +89,42 @@ class TestWikihowBlacklistParity(unittest.TestCase):
             if os.path.isfile(os.path.join(LOCALE_ROOT, d, "wiki.intent"))
         )
 
-    def test_every_locale_with_the_intent_ships_the_voc(self):
+    def _entries(self, lang):
+        path = os.path.join(LOCALE_ROOT, lang, "wiki.blacklist")
+        with open(path, encoding="utf-8") as f:
+            return {ln.strip().lower() for ln in f if ln.strip()}
+
+    def test_every_locale_with_the_intent_ships_the_blacklist(self):
         missing = [
             d for d in self._locales_with_wiki_intent()
-            if not os.path.isfile(os.path.join(LOCALE_ROOT, d, "wikihow.voc"))
+            if not os.path.isfile(
+                os.path.join(LOCALE_ROOT, d, "wiki.blacklist"))
         ]
-        self.assertEqual(missing, [], f"wikihow.voc missing in: {missing}")
+        self.assertEqual(missing, [], f"wiki.blacklist missing in: {missing}")
 
-    def test_the_voc_names_the_brand(self):
+    def test_the_blacklist_names_every_brand(self):
         for d in self._locales_with_wiki_intent():
-            with open(os.path.join(LOCALE_ROOT, d, "wikihow.voc")) as f:
-                entries = {ln.strip().lower() for ln in f if ln.strip()}
-            self.assertIn("wikihow", entries, f"{d}: wikihow not listed")
+            entries = self._entries(d)
+            for brand in self.BRANDS:
+                self.assertIn(brand, entries, f"{d}: {brand} not listed")
+
+    def test_the_blacklist_keeps_the_local_weather_words(self):
+        """The weather words move into the blacklist; the file they came
+        from stays, because the common-query path still reads it."""
+        for d in self._locales_with_wiki_intent():
+            path = os.path.join(LOCALE_ROOT, d, "weather.voc")
+            if not os.path.isfile(path):
+                continue  # ru-RU ships no weather.voc; see the PR body
+            with open(path, encoding="utf-8") as f:
+                weather = {ln.strip().lower() for ln in f if ln.strip()}
+            self.assertLessEqual(weather, self._entries(d), d)
+
+    def test_the_per_brand_voc_files_are_gone(self):
+        # the role replaces them; a leftover file is a second source of
+        # truth that nothing reads
+        left = [d for d in self._locales_with_wiki_intent()
+                if os.path.isfile(os.path.join(LOCALE_ROOT, d, "wikihow.voc"))]
+        self.assertEqual(left, [], f"wikihow.voc still present in: {left}")
 
 
 if __name__ == "__main__":
