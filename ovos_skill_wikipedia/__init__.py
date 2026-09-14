@@ -77,7 +77,7 @@ class WikipediaSkill(OVOSSkill):
         return [s.strip() for s in re.split(r"(?<=[.!?])\s+", text) if s.strip()]
 
     # explicit wikipedia requests
-    @intent_handler("wiki.intent", voc_blacklist=["weather"])
+    @intent_handler("wiki.intent", voc_blacklist=["weather", "wikihow"])
     def handle_search(self, message):
         """Extract what the user asked about and reply with info
         from wikipedia.

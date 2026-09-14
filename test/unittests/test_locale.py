@@ -68,5 +68,36 @@ class TestPronounVocabulary(unittest.TestCase):
             self.assertNotIn(title, pronouns)
 
 
+LOCALE_ROOT = os.path.dirname(LOCALE)
+
+
+class TestWikihowBlacklistParity(unittest.TestCase):
+    """``wiki.intent`` carries the generic template "search wiki for
+    {query}", which padatious sometimes matches against "search wikihow
+    for something". ``voc_blacklist=["wikihow"]`` suppresses that, but
+    only in a locale that ships the voc file: a missing file makes the
+    blacklist silently do nothing. The brand name is the same in every
+    language, so every locale with the intent must ship the file."""
+
+    def _locales_with_wiki_intent(self):
+        return sorted(
+            d for d in os.listdir(LOCALE_ROOT)
+            if os.path.isfile(os.path.join(LOCALE_ROOT, d, "wiki.intent"))
+        )
+
+    def test_every_locale_with_the_intent_ships_the_voc(self):
+        missing = [
+            d for d in self._locales_with_wiki_intent()
+            if not os.path.isfile(os.path.join(LOCALE_ROOT, d, "wikihow.voc"))
+        ]
+        self.assertEqual(missing, [], f"wikihow.voc missing in: {missing}")
+
+    def test_the_voc_names_the_brand(self):
+        for d in self._locales_with_wiki_intent():
+            with open(os.path.join(LOCALE_ROOT, d, "wikihow.voc")) as f:
+                entries = {ln.strip().lower() for ln in f if ln.strip()}
+            self.assertIn("wikihow", entries, f"{d}: wikihow not listed")
+
+
 if __name__ == "__main__":
     unittest.main()
