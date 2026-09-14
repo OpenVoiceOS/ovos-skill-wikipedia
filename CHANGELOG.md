@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.13.2a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.13.2a1) (2026-09-14)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.13.1a1...0.13.2a1)
+
+**Merged pull requests:**
+
+- fix\(intent\): suppress the wiki intent with wiki.blacklist, not voc\_blacklist [\#221](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/221) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.13.1a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.13.1a1) (2026-09-14)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.13.0a1...0.13.1a1)
@@ -392,25 +400,13 @@
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.4a3...0.8.4)
 
-**Merged pull requests:**
-
-- Release 0.8.4a3 [\#116](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/116) ([github-actions[bot]](https://github.com/apps/github-actions))
-
 ## [0.8.4a3](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.4a3) (2025-04-08)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.4a2...0.8.4a3)
 
-**Merged pull requests:**
-
-- es-es/translate [\#115](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/115) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
-
 ## [0.8.4a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.4a2) (2025-04-08)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.4a1...0.8.4a2)
-
-**Merged pull requests:**
-
-- Release 0.8.4a2 [\#114](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/114) ([github-actions[bot]](https://github.com/apps/github-actions))
 
 ## [0.8.4a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.4a1) (2025-04-03)
 
