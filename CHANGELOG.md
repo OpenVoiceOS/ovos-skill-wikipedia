@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.14.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.14.0a1) (2026-09-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.13.2a1...0.14.0a1)
+
+**Merged pull requests:**
+
+- feat\(locale\): fill kab, nl-NL and pt-PT gaps against en-US [\#227](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/227) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.13.2a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.13.2a1) (2026-09-14)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.13.1a1...0.13.2a1)
@@ -109,19 +117,19 @@
 
 ## [0.8.17a8](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a8) (2026-08-26)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a7...0.8.17a8)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a6...0.8.17a8)
 
 **Merged pull requests:**
 
 - translate\(kab-DZ\): update thats all.dialog [\#188](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/188) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
 
-## [0.8.17a7](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a7) (2026-08-26)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a6...0.8.17a7)
-
 ## [0.8.17a6](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a6) (2026-08-26)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a5...0.8.17a6)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a7...0.8.17a6)
+
+## [0.8.17a7](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a7) (2026-08-26)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a5...0.8.17a7)
 
 **Merged pull requests:**
 
@@ -394,7 +402,6 @@
 **Merged pull requests:**
 
 - Release 0.8.6a1 [\#119](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/119) ([github-actions[bot]](https://github.com/apps/github-actions))
-- fix: extend keyword blacklist [\#118](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/118) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [0.8.4](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.4) (2025-04-08)
 
