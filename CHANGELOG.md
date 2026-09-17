@@ -1,8 +1,20 @@
 # Changelog
 
+## [0.17.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.17.0a1) (2026-09-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.16.0a1...0.17.0a1)
+
+**Merged pull requests:**
+
+- feat\(locale\): fill da-DK, sv-SE and it-IT gaps against en-US [\#224](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/224) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.16.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.16.0a1) (2026-09-17)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.14.0a1...0.16.0a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.15.0a1...0.16.0a1)
+
+## [0.15.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.15.0a1) (2026-09-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.14.0a1...0.15.0a1)
 
 **Merged pull requests:**
 
@@ -382,11 +394,6 @@
 ## [0.8.8a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.8a1) (2025-05-06)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.6...0.8.8a1)
-
-**Merged pull requests:**
-
-- Release 0.8.8a1 [\#124](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/124) ([github-actions[bot]](https://github.com/apps/github-actions))
-- feat: standardize entity slots [\#123](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/123) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [0.8.6](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.6) (2025-04-11)
 
