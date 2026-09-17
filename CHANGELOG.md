@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.17.1a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.17.1a1) (2026-09-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.17.0a1...0.17.1a1)
+
+**Merged pull requests:**
+
+- fix: snake\_case locale resource names and remove dead locale files [\#223](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/223) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.17.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.17.0a1) (2026-09-17)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.16.0a1...0.17.0a1)
@@ -379,17 +387,9 @@
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.8a2...0.8.8)
 
-**Merged pull requests:**
-
-- Release 0.8.8a2 [\#126](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/126) ([github-actions[bot]](https://github.com/apps/github-actions))
-
 ## [0.8.8a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.8a2) (2025-05-15)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.8a1...0.8.8a2)
-
-**Merged pull requests:**
-
-- Update Catalan strings [\#125](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/125) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
 
 ## [0.8.8a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.8a1) (2025-05-06)
 
