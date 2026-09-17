@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.17.1a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.17.1a2) (2026-09-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.17.1a1...0.17.1a2)
+
+**Merged pull requests:**
+
+- test: golden utterances for every locale [\#233](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/233) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.17.1a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.17.1a1) (2026-09-17)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.17.0a1...0.17.1a1)
@@ -371,17 +379,9 @@
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.9a1...0.8.9)
 
-**Merged pull requests:**
-
-- Release 0.8.9a1 [\#128](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/128) ([github-actions[bot]](https://github.com/apps/github-actions))
-
 ## [0.8.9a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.9a1) (2025-05-15)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.8...0.8.9a1)
-
-**Merged pull requests:**
-
-- Std [\#127](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/127) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [0.8.8](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.8) (2025-05-15)
 
