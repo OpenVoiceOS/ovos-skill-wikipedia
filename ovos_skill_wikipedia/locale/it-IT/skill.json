@@ -1,0 +1,23 @@
+{
+  "skill_id": "ovos-skill-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wikipedia",
+  "name": "Wikipedia",
+  "description": "Interroga Wikipedia per rispondere a tutte le tue domande. Ottieni solo un riassunto, oppure chiedi maggiori dettagli per informazioni approfondite.",
+  "examples": [
+    "Parlami di Elon Musk",
+    "Parlami dei fagioli",
+    "Cerca fagioli su Wikipedia",
+    "Parlami del Pembroke Welsh Corgi",
+    "Cerca cioccolato",
+    "Maggiori informazioni",
+    "Dimmi di più"
+  ],
+  "tags": [
+    "wikipedia",
+    "enciclopedia",
+    "conoscenza-generale",
+    "wiki",
+    "domanda",
+    "ricerca"
+  ]
+}
