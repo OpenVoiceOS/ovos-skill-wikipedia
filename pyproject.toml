@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ovos-skill-wikipedia"
+dynamic = ["version"]
+description = "ovos wikipedia skill plugin"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "JarbasAi", email = "jarbasai@mailfence.com"}
+]
+keywords = ["ovos", "skill", "plugin"]
+dependencies = [
+    "ovos-utils>=0.7.0,<1.0.0",
+    "ovos-workshop>=9.8.1a1,<10.0.0",
+    "ovos-bus-client>=2.8.0a1",
+    "ovos-wikipedia-plugin>=1.0.0a1,<2.0.0"
+]
+
+[project.optional-dependencies]
+# The end-to-end suite boots an in-process MiniCroft (ovos-core) with the
+# padatious pipeline. That stack currently only ships as pre-releases, so each
+# one is floor-pinned to its alpha: the resolver then picks it without a global
+# --pre (which would also drag unrelated projects onto pre-releases).
+test = [
+    "ovoscope>=1.5.0",
+    "pytest>=7.0.0",
+    "pytest-timeout>=2.0.0",
+    "ovos-core>=2.2.4a1",
+    "ovos-padatious>=2.0.7a1",
+    "ovos-adapt-parser>=1.6.0a1",
+    "ovos-workshop>=9.8.1a1",
+    "ovos-bus-client>=2.8.0a1",
+    "ovos-plugin-manager>=2.9.0a1",
+    "ovos-config>=2.1.4a5",
+    "ovos-utils>=0.13.4a1",
+    "ovos-spec-tools>=1.4.0a1",
+    "ovos-number-parser>=0.5.2a2",
+    "ovos-yes-no-plugin>=0.3.1a1",
+    "padacioso>=1.1.1a1",
+    "json-database>=1.0.2a1",
+    "quebra-frases>=0.3.8a1"
+]
+
+[project.urls]
+Homepage = "https://github.com/OpenVoiceOS/ovos-skill-wikipedia"
+
+[project.entry-points."ovos.plugin.skill"]
+"ovos-skill-wikipedia.openvoiceos" = "ovos_skill_wikipedia:WikipediaSkill"
+
+[tool.setuptools.dynamic]
+version = {attr = "ovos_skill_wikipedia.version.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ovos_skill_wikipedia*"]
+
+[tool.setuptools.package-data]
+ovos_skill_wikipedia = [
+    "*.json",
+    "locale/**/*",
+    "gui/**/*",
+]
