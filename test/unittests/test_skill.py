@@ -491,3 +491,27 @@ class TestWikiMoreContext(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# ---------------------------------------------------------------------------
+# eu-ES weather veto (T-1969): voc_match is a whole-word match, so the bare
+# stem "eguraldi" never vetoed the definite "eguraldia" a real question uses
+# ---------------------------------------------------------------------------
+
+class TestBasqueWeatherVeto(unittest.TestCase):
+    """Reads the real eu-ES weather.voc through the skill's own voc_match."""
+
+    def setUp(self):
+        self.skill = _make_skill()
+
+    def test_basque_weather_questions_are_vetoed(self):
+        for utt in ("zer eguraldi egiten du gaur",
+                    "nolako eguraldia egingo du bihar",
+                    "eguraldiaren iragarpena esan"):
+            self.assertTrue(self.skill.voc_match(utt, "weather", lang="eu-ES"), utt)
+
+    def test_ordinary_basque_questions_are_not_vetoed(self):
+        for utt in ("nor da ada lovelace",
+                    "zer da python",
+                    "non dago bilbo"):
+            self.assertFalse(self.skill.voc_match(utt, "weather", lang="eu-ES"), utt)
