@@ -1,5 +1,5 @@
 """Parity coverage for every "tell me more" phrasing accepted by
-``WikiMore.intent`` (the file-intent migration of the Adapt-era
+``wiki_more.intent`` (the file-intent migration of the Adapt-era
 ``WikiMoreIntent``, gated on ``more.voc`` + the ``prev_wiki_article``
 context). Each phrasing below must resolve to ``handle_wiki_more_intent``
 when the session already carries an active "prev_wiki_article" context, and
@@ -34,7 +34,7 @@ _PIPELINE = [
 
 _IGNORE = ["mycroft.audio.play_sound"]
 
-# every WikiMore.intent template line, verbatim
+# every wiki_more.intent template line, verbatim
 MORE_PHRASINGS = [
     "continue",
     "know more",

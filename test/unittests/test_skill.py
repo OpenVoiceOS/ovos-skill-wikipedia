@@ -477,7 +477,7 @@ class TestWikiMoreContext(unittest.TestCase):
             mock_sm.get.return_value = session
             self.skill.handle_wiki_more_intent(self._message())
         self.skill.speak_dialog.assert_called_once_with(
-            "nothing.more", {"title": "Ada Lovelace"})
+            "nothing_more", {"title": "Ada Lovelace"})
         self.assertIsNone(session.intent_context["prev_wiki_article"])
 
     def test_wiki_more_without_context_speaks_nothing_more_dialog(self):
@@ -485,7 +485,7 @@ class TestWikiMoreContext(unittest.TestCase):
         with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
             mock_sm.get.return_value = session
             self.skill.handle_wiki_more_intent(self._message())
-        self.skill.speak_dialog.assert_called_once_with("nothing.more", {"title": ""})
+        self.skill.speak_dialog.assert_called_once_with("nothing_more", {"title": ""})
         self.skill.speak.assert_not_called()
 
 
