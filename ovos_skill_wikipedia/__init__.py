@@ -115,7 +115,7 @@ class WikipediaSkill(OVOSSkill):
         title, *chunks = entry["value"].split(_CONTEXT_SEP)
         return title, chunks
 
-    @intent_handler("WikiMore.intent",
+    @intent_handler("wiki_more.intent",
                      requires_context=[{"key": PREV_WIKI_ARTICLE_CONTEXT, "scope": "shared"}])
     def handle_wiki_more_intent(self, message):
         """Follow-up "tell me more" -- speak the next unread chunk of the
@@ -130,14 +130,14 @@ class WikipediaSkill(OVOSSkill):
         session = SessionManager.get(message)
         title, chunks = self._read_prev_wiki_article(session)
         if not chunks:
-            self.speak_dialog("nothing.more", {"title": title})
+            self.speak_dialog("nothing_more", {"title": title})
             session.remove_intent_context(PREV_WIKI_ARTICLE_CONTEXT, scope="shared")
             return
         next_chunk, remaining = chunks[0], chunks[1:]
         self.speak(next_chunk)
         # kept even when `remaining` is empty (rather than removed outright)
         # so the *next* "tell me more" still has the title to speak in
-        # nothing.more.dialog, instead of falling back to an empty {title}
+        # nothing_more.dialog, instead of falling back to an empty {title}
         session.set_intent_context(PREV_WIKI_ARTICLE_CONTEXT,
                                     _CONTEXT_SEP.join([title] + remaining),
                                     scope="shared", turns_remaining=3)

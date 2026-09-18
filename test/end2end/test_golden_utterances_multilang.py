@@ -1,11 +1,11 @@
 """Multilingual golden-utterance end-to-end coverage for ovos-skill-wikipedia.
 
-Every locale that ships wiki.intent/wikiroulette.intent/WikiMore.intent gets
+Every locale that ships wiki.intent/wikiroulette.intent/wiki_more.intent gets
 its own golden_utterances_<lang>.jsonl, rows expanded directly from that
 locale's own template lines. {query} is filled with an obvious loanword
 (pizza / yoga).
 
-``WikiMore.intent`` requires the "prev_wiki_article" shared session context
+``wiki_more.intent`` requires the "prev_wiki_article" shared session context
 (``requires_context`` on the handler, see ``__init__.py``), which is only
 opened by a prior successful wiki.intent lookup. These rows are single-turn
 by construction and are expected to xfail structurally here, same shape as
