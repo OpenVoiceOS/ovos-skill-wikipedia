@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.18.2a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.18.2a1) (2026-09-18)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.18.1a1...0.18.2a1)
+
+**Merged pull requests:**
+
+- fix\(locale\): eu-ES weather veto matches the definite form a real question uses [\#241](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/241) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.18.1a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.18.1a1) (2026-09-18)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.18.0a1...0.18.1a1)
@@ -366,11 +374,6 @@
 ## [0.8.12a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.12a1) (2025-06-07)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.11a1...0.8.12a1)
-
-**Merged pull requests:**
-
-- Release 0.8.12a1 [\#136](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/136) ([github-actions[bot]](https://github.com/apps/github-actions))
-- fix: workshop 6.0.0 compat [\#135](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/135) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [0.8.11a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.11a1) (2025-05-25)
 
