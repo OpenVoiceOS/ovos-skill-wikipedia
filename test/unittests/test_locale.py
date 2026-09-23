@@ -108,6 +108,41 @@ class TestWikiBlacklistParity(unittest.TestCase):
             for brand in self.BRANDS:
                 self.assertIn(brand, entries, f"{d}: {brand} not listed")
 
+    # The word each locale's weather skill actually uses for "the weather",
+    # read from ovos-skill-weather's own locale/<lang>/intents/weather.intent
+    # and vocabulary. A brand name is spelled the same everywhere, so the
+    # test above catches a typo in one; this word is not, so a misspelling
+    # here matches nothing a speaker says and suppresses nothing, in
+    # silence. da-DK shipped "vejrret" with a doubled r for that reason.
+    WEATHER_WORD = {
+        "en-US": "weather",
+        "da-DK": "vejret",
+        "de-DE": "wetter",
+        "sv-SE": "väder",
+        "it-IT": "tempo",
+        "nl-NL": "weer",
+    }
+
+    def test_the_blacklist_names_the_locales_word_for_weather(self):
+        """A weather question must not reach the wiki intent.
+
+        The mapping is a copy of what ovos-skill-weather ships, so it
+        cannot track that skill automatically. A locale absent from the
+        mapping is not checked rather than silently passed.
+        """
+        checked = []
+        for d in self._locales_with_wiki_intent():
+            word = self.WEATHER_WORD.get(d)
+            if word is None:
+                continue
+            checked.append(d)
+            self.assertIn(
+                word, self._entries(d),
+                f"{d}: wiki.blacklist does not carry {word!r}, the word "
+                f"ovos-skill-weather uses, so a weather question is not "
+                f"suppressed")
+        self.assertTrue(checked, "no locale was checked")
+
     def test_the_blacklist_keeps_the_local_weather_words(self):
         """The weather words move into the blacklist; the file they came
         from stays, because the common-query path still reads it."""
