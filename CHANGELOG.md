@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.18.3a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.18.3a1) (2026-09-23)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.18.2a1...0.18.3a1)
+
+**Merged pull requests:**
+
+- fix\(da-DK\): vejret, not vejrret, so a Danish weather question is suppressed [\#243](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/243) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.18.2a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.18.2a1) (2026-09-18)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.18.1a1...0.18.2a1)
@@ -359,17 +367,9 @@
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.12a2...0.8.12)
 
-**Merged pull requests:**
-
-- Release 0.8.12a2 [\#138](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/138) ([github-actions[bot]](https://github.com/apps/github-actions))
-
 ## [0.8.12a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.12a2) (2025-06-07)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.12a1...0.8.12a2)
-
-**Merged pull requests:**
-
-- fix:improve global stop handling [\#137](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/137) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [0.8.12a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.12a1) (2025-06-07)
 
