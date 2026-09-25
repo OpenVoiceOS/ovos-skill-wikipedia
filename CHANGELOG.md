@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.18.3a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.18.3a2) (2026-09-25)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.18.3a1...0.18.3a2)
+
+**Merged pull requests:**
+
+- locale: machine translation for parity in pl-PL \(unvouched\) [\#245](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/245) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.18.3a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.18.3a1) (2026-09-23)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.18.2a1...0.18.3a1)
@@ -194,19 +202,19 @@
 
 ## [0.8.17a8](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a8) (2026-08-26)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a6...0.8.17a8)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a7...0.8.17a8)
 
 **Merged pull requests:**
 
 - translate\(kab-DZ\): update thats all.dialog [\#188](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/188) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
 
-## [0.8.17a6](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a6) (2026-08-26)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a7...0.8.17a6)
-
 ## [0.8.17a7](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a7) (2026-08-26)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a5...0.8.17a7)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a6...0.8.17a7)
+
+## [0.8.17a6](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a6) (2026-08-26)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a5...0.8.17a6)
 
 **Merged pull requests:**
 
@@ -354,10 +362,6 @@
 ## [0.8.13](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.13) (2025-06-08)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.13a1...0.8.13)
-
-**Merged pull requests:**
-
-- Release 0.8.13a1 [\#139](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/139) ([github-actions[bot]](https://github.com/apps/github-actions))
 
 ## [0.8.13a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.13a1) (2025-06-08)
 
