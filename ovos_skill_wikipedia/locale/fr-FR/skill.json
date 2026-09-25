@@ -1,0 +1,23 @@
+{
+  "skill_id": "ovos-skill-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wikipedia",
+  "name": "Wikipédia",
+  "description": "Interrogez Wikipédia pour obtenir un résumé ou plus de détails sur un sujet.",
+  "examples": [
+    "Qui est Elon Musk sur Wikipédia ?",
+    "Cherche les haricots sur Wikipédia",
+    "Parle-moi du Welsh Corgi Pembroke sur Wikipédia",
+    "Cherche le chocolat sur Wikipédia",
+    "Ouvre une page Wikipédia au hasard",
+    "Qui est Marie Curie sur Wikipédia ?",
+    "Cherche Ada Lovelace sur Wikipédia"
+  ],
+  "tags": [
+    "wikipédia",
+    "encyclopédie",
+    "culture-générale",
+    "wiki",
+    "question",
+    "recherche"
+  ]
+}
