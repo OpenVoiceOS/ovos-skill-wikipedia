@@ -9,6 +9,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import os
 import re
 from typing import List, Optional, Tuple
 
@@ -17,7 +18,9 @@ from ovos_bus_client.session import SessionManager
 from ovos_utils import classproperty
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_wikipedia import WikipediaRetrievalEngine, WikipediaResult
+from ovos_spec_tools import expand
 from ovos_workshop.decorators import intent_handler, common_query
+from ovos_workshop.resource_files import locate_lang_directories
 from ovos_workshop.skills.ovos import OVOSSkill
 
 # OVOS-CONTEXT-1 shared-scope key holding the title + unread sentence chunks
@@ -29,11 +32,23 @@ PREV_WIKI_ARTICLE_CONTEXT = "prev_wiki_article"
 _CONTEXT_SEP = "\x1f"
 
 
+def _literal(text: str) -> str:
+    """The carrier's words as a pattern whose gaps take any run of whitespace.
+
+    `re.escape` on the whole phrase makes each internal space one literal
+    space, so "erzahl  mir  von X" with a doubled space inside the carrier
+    matched nothing and fell through to the unchanged utterance. The words are
+    escaped one by one and joined with `\\s+` instead.
+    """
+    return r"\s+".join(re.escape(word) for word in text.split())
+
+
 class WikipediaSkill(OVOSSkill):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.session_results = {}
         self.wiki = WikipediaRetrievalEngine(self.settings)
+        self._template_cache = {}
 
     @classproperty
     def runtime_requirements(self):
@@ -177,6 +192,70 @@ class WikipediaSkill(OVOSSkill):
         if img:
             self.gui.show_image(img)
 
+    # ------------------------------------------------------------------
+    # Carrier-phrase extraction
+    # ------------------------------------------------------------------
+
+    def _query_templates(self, lang: str) -> list:
+        """The locale's carrier phrasings, as compiled extraction patterns.
+
+        `Erzähl mir von {query}` used to be a line of `wiki.intent`, and the
+        intent match was the only stage that ever separated the carrier from
+        the subject: the handler received {query}="pizza" and searched THAT.
+        The intent now holds only sentences that name the service, so the
+        phrasing reaches the common query whole, and the engine returns
+        "Pizza" for `pizza` and a NOVEL for `Erzähl mir von pizza`.
+
+        The removed lines are therefore shipped as
+        `locale/<lang>/query_templates.list` and reused here to strip the
+        carrier. The locale directory is resolved the way the resource loader
+        resolves it: `self.lang` normalises case and separator but does not add
+        a region, so a hand-built `locale/{lang}` path misses `locale/en-US`
+        for a session asking in `en`.
+        """
+        cached = self._template_cache.get(lang)
+        if cached is not None:
+            return cached
+
+        patterns = []
+        for directory in locate_lang_directories(lang, os.path.dirname(__file__)):
+            path = directory / "query_templates.list"
+            if not path.is_file():
+                continue
+            for line in path.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if not line or line.startswith("#") or "{query}" not in line:
+                    continue
+                for variant in expand(line):
+                    # one slot, and the carrier around it is literal text
+                    head, _, tail = variant.partition("{query}")
+                    patterns.append(re.compile(
+                        r"^\s*" + _literal(head) + r"\s+(?P<query>.+?)\s*"
+                        + (r"\s+" + _literal(tail) if tail.strip() else "")
+                        + r"[\s?.!]*$", re.IGNORECASE))
+            break  # the first directory that HAS a template file
+
+        # longest carrier first: "what is the definition of X" must win over
+        # "what is a X" when both could match
+        patterns.sort(key=lambda p: -len(p.pattern))
+        self._template_cache[lang] = patterns
+        return patterns
+
+    def extract_subject(self, utterance: str, lang: str) -> str:
+        """Return the subject a carrier phrase wraps, or the utterance unchanged.
+
+        Unchanged is the right default: a phrasing no template covers is passed
+        through exactly as it was before this method existed, so adding the
+        extraction cannot make a working lookup stop working.
+        """
+        for pattern in self._query_templates(lang):
+            found = pattern.match(utterance)
+            if found:
+                term = found.group("query").strip()
+                if term:
+                    return term
+        return utterance
+
     @common_query(callback=cq_callback)
     def match_common_query(self, phrase: str, lang: str) -> Tuple[str, float]:
 
@@ -199,7 +278,8 @@ class WikipediaSkill(OVOSSkill):
             "lang": lang,
             "image": None
         }
-        results = self.wiki.search(phrase, lang=sess.lang)
+        results = self.wiki.search(self.extract_subject(phrase, lang),
+                                   lang=sess.lang)
         if results:
             best = results[0]
             self.log.info(f"Wikipedia answer: {best.summary}")
