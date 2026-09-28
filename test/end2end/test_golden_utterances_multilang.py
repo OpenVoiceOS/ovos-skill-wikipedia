@@ -150,7 +150,28 @@ def _golden_id(row):
     return f"{row['lang']}-{row['intent_label']}-{row['utterance']}"
 
 
-KNOWN_BUGS = {}
+# A confirmed runtime defect, not a bad row and not a missing template.
+# In fa-IR every `wiki.intent` template that carries the `{query}` slot is
+# unreachable from a booted skill, while the slot-free `wikiroulette.intent`
+# matches at padatious-high in the same session. Measured:
+#   * both templates below are shipped verbatim in
+#     locale/fa-IR/wiki.intent, and the rows bind against them exactly;
+#   * standalone, padatious returns conf 1.000 and padacioso conf 0.96 for
+#     both, with the right `query` slot;
+#   * on a MiniCroft every slotted fa-IR phrasing comes back
+#     `ovos.intent.unmatched`, INCLUDING the two examples the skill itself
+#     advertises to the homescreen and the bare `ویکیپدیا {query}`;
+#   * the same rig matches en-US slotted templates, so the rig is sound.
+# So fa-IR users cannot reach this handler at all. The rows stay as they are
+# because they are right; fixing the row would only hide the defect.
+_FA_IR_SLOT_BUG = ("fa-IR: every wiki.intent template with a {query} slot is "
+                   "unreachable from a booted skill, though both engines match "
+                   "it standalone and the slot-free wikiroulette.intent works")
+
+KNOWN_BUGS = {
+    ("fa-IR", "ویکیپدیا را بررسی کنید پیتزا"): _FA_IR_SLOT_BUG,
+    ("fa-IR", "به من بگویید درباره یوگا در ویکیپدیا"): _FA_IR_SLOT_BUG,
+}
 
 
 @pytest.mark.timeout(60)
