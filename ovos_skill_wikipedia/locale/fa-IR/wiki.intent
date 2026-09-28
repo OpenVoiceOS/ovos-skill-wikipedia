@@ -1,0 +1,39 @@
+# Explicit Wikipedia lookups. Every template is anchored to the
+# "wiki"/"wikipedia" keyword, so the open {query} slot only binds inside an
+# unambiguous request for an encyclopedia article and cannot swallow
+# utterances a dedicated skill (weather, time, ...) should own. Open-ended
+# "what is X" / "who is X" phrasings are intentionally NOT listed here; they
+# are handled by the common_query fallback, which scores low and yields to
+# any skill with a better answer.
+شما می توانید پیدا کنید {query} در ویکی
+شما می توانید پیدا کنید {query} در ویکیپدیا
+ویکی را بررسی کنید {query}
+ویکیپدیا را بررسی کنید {query}
+جزئیات را در مورد {query} در ویکی
+جزئیات را در مورد {query} در ویکیپدیا
+اطلاعاتی به من بدهید {query} از ویکی
+اطلاعاتی را در مورد {query} از ویکی
+اطلاعاتی به من بدهید {query} از ویکیپدیا
+اطلاعاتی را در مورد {query} از ویکیپدیا
+نگاهی بالا {query} در ویکی
+نگاهی بالا {query} در ویکیپدیا
+جستجو در ویکی برای {query}
+جستجو برای ویکیپدیا {query}
+به من بگویید درباره {query} در ویکی
+به من بگویید درباره {query} از ویکی
+به من بگویید درباره {query} در ویکیپدیا
+به من بگویید درباره {query} از ویکیپدیا
+ویکی درباره چه می گوید {query}
+ویکیپدیا در مورد چه می گوید {query}
+ویکی در مورد آن چه می گوید {query}
+ویکیپدیا در مورد آن چه می گوید {query}
+آنچه در مورد آن شناخته می شود {query} در ویکی
+آنچه در مورد آن شناخته می شود {query} در ویکیپدیا
+چه چیزی در ویکی در مورد {query}
+در ویکیپدیا در مورد {query}
+چه کسی است {query} در ویکی
+چه کسی بود {query} در ویکی
+چه کسی است {query} در ویکیپدیا
+چه کسی بود {query} در ویکیپدیا
+ویکی {query}
+ویکیپدیا {query}
