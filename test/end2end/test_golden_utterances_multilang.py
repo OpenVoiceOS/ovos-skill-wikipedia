@@ -1,22 +1,22 @@
-"""Multilingual golden-utterance end-to-end coverage for ovos-skill-wikipedia.
+"""Golden-utterance end-to-end coverage for ovos-skill-wikipedia, every locale.
 
-Every locale that ships wiki.intent/wikiroulette.intent/wiki_more.intent gets
-its own golden_utterances_<lang>.jsonl, rows expanded directly from that
-locale's own template lines. {query} is filled with an obvious loanword
-(pizza / yoga).
+Every ``golden_utterances_<lang>.jsonl`` in this directory is loaded, and every
+row runs, including rows marked ``needs_manual`` (machine-generated rows that
+no native speaker vouched for). Each row asserts that its ``intent_label`` is
+the intent the pipeline matched. ``{query}`` rows are filled with an obvious
+loanword (pizza / yoga).
 
 ``wiki_more.intent`` requires the "prev_wiki_article" shared session context
-(``requires_context`` on the handler, see ``__init__.py``), which is only
-opened by a prior successful wiki.intent lookup. These rows are single-turn
-by construction and are expected to xfail structurally here, same shape as
-the en-US suite (which carries no WikiMore rows at all).
+(``requires_context`` on the handler, see ``__init__.py``). A real search opens
+that context with ``Session.set_intent_context``; rows marked
+``requires_context`` open it the same way on the session before the utterance,
+so the gated intent is exercised with its gate satisfied.
 
 One MiniCroft is booted per locale in turn (lang=<locale>, no
-secondary_langs -- see ovos-skill-date-time/test/end2end/test_intents_it_it.py
-on dev). The skill does real network lookups; both
+secondary_langs). The skill does real network lookups; both
 ``WikipediaRetrievalEngine.search`` and ``WikipediaSkill._get_random_page``
 are monkeypatched module-wide for the duration of the test run, same as the
-existing en-US suite.
+en-US suite.
 """
 import json
 from pathlib import Path
@@ -44,10 +44,11 @@ _IGNORE = [
 
 END2END_DIR = Path(__file__).parent
 
-LANGS = [
-    "ca-ES", "da-DK", "de-DE", "es-ES", "eu-ES", "fr-FR", "gl-ES",
-    "it-IT", "kab", "nl-NL", "pl-PL", "pt-BR", "pt-PT", "ru-RU", "sv-SE",
-]
+LANGS = sorted(p.stem.removeprefix("golden_utterances_")
+               for p in END2END_DIR.glob("golden_utterances_*.jsonl"))
+
+PREV_WIKI_ARTICLE_CONTEXT = "prev_wiki_article"
+_CONTEXT_SEP = "\x1f"
 
 
 def _fake_random_page(self, lang):
@@ -72,10 +73,7 @@ def _load_rows(lang):
             line = line.strip()
             if not line:
                 continue
-            row = json.loads(line)
-            if row.get("needs_manual"):
-                continue
-            rows.append(row)
+            rows.append(json.loads(line))
     return rows
 
 
@@ -122,11 +120,15 @@ def mc_factory(request):
     return _get
 
 
-def _types(mc, text, lang, session_id):
+def _types(mc, text, lang, session_id, with_context=False):
     session = Session(session_id)
     session.lang = lang
     session.pipeline = list(_PIPELINE)
     session.blacklisted_intents = []
+    if with_context:
+        session.set_intent_context(PREV_WIKI_ARTICLE_CONTEXT,
+                                   _CONTEXT_SEP.join(["Pizza", "Pizza is a dish."]),
+                                   scope="shared", turns_remaining=3)
     utterance = Message(
         "recognizer_loop:utterance",
         {"utterances": [text], "lang": lang},
@@ -145,24 +147,12 @@ def _golden_id(row):
     return f"{row['lang']}-{row['intent_label']}-{row['utterance']}"
 
 
-KNOWN_BUGS = {}
-
-
 @pytest.mark.timeout(60)
 @pytest.mark.parametrize("row", GOLDEN_ROWS, ids=_golden_id)
 def test_golden_utterance_multilang(mc_factory, row):
     mc = mc_factory(row["lang"])
-    types = _types(mc, row["utterance"], row["lang"], f"golden-{_golden_id(row)}")
-    matched = any(_matches_intent(t, SKILL_ID, row["intent_label"]) for t in types)
-    if row.get("requires_context") and not matched:
-        pytest.xfail(
-            reason="requires prev_wiki_article shared session context from a "
-                    "prior successful wiki.intent lookup; this golden row is "
-                    "single-turn by construction"
-        )
-    bug_key = (row["lang"], row["utterance"])
-    if bug_key in KNOWN_BUGS and not matched:
-        pytest.xfail(reason=f"known-bug: {KNOWN_BUGS[bug_key]}")
-    assert matched, (
+    types = _types(mc, row["utterance"], row["lang"], f"golden-{_golden_id(row)}",
+                   with_context=bool(row.get("requires_context")))
+    assert any(_matches_intent(t, SKILL_ID, row["intent_label"]) for t in types), (
         f"[{row['lang']}] {row['utterance']!r}: expected {SKILL_ID}:{row['intent_label']}, got {types!r}"
     )
