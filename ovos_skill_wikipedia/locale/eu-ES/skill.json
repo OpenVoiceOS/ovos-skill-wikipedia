@@ -1,0 +1,23 @@
+{
+  "skill_id": "ovos-skill-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wikipedia",
+  "name": "Wikipedia",
+  "description": "Galdetu Wikipediari zure galdera guztien erantzunak. Lortu laburpen bat soilik, edo eskatu gehiago informazio sakonagoa jasotzeko.",
+  "examples": [
+    "Kontatu iezadazu Elon Musken inguruan",
+    "Kontatu iezadazu babarrunen inguruan",
+    "Begiratu Wikipedian babarrunei buruz",
+    "Kontatu iezadazu Pembroke Welsh Corgi arrazari buruz",
+    "Bilatu txokolatea",
+    "Informazio gehiago",
+    "Kontatu gehiago"
+  ],
+  "tags": [
+    "wikipedia",
+    "entziklopedia",
+    "kultura-orokorra",
+    "wiki",
+    "galdera",
+    "kontsulta"
+  ]
+}

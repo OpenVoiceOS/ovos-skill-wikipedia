@@ -19,3 +19,6 @@ dist
 # Created by unit tests
 .pytest_cache/
 /.gtm/
+.msg.txt
+.body.md
+install*.log

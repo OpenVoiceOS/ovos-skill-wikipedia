@@ -1,0 +1,23 @@
+{
+  "skill_id": "ovos-skill-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wikipedia",
+  "name": "Wikipedia",
+  "description": "Zapytaj Wikipedię o odpowiedzi na wszystkie swoje pytania. Uzyskaj samo streszczenie albo poproś o więcej, aby dowiedzieć się szczegółów.",
+  "examples": [
+    "Opowiedz mi o Elonie Musku",
+    "Opowiedz mi o fasoli",
+    "Sprawdź w Wikipedii fasolę",
+    "Opowiedz mi o corgi walijskim pembroke",
+    "Wyszukaj czekoladę",
+    "Więcej informacji",
+    "Powiedz mi więcej"
+  ],
+  "tags": [
+    "wikipedia",
+    "encyklopedia",
+    "wiedza-ogólna",
+    "wiki",
+    "pytanie",
+    "zapytanie"
+  ]
+}

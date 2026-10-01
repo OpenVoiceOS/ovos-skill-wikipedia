@@ -1,0 +1,9 @@
+# Anaforiske pronominer og påpegende ord: de står i stedet for en person
+# eller ting nævnt tidligere i samtalen, aldrig for en artikeltitel. Tjekket
+# af WikipediaSkill._is_anaphoric (nøjagtigt match, aldrig delstreng) før en
+# {query}-værdi slås op, så en rigtig titel der blot indeholder et af disse
+# ord ("Det Hvide Hus", "Hendes Majestæt") aldrig bliver afvist.
+(han|hun|den|det|de)
+(ham|hende|dem)
+(hans|hendes|dens|dets|deres)
+(den|det|dette|denne|disse)
