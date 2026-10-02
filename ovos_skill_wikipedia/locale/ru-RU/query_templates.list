@@ -1,0 +1,12 @@
+# The carrier phrasings removed from wiki.intent. They are NOT intent lines:
+# the intent is only for sentences that name the service. They are kept so the
+# common query can strip the carrier before searching, because the engine
+# returns 'Pizza' for 'pizza' and a novel for 'Erzähl mir von pizza'.
+поведай мне о {query}
+поведай мне про {query}
+поведай нам о {query}
+поведай нам про {query}
+расскажи мне о {query}
+расскажи мне про {query}
+расскажи нам о {query}
+расскажи нам про {query}
