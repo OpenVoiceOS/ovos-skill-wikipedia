@@ -49,6 +49,12 @@ When the [Common Query pipeline plugin](https://github.com/OpenVoiceOS/ovos-comm
 
 ---
 
+## Answer length
+
+The skill speaks the article's page-preview extract, the cleaned lead paragraph that Wikipedia itself shows on link hover (from the Wikimedia [page summary API](https://en.wikipedia.org/api/rest_v1/#/Page%20content/get_page_summary__title_)), not the full introduction. Say "tell me more" to hear the rest of the introduction, one sentence at a time. This works after both explicit and Common Query answers.
+
+---
+
 ## Sub-plugins
 
 All sub-plugins are optional. Configure them via `~/.config/mycroft/skills/ovos-skill-wikipedia.openvoiceos/settings.json`:
@@ -75,7 +81,7 @@ A reranker re-scores all candidate pages against the original query with a cross
 
 ### Extractive QA (`extractive_qa`)
 
-By default the skill speaks the full introductory summary of the best Wikipedia article, which can be several sentences long. An extractive QA plugin reads that summary and extracts the single passage most likely to directly answer the user's question.
+By default the skill speaks the lead paragraph of the best Wikipedia article (see [Answer length](#answer-length)). An extractive QA plugin reads the full introduction instead and extracts the single passage most likely to directly answer the user's question.
 
 **Without extractive QA** — "Tell me about Ada Lovelace":
 > *"Ada Lovelace was an English mathematician and writer, chiefly known for her work on Charles Babbage's proposed mechanical general-purpose computer, the Analytical Engine. She was the first to recognise that the machine had applications beyond pure calculation..."*
