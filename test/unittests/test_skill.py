@@ -12,11 +12,20 @@ from ovos_utils.fakebus import FakeBus
 from ovos_wikipedia import WikipediaResult
 
 
-def _make_result(title="Python", summary="Python is a language.", conf=0.8, image=None, best_passage=None):
+def _make_result(title="Python", summary="Python is a language.", conf=0.8, image=None, best_passage=None,
+                 short_summary=None):
     r = WikipediaResult(page_id="1", lang="en", title=title, summary=summary, conf=conf)
     r.image = image
     r.best_passage = best_passage
+    r.short_summary = short_summary
     return r
+
+
+# Full intros come back from the API as newline-separated paragraphs; the
+# REST preview extract is a re-cleaned copy of the first one.
+_ADA_INTRO = ("Ada Lovelace (1815-1852) was a mathematician. She is known for her work on the Engine.\n"
+              "She worked with Babbage. She wrote the first algorithm.")
+_ADA_SHORT = "Ada Lovelace was a mathematician. She is known for her work on the Engine."
 
 
 _PRONOUN_WORDS = ["he", "him", "his", "she", "her", "hers", "it", "its", "they",
@@ -86,6 +95,18 @@ class TestHandleSearch(unittest.TestCase):
         self.skill.wiki.search.return_value = [result]
         self.skill.handle_search(self._message("Ada Lovelace"))
         self.skill.speak.assert_called_once_with("Short passage.")
+
+    def test_speaks_short_summary_over_full_intro(self):
+        result = _make_result(summary=_ADA_INTRO, short_summary=_ADA_SHORT)
+        self.skill.wiki.search.return_value = [result]
+        self.skill.handle_search(self._message("Ada Lovelace"))
+        self.skill.speak.assert_called_once_with(_ADA_SHORT)
+
+    def test_best_passage_beats_short_summary(self):
+        result = _make_result(summary=_ADA_INTRO, short_summary=_ADA_SHORT, best_passage="Passage.")
+        self.skill.wiki.search.return_value = [result]
+        self.skill.handle_search(self._message("Ada Lovelace"))
+        self.skill.speak.assert_called_once_with("Passage.")
 
     def test_speaks_no_answer_when_no_results(self):
         self.skill.wiki.search.return_value = []
@@ -172,6 +193,15 @@ class TestMatchCommonQuery(unittest.TestCase):
             mock_sm.get.return_value.lang = "en-US"
             ret = self.skill.match_common_query("what is python", "en-US")
         self.assertEqual(ret, ("Python is a language.", 0.85))
+
+    def test_returns_short_summary_instead_of_full_intro(self):
+        result = _make_result(summary=_ADA_INTRO, short_summary=_ADA_SHORT, conf=0.85)
+        self.skill.wiki.search.return_value = [result]
+        with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
+            mock_sm.get.return_value.session_id = "s1"
+            mock_sm.get.return_value.lang = "en-US"
+            self.assertEqual(self.skill.match_common_query("who was ada lovelace", "en-US"),
+                             (_ADA_SHORT, 0.85))
 
     def test_returns_none_when_no_results(self):
         self.skill.wiki.search.return_value = []
@@ -322,6 +352,16 @@ class TestCqCallback(unittest.TestCase):
             self.skill.cq_callback("query", "answer", "en-US")
         self.skill.gui.show_image.assert_not_called()
 
+    def test_leaves_rest_of_article_for_tell_me_more(self):
+        result = _make_result(title="Ada Lovelace", summary=_ADA_INTRO, short_summary=_ADA_SHORT)
+        session = Session("sess")
+        self.skill.session_results["sess"] = {"image": None, "results": [result]}
+        with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
+            mock_sm.get.return_value = session
+            self.skill.cq_callback("who was ada lovelace", _ADA_SHORT, "en-US")
+        self.assertEqual(session.intent_context["prev_wiki_article"]["value"],
+                         "Ada Lovelace\x1fShe worked with Babbage.\x1fShe wrote the first algorithm.")
+
 
 # ---------------------------------------------------------------------------
 # WikiRoulette
@@ -348,6 +388,16 @@ class TestWikiRoulette(unittest.TestCase):
             ret = self.skill._get_random_page("en")
         self.assertEqual(ret, result)
         self.skill.wiki._get_page_data.assert_called_once_with("42", "en")
+
+    def test_get_random_page_fills_short_summary(self):
+        fake_api = {"query": {"random": [{"id": 42, "title": "Banana"}]}}
+        self.skill.wiki._get_page_data.return_value = _make_result(title="Banana", summary="Long.\nMore.")
+        self.skill.wiki._get_short_summary.return_value = "Banana is a fruit."
+        with patch("ovos_skill_wikipedia.requests.get") as mock_get:
+            mock_get.return_value.json.return_value = fake_api
+            ret = self.skill._get_random_page("en")
+        self.assertEqual(ret.short_summary, "Banana is a fruit.")
+        self.skill.wiki._get_short_summary.assert_called_once_with("Banana", "en")
 
     def test_get_random_page_returns_none_on_error(self):
         with patch("ovos_skill_wikipedia.requests.get") as mock_get:
@@ -439,6 +489,28 @@ class TestWikiMoreContext(unittest.TestCase):
             entry["value"],
             "Ada Lovelace\x1fShe worked with Babbage.\x1fShe wrote the first algorithm.",
         )
+
+    def test_handle_search_continues_after_lead_paragraph_when_short_summary_spoken(self):
+        result = _make_result(summary=_ADA_INTRO, short_summary=_ADA_SHORT, title="Ada Lovelace")
+        self.skill.wiki.search.return_value = [result]
+        session = Session("s-more-short")
+        session.lang = "en-US"
+        with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
+            mock_sm.get.return_value = session
+            self.skill.handle_search(self._message())
+        self.assertEqual(session.intent_context["prev_wiki_article"]["value"],
+                         "Ada Lovelace\x1fShe worked with Babbage.\x1fShe wrote the first algorithm.")
+
+    def test_single_paragraph_intro_leaves_nothing_after_short_summary(self):
+        result = _make_result(summary="Ada (1815) was a mathematician.",
+                              short_summary="Ada was a mathematician.", title="Ada Lovelace")
+        self.skill.wiki.search.return_value = [result]
+        session = Session("s-more-single")
+        session.lang = "en-US"
+        with patch("ovos_skill_wikipedia.SessionManager") as mock_sm:
+            mock_sm.get.return_value = session
+            self.skill.handle_search(self._message())
+        self.assertNotIn("prev_wiki_article", session.intent_context or {})
 
     def test_handle_search_sets_no_context_when_nothing_left(self):
         result = _make_result(summary="Ada was a mathematician.", best_passage=None, title="Ada Lovelace")
