@@ -12,3 +12,6 @@ procurar wikipedia por {query}
 procurar wikipedia sobre {query}
 wiki {query}
 wikipedia {query}
+podes (encontrar|procurar) {query} na (wiki|wikipédia)
+procura {query} na (wiki|wikipédia)
+mostra-me o artigo da (wiki|wikipédia) sobre {query}
