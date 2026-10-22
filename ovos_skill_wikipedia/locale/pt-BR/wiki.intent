@@ -24,3 +24,6 @@ verifique wiki sobre {query}
 verifique wikipédia sobre {query}
 wiki {query}
 wikipédia {query}
+você pode (encontrar|procurar) {query} na (wiki|wikipédia)
+procure {query} na (wiki|wikipédia)
+mostre o artigo da (wiki|wikipédia) sobre {query}

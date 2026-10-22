@@ -10,3 +10,7 @@ zoek op wiki naar{query}
 zoek op wiki voor{query}
 zoek op wikipedia naar{query}
 zoek op wikipedia voor{query}
+kun je {query} (op|in) (wiki|wikipedia) vinden
+zoek informatie over {query} (op|in) (wiki|wikipedia)
+vertel me over {query} op (wiki|wikipedia)
+toon het (wiki|wikipedia) artikel over {query}

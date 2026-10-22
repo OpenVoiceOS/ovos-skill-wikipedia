@@ -24,3 +24,7 @@ tjek wiki for {query}
 tjek wikipedia for {query}
 wiki {query}
 wikipedia {query}
+kan du finde noget om {query} (på|i) (wiki|wikipedia)
+kan du slå noget op om {query} (på|i) (wiki|wikipedia)
+hent (artiklen|siden) om {query} (fra|på) (wiki|wikipedia)
+vis mig (wiki|wikipedia)-artiklen om {query}
