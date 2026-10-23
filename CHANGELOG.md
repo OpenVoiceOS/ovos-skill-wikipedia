@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.18.6a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.18.6a1) (2026-10-23)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.18.5a1...0.18.6a1)
+
+**Merged pull requests:**
+
+- fix\(locale\): drop dead vocabulary files [\#258](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/258) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.18.5a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.18.5a1) (2026-10-22)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.18.4a1...0.18.5a1)
@@ -352,17 +360,9 @@
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.14a3...0.8.14a4)
 
-**Merged pull requests:**
-
-- Update dependency python to 3.14 [\#150](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/150) ([renovate[bot]](https://github.com/apps/renovate))
-
 ## [0.8.14a3](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.14a3) (2025-12-18)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.14a2...0.8.14a3)
-
-**Merged pull requests:**
-
-- Configure Renovate [\#149](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/149) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.8.14a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.14a2) (2025-12-03)
 
