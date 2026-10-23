@@ -1,0 +1,23 @@
+{
+  "skill_id": "ovos-skill-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wikipedia",
+  "name": "Wikipedia",
+  "description": "Vraag Wikipedia om antwoorden op al je vragen. Krijg een samenvatting, of vraag om meer voor diepgaande informatie.",
+  "examples": [
+    "Vertel me over Elon Musk",
+    "Vertel me over bonen",
+    "Zoek bonen op in Wikipedia",
+    "Vertel me over de Pembroke Welsh Corgi",
+    "Zoek naar chocolade",
+    "Meer informatie",
+    "Vertel me meer"
+  ],
+  "tags": [
+    "wikipedia",
+    "encyclopedia",
+    "general-knowledge",
+    "wiki",
+    "question",
+    "query"
+  ]
+}

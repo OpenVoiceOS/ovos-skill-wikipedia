@@ -1,0 +1,19 @@
+{
+  "skill_id": "ovos-skill-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wikipedia",
+  "name": "Wikipedia",
+  "description": "از ویکی‌پدیا برای پاسخ به همه پرسش‌های خود بپرسید. فقط یک خلاصه بگیرید، یا برای اطلاعات بیشتر درخواست کنید.",
+  "examples": [
+    "ویکیپدیا را بررسی کنید لوبیا",
+    "به من بگویید درباره ایلان ماسک در ویکیپدیا",
+    "ویکیپدیا تصادفی"
+  ],
+  "tags": [
+    "wikipedia",
+    "encyclopedia",
+    "general-knowledge",
+    "wiki",
+    "question",
+    "query"
+  ]
+}
