@@ -20,12 +20,13 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# The end-to-end suite boots an in-process MiniCroft (ovos-core) with the
-# padatious pipeline. That stack currently only ships as pre-releases, so each
-# one is floor-pinned to its alpha: the resolver then picks it without a global
+# The end-to-end suite boots an in-process MiniCroft (ovos-core) on the m2v
+# prototype pipeline. That stack ships as pre-releases, so each one is
+# floor-pinned to its alpha: the resolver then picks it without a global
 # --pre (which would also drag unrelated projects onto pre-releases).
 test = [
-    "ovoscope>=1.5.0",
+    "ovoscope>=1.12.1a1",
+    "ovos-m2v-pipeline>=0.37.3a1",
     "pytest>=7.0.0",
     "pytest-timeout>=2.0.0",
     "ovos-core>=2.2.4a1",
@@ -36,7 +37,7 @@ test = [
     "ovos-plugin-manager>=2.9.0a1",
     "ovos-config>=2.1.4a5",
     "ovos-utils>=0.13.4a1",
-    "ovos-spec-tools>=1.4.0a1",
+    "ovos-spec-tools>=1.12.0a1",
     "ovos-number-parser>=0.5.2a2",
     "ovos-yes-no-plugin>=0.3.1a1",
     "padacioso>=1.1.1a1",
@@ -63,3 +64,6 @@ ovos_skill_wikipedia = [
     "locale/**/*",
     "gui/**/*",
 ]
+
+[tool.pytest.ini_options]
+ovoscope_min_routing_rate = 0.80

@@ -20,17 +20,14 @@ import pytest
 from ovos_bus_client.message import Message
 from ovos_bus_client.session import Session
 from ovos_wikipedia import WikipediaResult
-from ovoscope import CaptureSession, get_minicroft
+from ovoscope import CaptureSession
+from ovoscope.routing import PIPELINE, TALLY, get_prototype_minicroft
 
 SKILL_ID = "ovos-skill-wikipedia.openvoiceos"
 LANG = "en-US"
-
-_PIPELINE = [
-    "ovos-padatious-pipeline-plugin-high",
-    "ovos-padacioso-pipeline-plugin-high",
-    "ovos-padatious-pipeline-plugin-medium",
-    "ovos-padacioso-pipeline-plugin-medium",
-]
+WIKI = f"{SKILL_ID}:wiki"
+WIKI_MORE = f"{SKILL_ID}:wiki_more"
+SKILL_INTENTS = [WIKI, WIKI_MORE, f"{SKILL_ID}:wikiroulette"]
 
 _IGNORE = ["mycroft.audio.play_sound"]
 
@@ -67,7 +64,7 @@ def _result():
 
 @pytest.fixture(scope="module")
 def minicroft():
-    mc = get_minicroft([SKILL_ID])
+    mc = get_prototype_minicroft([SKILL_ID], lang=LANG)
     mc.plugin_skills[SKILL_ID].instance.wiki.search = lambda *args, **kwargs: [_result()]
     yield mc
     mc.stop()
@@ -76,7 +73,7 @@ def minicroft():
 def _session(session_id):
     session = Session(session_id)
     session.lang = LANG
-    session.pipeline = list(_PIPELINE)
+    session.pipeline = PIPELINE
     session.blacklisted_intents = []
     return session
 
@@ -95,21 +92,25 @@ def _fire(mc, session, text):
     capture.capture(utterance, timeout=30)
     messages = capture.finish()
     spoken = [m.data.get("utterance", "") for m in messages if m.msg_type == "ovos.utterance.speak"]
+    types = [m.msg_type for m in messages]
     carried_session = session
     for m in messages:
         if m.msg_type == "mycroft.skill.handler.complete" and m.context.get("session"):
             carried_session = Session.deserialize(m.context["session"])
-    return spoken, carried_session
+    return spoken, types, carried_session
 
 
 @pytest.mark.timeout(60)
 @pytest.mark.parametrize("phrasing", MORE_PHRASINGS, ids=MORE_PHRASINGS)
 def test_more_phrasing_continues_with_active_context(minicroft, phrasing):
     session = _session(f"parity-positive-{phrasing}")
-    first, session = _fire(minicroft, session, "look up Ada Lovelace on wikipedia")
+    search = "look up Ada Lovelace on wikipedia"
+    first, types, session = _fire(minicroft, session, search)
+    TALLY.assert_routed(search, WIKI, types)
     assert "Ada Lovelace was a mathematician." in first, first
 
-    more, _ = _fire(minicroft, session, phrasing)
+    more, types, _ = _fire(minicroft, session, phrasing)
+    TALLY.assert_routed(phrasing, WIKI_MORE, types)
     assert "She worked with Charles Babbage." in more, (phrasing, more)
 
 
@@ -129,5 +130,4 @@ def test_more_phrasing_does_not_fire_without_prior_context(minicroft, phrasing):
     )
     capture.capture(utterance, timeout=30)
     types = [m.msg_type for m in capture.finish()]
-    claimed = any(t.startswith(f"{SKILL_ID}:") for t in types)
-    assert not claimed, f"{phrasing!r} with no prior search was claimed by {SKILL_ID}: {types!r}"
+    TALLY.assert_not_routed(phrasing, SKILL_INTENTS, types)
