@@ -1,28 +1,26 @@
 """Every shipped locale pairs wiki.intent and wikiroulette.intent with a
-.required file (OVOS-INTENT-2 §4.5), and each golden positive for those
-intents names one of the required keywords."""
+.required file (OVOS-INTENT-2 §4.5). Each expanded template line and each
+golden positive for those intents names one of the required keywords, so no
+line is one the intent always rejects."""
 import json
 import unittest
 from pathlib import Path
 
-from ovos_spec_tools import utterance_contains
+from ovos_spec_tools import expand, utterance_contains
 
 ROOT = Path(__file__).resolve().parents[2]
 LOCALE = ROOT / "ovos_skill_wikipedia" / "locale"
 GOLDEN = ROOT / "test" / "end2end"
 INTENTS = ("wiki", "wikiroulette")
-# Golden rows whose template carries no service word; the intent rejects them
-# once an engine applies .required. The set must shrink as the rows are fixed.
-UNANCHORED_ROWS = {
-    ("de-DE", "Erzähl mir von pizza"),
-    ("de-DE", "Erzähl mir von yoga"),
-    ("sv-SE", "spela roulette"),
-}
+
+
+def _lines(path):
+    return [ln.strip() for ln in path.read_text(encoding="utf-8").splitlines()
+            if ln.strip() and not ln.startswith("#")]
 
 
 def _keywords(path):
-    return [ln.strip().lower() for ln in path.read_text(encoding="utf-8").splitlines()
-            if ln.strip() and not ln.startswith("#")]
+    return [kw.lower() for ln in _lines(path) for kw in expand(ln)]
 
 
 class TestRequiredKeywords(unittest.TestCase):
@@ -53,7 +51,22 @@ class TestRequiredKeywords(unittest.TestCase):
                 if not utterance_contains(row["utterance"], keywords):
                     unanchored.add((row["lang"], row["utterance"]))
                 checked += 1
-        self.assertEqual(unanchored, UNANCHORED_ROWS)
+        self.assertEqual(unanchored, set())
+        self.assertGreater(checked, 0)
+
+    def test_every_template_line_names_a_keyword(self):
+        checked = 0
+        unanchored = set()
+        for intent_file in sorted(LOCALE.glob("*/*.intent")):
+            if intent_file.stem not in INTENTS:
+                continue
+            keywords = _keywords(intent_file.with_suffix(".required"))
+            for line in _lines(intent_file):
+                for sample in expand(line):
+                    if not utterance_contains(sample, keywords):
+                        unanchored.add((intent_file.parent.name, sample))
+                    checked += 1
+        self.assertEqual(unanchored, set())
         self.assertGreater(checked, 0)
 
 
