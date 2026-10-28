@@ -2,9 +2,8 @@
 context-gate pattern, mirrors ovos-skill-days-in-history's TellMeMoreIntent).
 
 Boots an in-process MiniCroft with the skill loaded, stubs the Wikipedia
-backend with a multi-sentence summary, and drives the real
-padatious/padacioso + adapt pipelines through a search followed by "tell me
-more" in the SAME session, so the intent-context write from
+backend with a multi-sentence summary, and drives a search followed by "tell
+me more" in the SAME session, so the intent-context write from
 ``handle_search`` is actually read back by ``WikiMoreIntent`` instead of
 being asserted at the unit level only.
 
@@ -25,19 +24,14 @@ import pytest
 from ovos_bus_client.message import Message
 from ovos_bus_client.session import Session
 from ovos_wikipedia import WikipediaResult
-from ovoscope import CaptureSession, get_minicroft
+from ovoscope import CaptureSession
+from ovoscope.routing import PIPELINE, TALLY, get_prototype_minicroft
 
 SKILL_ID = "ovos-skill-wikipedia.openvoiceos"
 LANG = "en-US"
-
-_PIPELINE = [
-    "ovos-padatious-pipeline-plugin-high",
-    "ovos-padacioso-pipeline-plugin-high",
-    "ovos-adapt-pipeline-plugin-high",
-    "ovos-padatious-pipeline-plugin-medium",
-    "ovos-padacioso-pipeline-plugin-medium",
-    "ovos-adapt-pipeline-plugin-medium",
-]
+WIKI = f"{SKILL_ID}:wiki"
+WIKI_MORE = f"{SKILL_ID}:wiki_more"
+SKILL_INTENTS = [WIKI, WIKI_MORE, f"{SKILL_ID}:wikiroulette"]
 
 _IGNORE = [
     "mycroft.audio.play_sound",
@@ -59,7 +53,7 @@ def _result():
 
 @pytest.fixture(scope="module")
 def minicroft():
-    mc = get_minicroft([SKILL_ID])
+    mc = get_prototype_minicroft([SKILL_ID], lang=LANG)
     mc.plugin_skills[SKILL_ID].instance.wiki.search = lambda *args, **kwargs: [_result()]
     yield mc
     mc.stop()
@@ -68,7 +62,7 @@ def minicroft():
 def _session(session_id):
     session = Session(session_id)
     session.lang = LANG
-    session.pipeline = list(_PIPELINE)
+    session.pipeline = PIPELINE
     session.blacklisted_intents = []
     return session
 
@@ -100,10 +94,13 @@ def test_search_then_tell_me_more_continues(minicroft):
     """FAILS on unfixed dev: "tell me more" has no handler at all, so the
     follow-up reaches nothing and the second sentence is never spoken."""
     session = _session("more-flow-positive")
-    first, _, session = _fire(minicroft, session, "look up Ada Lovelace on wikipedia")
+    search = "look up Ada Lovelace on wikipedia"
+    first, types, session = _fire(minicroft, session, search)
+    TALLY.assert_routed(search, WIKI, types)
     assert "Ada Lovelace was a mathematician." in first, first
 
-    more, _, _ = _fire(minicroft, session, "tell me more")
+    more, types, _ = _fire(minicroft, session, "tell me more")
+    TALLY.assert_routed("tell me more", WIKI_MORE, types)
     assert "She worked with Charles Babbage." in more, more
 
 
@@ -114,5 +111,4 @@ def test_bare_tell_me_more_without_prior_search_does_not_fire_skill(minicroft):
     not be satisfiable by the utterance alone."""
     session = _session("more-flow-negative")
     _, types, _ = _fire(minicroft, session, "tell me more")
-    claimed = any(t.startswith(f"{SKILL_ID}:") for t in types)
-    assert not claimed, f"'tell me more' with no prior search was claimed by {SKILL_ID}: {types!r}"
+    TALLY.assert_not_routed("tell me more", SKILL_INTENTS, types)

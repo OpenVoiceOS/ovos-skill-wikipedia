@@ -1,0 +1,14 @@
+{"utterance": "can you tell me the weather", "lang": "en-US", "source_skill": "ovos-skill-weather.openvoiceos"}
+{"utterance": "ask the wolf something", "lang": "en-US", "source_skill": "ovos-skill-wolfie.openvoiceos"}
+{"utterance": "ask wordnet about word", "lang": "en-US", "source_skill": "ovos-skill-wordnet.openvoiceos"}
+{"utterance": "tell me the word of the day", "lang": "en-US", "source_skill": "ovos-skill-word-of-the-day.openvoiceos"}
+{"utterance": "search wikihow for something", "lang": "en-US", "source_skill": "ovos-skill-wikihow.openvoiceos"}
+{"utterance": "can you spell word", "lang": "en-US", "source_skill": "ovos-skill-spelling.openvoiceos"}
+{"utterance": "set an alarm", "lang": "en-US", "source_skill": "ovos-skill-alerts.openvoiceos"}
+{"utterance": "ask the wolfram about something", "lang": "en-US", "source_skill": "ovos-skill-wolfie.openvoiceos"}
+{"utterance": "search the wolf for something", "lang": "en-US", "source_skill": "ovos-skill-wolfie.openvoiceos"}
+{"utterance": "search word net for word", "lang": "en-US", "source_skill": "ovos-skill-wordnet.openvoiceos"}
+{"utterance": "what does word net say about word", "lang": "en-US", "source_skill": "ovos-skill-wordnet.openvoiceos"}
+{"utterance": "tell me about the weather on wikipedia", "lang": "en-US"}
+{"utterance": "tell me about wordnet on wikipedia", "lang": "en-US"}
+{"utterance": "tell me about wikihow on wikipedia", "lang": "en-US"}
