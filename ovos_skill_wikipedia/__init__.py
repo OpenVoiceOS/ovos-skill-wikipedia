@@ -65,16 +65,33 @@ class WikipediaSkill(OVOSSkill):
         sentence-sized chunks, for a follow-up "tell me more" to work
         through one at a time.
 
-        ``spoken`` is either the full summary (nothing left) or a shorter
-        QA-selected passage drawn from within it (the rest of the summary
-        is still unread).
+        ``spoken`` is the full summary (nothing left), a QA-selected
+        passage drawn verbatim from within it, or Wikimedia's preview
+        extract of the lead paragraph (re-cleaned upstream, so it rarely
+        matches the intro text verbatim: the first paragraph is skipped).
         """
         text = summary or ""
         if spoken and spoken == text:
             text = ""
         elif spoken and spoken in text:
             text = text.replace(spoken, "", 1)
+        elif spoken:
+            text = text.split("\n", 1)[1] if "\n" in text else ""
         return [s.strip() for s in re.split(r"(?<=[.!?])\s+", text) if s.strip()]
+
+    @staticmethod
+    def _spoken_answer(result: WikipediaResult) -> str:
+        """Shortest faithful answer available: a QA-extracted passage, then
+        Wikimedia's preview extract, then the full intro."""
+        return result.best_passage or result.short_summary or result.summary
+
+    def _remember_unread(self, sess, result: WikipediaResult, spoken: str):
+        """Leave whatever of the article was not spoken for "tell me more"."""
+        chunks = self._remaining_chunks(result.summary, spoken)
+        if chunks:
+            sess.set_intent_context(PREV_WIKI_ARTICLE_CONTEXT,
+                                     _CONTEXT_SEP.join([result.title] + chunks),
+                                     scope="shared", turns_remaining=3)
 
     # explicit wikipedia requests
     @intent_handler("wiki.intent")
@@ -95,13 +112,9 @@ class WikipediaSkill(OVOSSkill):
         results = self.wiki.search(query, lang=sess.lang)
         if results:
             best = results[0]
-            spoken = best.best_passage or best.summary
+            spoken = self._spoken_answer(best)
             self.speak(spoken)
-            chunks = self._remaining_chunks(best.summary, spoken)
-            if chunks:
-                sess.set_intent_context(PREV_WIKI_ARTICLE_CONTEXT,
-                                         _CONTEXT_SEP.join([best.title] + chunks),
-                                         scope="shared", turns_remaining=3)
+            self._remember_unread(sess, best, spoken)
         else:
             self.speak_dialog("no_answer")
 
@@ -149,9 +162,12 @@ class WikipediaSkill(OVOSSkill):
             resp = requests.get(url, params=params, timeout=10, headers={"User-Agent": self.wiki.USER_AGENT})
             resp.raise_for_status()
             page = resp.json()["query"]["random"][0]
-            return self.wiki._get_page_data(str(page["id"]), lang)
+            result = self.wiki._get_page_data(str(page["id"]), lang)
         except Exception:
             return None
+        if result:
+            result.short_summary = self.wiki._get_short_summary(result.title, lang)
+        return result
 
     @intent_handler("wikiroulette.intent")
     def handle_wiki_roulette_query(self, message):
@@ -163,7 +179,9 @@ class WikipediaSkill(OVOSSkill):
         self.speak_dialog("wikiroulette")
         result = self._get_random_page(lang)
         if result:
-            self.speak(result.title + ". " + (result.best_passage or result.summary))
+            spoken = self._spoken_answer(result)
+            self.speak(result.title + ". " + spoken)
+            self._remember_unread(sess, result, spoken)
             if sess.session_id == "default" and result.image:
                 self.gui.show_image(result.image)
         else:
@@ -171,11 +189,13 @@ class WikipediaSkill(OVOSSkill):
 
     # common query
     def cq_callback(self, utterance: str, answer: str, lang: str):
-        """ If selected show gui """
+        """ If selected, show gui and keep the rest of the article for "tell me more" """
         sess = SessionManager.get()
-        img = self.session_results.get(sess.session_id, {}).get("image")
-        if img:
-            self.gui.show_image(img)
+        cached = self.session_results.get(sess.session_id, {})
+        if cached.get("image"):
+            self.gui.show_image(cached["image"])
+        if cached.get("results"):
+            self._remember_unread(sess, cached["results"][0], answer)
 
     @common_query(callback=cq_callback)
     def match_common_query(self, phrase: str, lang: str) -> Tuple[str, float]:
@@ -202,7 +222,8 @@ class WikipediaSkill(OVOSSkill):
         results = self.wiki.search(phrase, lang=sess.lang)
         if results:
             best = results[0]
-            self.log.info(f"Wikipedia answer: {best.summary}")
+            answer = self._spoken_answer(best)
+            self.log.info(f"Wikipedia answer: {answer}")
             self.session_results[sess.session_id]["results"] = results
             self.session_results[sess.session_id]["image"] = best.image
-            return best.summary, best.conf
+            return answer, best.conf
