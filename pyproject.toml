@@ -14,7 +14,7 @@ authors = [
 keywords = ["ovos", "skill", "plugin"]
 dependencies = [
     "ovos-utils>=0.7.0,<1.0.0",
-    "ovos-workshop>=9.8.1a1,<10.0.0",
+    "ovos-workshop>=9.10.0a1,<10.0.0",
     "ovos-bus-client>=2.8.0a1",
     "ovos-wikipedia-plugin>=1.0.0a1,<2.0.0"
 ]
@@ -26,13 +26,13 @@ dependencies = [
 # --pre (which would also drag unrelated projects onto pre-releases).
 test = [
     "ovoscope>=1.12.1a1",
-    "ovos-m2v-pipeline>=0.37.3a1",
+    "ovos-m2v-pipeline>=0.38.0a1",
     "pytest>=7.0.0",
     "pytest-timeout>=2.0.0",
     "ovos-core>=2.2.4a1",
     "ovos-padatious>=2.0.7a1",
     "ovos-adapt-parser>=1.6.0a1",
-    "ovos-workshop>=9.8.1a1",
+    "ovos-workshop>=9.10.0a1",
     "ovos-bus-client>=2.8.0a1",
     "ovos-plugin-manager>=2.9.0a1",
     "ovos-config>=2.1.4a5",
