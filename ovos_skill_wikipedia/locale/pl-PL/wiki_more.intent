@@ -1,0 +1,20 @@
+# Follow-up "tell me more" for the last wikipedia lookup. Every line here is
+# a phrasing this skill should accept as "continue reading the previous
+# article" -- the four bare more.voc words/phrases carried over verbatim,
+# plus natural variants a user would actually say. This template has no
+# meaning on its own: it only fires when the "prev_wiki_article" session
+# context is active (requires_context on the handler), never on the bare
+# utterance in a fresh conversation.
+kontynuować
+dowiesz się więcej
+Opowiedz mi więcej
+opowiedz więcej
+więcej
+Poproszę o więcej informacji.
+Opowiedz mi o tym więcej.
+Opowiedz mi więcej o tamtym.
+Dalej, dalej.
+Co jeszcze
+Co jeszcze możesz mi powiedzieć
+cokolwiek więcej
+Czy jest jeszcze coś więcej

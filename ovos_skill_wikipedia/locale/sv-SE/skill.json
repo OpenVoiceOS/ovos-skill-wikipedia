@@ -1,0 +1,23 @@
+{
+  "skill_id": "ovos-skill-wikipedia.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wikipedia",
+  "name": "Wikipedia",
+  "description": "Fråga Wikipedia om svar på alla dina frågor. Få bara en sammanfattning, eller be om mer för fördjupad information.",
+  "examples": [
+    "Berätta om Elon Musk",
+    "Berätta om bönor",
+    "Kolla Wikipedia efter bönor",
+    "Berätta om Pembroke Welsh Corgi",
+    "Sök efter choklad",
+    "Mer information",
+    "Berätta mer"
+  ],
+  "tags": [
+    "wikipedia",
+    "uppslagsverk",
+    "allmänbildning",
+    "wiki",
+    "fråga",
+    "sökning"
+  ]
+}

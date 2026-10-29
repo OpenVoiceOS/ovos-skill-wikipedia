@@ -1,0 +1,10 @@
+# Anaphoric pronouns and demonstratives: they stand in for a person or thing
+# named earlier in the conversation, never for an article title. Checked by
+# WikipediaSkill._is_anaphoric (an exact-value match, never substring
+# containment) before a {query} value is looked up, so a real title that
+# merely contains one of these words as a word ("the it crowd", "her
+# majesty") is never rejected.
+(he|she|it|they)
+(him|her|them)
+(his|her|hers|its|their|theirs)
+(that|this|those|these)
