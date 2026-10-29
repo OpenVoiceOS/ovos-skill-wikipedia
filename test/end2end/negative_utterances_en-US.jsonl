@@ -12,3 +12,6 @@
 {"utterance": "tell me about the weather on wikipedia", "lang": "en-US"}
 {"utterance": "tell me about wordnet on wikipedia", "lang": "en-US"}
 {"utterance": "tell me about wikihow on wikipedia", "lang": "en-US"}
+{"utterance": "play roulette", "lang": "en-US", "machine_generated": true, "needs_manual": true}
+{"utterance": "random page", "lang": "en-US", "machine_generated": true, "needs_manual": true}
+{"utterance": "tell me about pizza", "lang": "en-US", "machine_generated": true, "needs_manual": true}
