@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.18.6a3](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.18.6a3) (2026-10-29)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.18.6a2...0.18.6a3)
+
+**Merged pull requests:**
+
+- test: golden rows for every intent in every shipped locale [\#263](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/263) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.18.6a2](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.18.6a2) (2026-10-28)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.18.6a1...0.18.6a2)
@@ -242,19 +250,19 @@
 
 ## [0.8.17a8](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a8) (2026-08-26)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a6...0.8.17a8)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a7...0.8.17a8)
 
 **Merged pull requests:**
 
 - translate\(kab-DZ\): update thats all.dialog [\#188](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/188) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
 
-## [0.8.17a6](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a6) (2026-08-26)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a7...0.8.17a6)
-
 ## [0.8.17a7](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a7) (2026-08-26)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a5...0.8.17a7)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a6...0.8.17a7)
+
+## [0.8.17a6](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.17a6) (2026-08-26)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.17a5...0.8.17a6)
 
 **Merged pull requests:**
 
@@ -345,8 +353,6 @@
 **Merged pull requests:**
 
 - Complete French Wikipedia locale metadata [\#162](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/162) ([goldyfruit](https://github.com/goldyfruit))
-- Update actions/setup-python action to v6 [\#156](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/156) ([renovate[bot]](https://github.com/apps/renovate))
-- Update actions/checkout action to v6 [\#155](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/155) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.8.14a6](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.14a6) (2026-01-19)
 
@@ -359,10 +365,6 @@
 ## [0.8.14a5](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.14a5) (2025-12-20)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.14a4...0.8.14a5)
-
-**Merged pull requests:**
-
-- Update dependency ovos\_workshop to v8 [\#158](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/158) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [0.8.14a4](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.14a4) (2025-12-19)
 
