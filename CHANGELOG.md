@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.19.1a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.19.1a1) (2026-10-29)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.19.0a1...0.19.1a1)
+
+**Merged pull requests:**
+
+- fix: separate the nl-NL query slot from the preceding word [\#266](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/266) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.19.0a1](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.19.0a1) (2026-10-29)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.18.6a3...0.19.0a1)
@@ -350,17 +358,9 @@
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.14a7...0.8.15a1)
 
-**Merged pull requests:**
-
-- fix: rename bare lang code locale directories [\#163](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/163) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
-
 ## [0.8.14a7](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.14a7) (2026-03-09)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/compare/0.8.14a6...0.8.14a7)
-
-**Merged pull requests:**
-
-- Complete French Wikipedia locale metadata [\#162](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/pull/162) ([goldyfruit](https://github.com/goldyfruit))
 
 ## [0.8.14a6](https://github.com/OpenVoiceOS/ovos-skill-wikipedia/tree/0.8.14a6) (2026-01-19)
 
