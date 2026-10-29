@@ -3,6 +3,7 @@ Tests for the en-US intent definitions and the {query} pronoun slot-value
 exclusion (OVOS-INTENT-2 §4.3).
 """
 import os
+import re
 import unittest
 
 from ovos_spec_tools import expand
@@ -160,6 +161,23 @@ class TestWikiBlacklistParity(unittest.TestCase):
         left = [d for d in self._locales_with_wiki_intent()
                 if os.path.isfile(os.path.join(LOCALE_ROOT, d, "wikihow.voc"))]
         self.assertEqual(left, [], f"wikihow.voc still present in: {left}")
+
+
+class TestSlotSpacing(unittest.TestCase):
+    """A slot is a separate word: a letter must not touch a brace."""
+
+    def test_no_intent_line_glues_a_letter_to_a_slot(self):
+        glued = []
+        for d in sorted(os.listdir(LOCALE_ROOT)):
+            folder = os.path.join(LOCALE_ROOT, d)
+            for name in sorted(os.listdir(folder)):
+                if not name.endswith(".intent"):
+                    continue
+                with open(os.path.join(folder, name), encoding="utf-8") as f:
+                    for number, line in enumerate(f, 1):
+                        if re.search(r"[^\W\d_]\{|\}[^\W\d_]", line):
+                            glued.append(f"{d}/{name}:{number}: {line.strip()}")
+        self.assertEqual(glued, [])
 
 
 if __name__ == "__main__":
