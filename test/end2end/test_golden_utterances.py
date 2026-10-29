@@ -65,3 +65,10 @@ def test_negative_row_reaches_no_intent_of_the_skill(engine_for, row):
     fired = _routed(engine_for(row["lang"]), row)
     TALLY.assert_not_routed(row["utterance"],
                             [t for t in fired if t.startswith(f"{SKILL_ID}:")], fired)
+
+
+def test_every_shipping_locale_has_a_golden_file():
+    golden = {p.stem.split("_", 2)[2] for p in END2END_DIR.glob("golden_utterances_*.jsonl")}
+    locale_root = END2END_DIR.parents[1] / "ovos_skill_wikipedia" / "locale"
+    shipping = {d.name for d in locale_root.iterdir() if d.is_dir() and any(d.rglob("*.intent"))}
+    assert golden == shipping, f"golden files {sorted(golden ^ shipping)} differ from shipping locales"
